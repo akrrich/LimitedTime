@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+
     void Awake()
     {
         stateController = new StateController(this);
@@ -52,14 +53,13 @@ public class PlayerController : MonoBehaviour
 
         Vector3 cameraForward = cameraTransform.forward;
         cameraForward.y = 0;
-
         Vector3 movement = cameraForward * inputMovement.z + cameraTransform.right * inputMovement.x;
         movement.y = 0;
 
         rb.velocity = movement * speed + new Vector3(0, rb.velocity.y, 0);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("floor"))
         {

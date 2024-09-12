@@ -23,7 +23,7 @@ public class IdleState : MonoBehaviour, IState
 
     public void UpdateState()
     {
-        if (playerController.Rb.velocity.x > 0 || playerController.Rb.velocity.y > 0)
+        if (Mathf.Abs(playerController.Rb.velocity.x) > 0.1f || Mathf.Abs(playerController.Rb.velocity.y) > 0.1f)
         {
             playerController.StateController.TransitionTo(playerController.StateController.WalkingState);
         }
