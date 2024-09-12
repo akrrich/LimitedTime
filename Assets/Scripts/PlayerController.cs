@@ -12,10 +12,17 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public Rigidbody Rb { get { return rb; } }
 
-    private float jumpForce = 5f;
-    private float runSpeed = 7.5f;
-    private float walkSpeed = 5;
+    private float jumpForce;
+    public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
+    private float speed;
+    public float Speed { set { speed = value; } }
+
+    private bool isGrounded = true;
+    public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } } 
+
+    private float horizontalInput;
+    private float verticalInput;
 
     void Awake()
     {
@@ -33,36 +40,13 @@ public class PlayerController : MonoBehaviour
         if (!PauseManager.Instance.IsGamePaused)
         {
             stateController.UpdateState();
-            Jump();
         }
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Run();
-        }
-        else
-        {
-            Walk();
-        }
-
-        Idle();
-    }
-
-    private void Idle()
-    {
-        if (Mathf.Abs(rb.velocity.x) < 0.1f && Mathf.Abs(rb.velocity.z) < 0.1f)
-        {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        }
-    }
-
-    private void Run()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
 
         Vector3 inputMovement = new Vector3(horizontalInput, 0, verticalInput);
 
@@ -72,30 +56,14 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = cameraForward * inputMovement.z + cameraTransform.right * inputMovement.x;
         movement.y = 0;
 
-        rb.velocity = movement * runSpeed + new Vector3(0, rb.velocity.y, 0);
+        rb.velocity = movement * speed + new Vector3(0, rb.velocity.y, 0);
     }
 
-    private void Walk()
+    private void OnCollisionEnter(Collision collision)
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        Vector3 inputMovement = new Vector3(horizontalInput, 0, verticalInput);
-
-        Vector3 cameraForward = cameraTransform.forward;
-        cameraForward.y = 0;
-
-        Vector3 movement = cameraForward * inputMovement.z + cameraTransform.right * inputMovement.x;
-        movement.y = 0;
-
-        rb.velocity = movement * walkSpeed + new Vector3(0, rb.velocity.y, 0);
-    }
-
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump"))
+        if (collision.gameObject.CompareTag("floor"))
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = true;
         }
     }
 }

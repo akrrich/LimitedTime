@@ -15,7 +15,7 @@ public class StateController : MonoBehaviour
 
     public IdleState IdleState { get { return idleState; } }
     public WalkingState WalkingState { get { return walkingState; } }
-    public RunningState RunnignState { get { return runningState; } }
+    public RunningState RunningState { get { return runningState; } }
     public JumpingState JumpingState { get { return jumpingState; } }
 
 
