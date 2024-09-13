@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!PauseManager.Instance.IsGamePaused)
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.timeExpired)
         {
             stateController.UpdateState();
         }
@@ -46,17 +46,20 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.timeExpired)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 inputMovement = new Vector3(horizontalInput, 0, verticalInput);
+            Vector3 inputMovement = new Vector3(horizontalInput, 0, verticalInput);
 
-        Vector3 cameraForward = cameraTransform.forward;
-        cameraForward.y = 0;
-        Vector3 movement = cameraForward * inputMovement.z + cameraTransform.right * inputMovement.x;
-        movement.y = 0;
+            Vector3 cameraForward = cameraTransform.forward;
+            cameraForward.y = 0;
+            Vector3 movement = cameraForward * inputMovement.z + cameraTransform.right * inputMovement.x;
+            movement.y = 0;
 
-        rb.velocity = movement * speed + new Vector3(0, rb.velocity.y, 0);
+            rb.velocity = movement * speed + new Vector3(0, rb.velocity.y, 0);
+        }
     }
 
     void OnCollisionEnter(Collision collision)

@@ -17,7 +17,7 @@ public class PauseManager : MonoBehaviour
     public bool IsGamePaused { get { return isGamePaused; } }
 
 
-    private void Awake()
+    void Awake()
     {
         if (instance == null)
         {
