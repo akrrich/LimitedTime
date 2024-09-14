@@ -12,7 +12,7 @@ public class TimeManager : MonoBehaviour
 
     private TMP_Text timeText;
 
-    private float counter = 5f;
+    private float counter = 10f;
 
     public bool timeExpired = false;
 

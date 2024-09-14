@@ -15,6 +15,18 @@ public class DynamicCollider : MonoBehaviour
 {
     private ColliderType colliderType;
 
+    private MeshRenderer ms;
+    public MeshRenderer Ms { get { return ms; } set { ms = value; } }
+
+    private BoxCollider box;
+    public BoxCollider Box { get { return box; } set { box = value; } }
+
+    private SphereCollider spc;
+    public SphereCollider Spc { get { return spc; } set { spc = value; } }
+
+    private CapsuleCollider cpc;
+    public CapsuleCollider Cpc { get { return cpc; } set { cpc = value; } }
+
 
     private void Start()
     {
@@ -29,22 +41,22 @@ public class DynamicCollider : MonoBehaviour
 
     public void InitializeCollider()
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        ms = GetComponent<MeshRenderer>();
 
-        if (meshRenderer != null)
+        if (ms != null)
         {
             switch (colliderType)
             {
                 case ColliderType.Box:
-                    AddAndConfigureBoxCollider(meshRenderer);
+                    AddAndConfigureBoxCollider(ms);
                     break;
 
                 case ColliderType.Sphere:
-                    AddAndConfigureSphereCollider(meshRenderer);
+                    AddAndConfigureSphereCollider(ms);
                     break;
 
                 case ColliderType.Capsule:
-                    AddAndConfigureCapsuleCollider(meshRenderer);
+                    AddAndConfigureCapsuleCollider(ms);
                     break;
             }
         }
@@ -52,45 +64,45 @@ public class DynamicCollider : MonoBehaviour
 
     private void AddAndConfigureBoxCollider(MeshRenderer meshRenderer)
     {
-        BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
+        box = gameObject.GetComponent<BoxCollider>();
 
-        if (boxCollider == null)
+        if (box == null)
         {
-            boxCollider = gameObject.AddComponent<BoxCollider>();
+            box = gameObject.AddComponent<BoxCollider>();
         }
 
         Bounds bounds = meshRenderer.bounds;
-        boxCollider.size = bounds.size;
-        boxCollider.center = bounds.center - transform.position;
+        box.size = bounds.size;
+        box.center = bounds.center - transform.position;
     }
 
     private void AddAndConfigureSphereCollider(MeshRenderer meshRenderer)
     {
-        SphereCollider sphereCollider = gameObject.GetComponent<SphereCollider>();
+        spc = gameObject.GetComponent<SphereCollider>();
 
-        if (sphereCollider == null)
+        if (spc == null)
         {
-            sphereCollider = gameObject.AddComponent<SphereCollider>();
+            spc = gameObject.AddComponent<SphereCollider>();
         }
 
         Bounds bounds = meshRenderer.bounds;
         float radius = Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z) / 2f;
-        sphereCollider.radius = radius;
-        sphereCollider.center = bounds.center - transform.position;
+        spc.radius = radius;
+        spc.center = bounds.center - transform.position;
     }
 
     private void AddAndConfigureCapsuleCollider(MeshRenderer meshRenderer)
     {
-        CapsuleCollider capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+        cpc = gameObject.GetComponent<CapsuleCollider>();
 
-        if (capsuleCollider == null)
+        if (cpc == null)
         {
-            capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
+            cpc = gameObject.AddComponent<CapsuleCollider>();
         }
 
         Bounds bounds = meshRenderer.bounds;
-        capsuleCollider.radius = Mathf.Max(bounds.size.x, bounds.size.z) / 2f;
-        capsuleCollider.height = bounds.size.y;
-        capsuleCollider.center = bounds.center - transform.position;
+        cpc.radius = Mathf.Max(bounds.size.x, bounds.size.z) / 2f;
+        cpc.height = bounds.size.y;
+        cpc.center = bounds.center - transform.position;
     }
 }

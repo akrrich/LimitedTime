@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public Rigidbody Rb { get { return rb; } }
 
+
     private float jumpForce;
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
@@ -62,7 +63,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
+    {
+        CheckColitionWithFloor(collision);
+    }
+
+    private void CheckColitionWithFloor(Collision collision)
     {
         if (collision.gameObject.CompareTag("floor"))
         {

@@ -12,6 +12,7 @@ public class PauseManager : MonoBehaviour
 
     private GameObject panel;
     private GameObject Buttons;
+    private GameObject panelSettings;
 
     private bool isGamePaused = false;
     public bool IsGamePaused { get { return isGamePaused; } }
@@ -39,13 +40,11 @@ public class PauseManager : MonoBehaviour
 
         panel = transform.Find("Panel").gameObject;
         Buttons = transform.Find("Buttons").gameObject;
+        panelSettings = transform.Find("Panel Settings").gameObject;
     }
 
     void Update()
     {
-        panel.SetActive(isGamePaused);
-        Buttons.SetActive(isGamePaused);
-
         PauseGame();
     }
 
@@ -53,6 +52,8 @@ public class PauseManager : MonoBehaviour
     public void ResumeGame()
     {
         actionSound.Play();
+        panel.SetActive(false);
+        Buttons.SetActive(false);
         isGamePaused = false;
     }
 
@@ -64,7 +65,16 @@ public class PauseManager : MonoBehaviour
 
     public void Setting()
     {
+        actionSound.Play();
+        panelSettings.SetActive(true);
+        Buttons.SetActive(false);
+    }
 
+    public void BackButton()
+    {
+        actionSound.Play();
+        panelSettings.SetActive(false);
+        Buttons.SetActive(true);
     }
 
 
@@ -75,6 +85,8 @@ public class PauseManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 isGamePaused = true;
+                panel.SetActive(isGamePaused);
+                Buttons.SetActive(isGamePaused);
             }
         }
 
@@ -83,6 +95,8 @@ public class PauseManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 isGamePaused = false;
+                panel.SetActive(isGamePaused);
+                Buttons.SetActive(isGamePaused);
             }
         }
 
