@@ -34,10 +34,12 @@ public class Objects : MonoBehaviour
         itemPickUpSound = GetComponent<AudioSource>();
     }
 
-    private void Update()
+    void Update()
     {
         if (isPlayerInRange && Input.GetKey(KeyCode.E))
         {
+            isPlayerInRange = false;
+
             itemPickUpSound.Play();
 
             dynamicCollider.Ms.enabled = false;

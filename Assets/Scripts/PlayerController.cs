@@ -63,12 +63,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionStay(Collision collision)
-    {
-        CheckColitionWithFloor(collision);
-    }
-
-    private void CheckColitionWithFloor(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("floor"))
         {

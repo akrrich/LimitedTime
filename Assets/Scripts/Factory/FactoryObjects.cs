@@ -27,4 +27,9 @@ public class FactoryObjects : MonoBehaviour
 
         return Instantiate(obj, pos.position, Quaternion.identity);
     }
+
+    void OnDestroy()
+    {
+        idObjects.Clear();
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnerPosition : MonoBehaviour
 {
-    public int id;
+    [SerializeField] private int id;
 
     private void Start()
     {
