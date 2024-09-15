@@ -24,6 +24,9 @@ public class Objects : MonoBehaviour
     private static event Action _OnInfoTextShow;
     public static Action OnInfoTextShow { get { return _OnInfoTextShow; } set { _OnInfoTextShow = value; } }
 
+    private static event Action _OnObjectDestroy;
+    public static Action OnObjectDestroy { get { return _OnObjectDestroy; } set { _OnObjectDestroy = value; } }
+
 
     void Start()
     {
@@ -36,7 +39,7 @@ public class Objects : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerInRange && Input.GetKey(KeyCode.E))
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && isPlayerInRange && Input.GetKey(KeyCode.E))
         {
             isPlayerInRange = false;
 
@@ -61,6 +64,11 @@ public class Objects : MonoBehaviour
 
             Destroy(gameObject, itemPickUpSound.clip.length);
         }
+    }
+
+    void OnDestroy()
+    {
+        _OnObjectDestroy?.Invoke();
     }
 
     void OnCollisionEnter(Collision collision)

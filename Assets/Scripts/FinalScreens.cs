@@ -21,11 +21,6 @@ public class FinalScreens : MonoBehaviour
         TimeManager.OnTimeExpired += GoToLoose;
     }
 
-    void Update()
-    {
-        
-    }
-
     void OnDestroy()
     {
         TimeManager.OnTimeExpired -= GoToLoose;
@@ -50,11 +45,13 @@ public class FinalScreens : MonoBehaviour
 
     private void GoToLoose()
     {
+        PauseManager.MusicSource.Pause();
         PanelLoose.SetActive(true);
     }
 
     private void GoToWin()
     {
+        PauseManager.MusicSource.Pause();
         PanelWin.SetActive(true);
     }
 

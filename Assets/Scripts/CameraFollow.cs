@@ -11,14 +11,14 @@ public class CameraFollow : MonoBehaviour
     private float sensitivity = 2f;
     private float verticalRotation = 0f;
 
-    private void Start()
+    void Start()
     {
         transform.position = player.position + offset;
     }
 
-    private void Update()
+    void Update()
     {
-        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.timeExpired)
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             float horizontalInput = Input.GetAxis("Mouse X");
             transform.Rotate(Vector3.up * horizontalInput * sensitivity);

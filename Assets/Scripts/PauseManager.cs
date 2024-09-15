@@ -9,10 +9,13 @@ public class PauseManager : MonoBehaviour
     public static PauseManager Instance {  get { return instance; } }
 
     private AudioSource actionSound;
+    private static AudioSource musicSource;
+    public static AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
 
     private GameObject panel;
     private GameObject Buttons;
     private GameObject panelSettings;
+
 
     private bool isGamePaused = false;
     public bool IsGamePaused { get { return isGamePaused; } }
@@ -37,6 +40,7 @@ public class PauseManager : MonoBehaviour
     void Start()
     {
         actionSound = GetComponent<AudioSource>();
+        musicSource = GameObject.Find("MusicController").GetComponent<AudioSource>();
 
         panel = transform.Find("Panel").gameObject;
         Buttons = transform.Find("Buttons").gameObject;
@@ -51,6 +55,8 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        musicSource.UnPause();
+
         actionSound.Play();
         panel.SetActive(false);
         Buttons.SetActive(false);
@@ -84,6 +90,9 @@ public class PauseManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                actionSound.Play();
+                musicSource.Pause();
+
                 isGamePaused = true;
                 panel.SetActive(isGamePaused);
                 Buttons.SetActive(isGamePaused);
@@ -94,6 +103,9 @@ public class PauseManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                actionSound.Play();
+                musicSource.UnPause();
+
                 isGamePaused = false;
                 panel.SetActive(isGamePaused);
                 Buttons.SetActive(isGamePaused);

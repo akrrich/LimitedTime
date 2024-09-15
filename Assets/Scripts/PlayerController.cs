@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.timeExpired)
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             stateController.UpdateState();
         }
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.timeExpired)
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");

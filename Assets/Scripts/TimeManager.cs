@@ -14,10 +14,12 @@ public class TimeManager : MonoBehaviour
 
     private float counter = 10f;
 
-    public bool timeExpired = false;
+    private bool timeExpired = false;
+    public bool TimeExpired { get { return timeExpired; } }
 
     private static event Action _OnTimeExpired;
     public static Action OnTimeExpired { get { return _OnTimeExpired; } set { _OnTimeExpired = value; } }
+
 
     void Awake()
     {

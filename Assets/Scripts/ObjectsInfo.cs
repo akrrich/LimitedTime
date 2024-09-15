@@ -17,7 +17,7 @@ public class ObjectsInfo : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && Input.GetKey(KeyCode.E))
         {
             HideInfoText();
         }
