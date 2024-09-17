@@ -39,6 +39,12 @@ public class ObjectsList : MonoBehaviour
         EnabledAndDisabledList();
     }
 
+    void OnDestroy()
+    {
+        Objects.OnObjectDestroy -= ObjectsAmount;
+    }
+
+
     public void ObjectsAmount()
     {
         for (int i = 0; i < objectsTag.Length; i++)
@@ -49,14 +55,13 @@ public class ObjectsList : MonoBehaviour
 
             if (objectsTextAmount[i].text == "0")
             {
+                objectsTextAmount[i].text = "";
+
                 Transform parentTransform = objectsTextAmount[i].transform;
                 Transform childTransform = parentTransform.Find("Tilde");
 
-                if (childTransform != null)
-                {
-                    GameObject childGameObject = childTransform.gameObject;
-                    childGameObject.SetActive(true);
-                }
+                GameObject childGameObject = childTransform.gameObject;
+                childGameObject.SetActive(true);
             }
         }
     }
@@ -67,7 +72,7 @@ public class ObjectsList : MonoBehaviour
         {
             if (!listMode)
             {
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     listMode = true;
                 }
@@ -75,7 +80,7 @@ public class ObjectsList : MonoBehaviour
 
             else if (listMode)
             {
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     listMode = false;
                 }

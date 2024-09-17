@@ -21,9 +21,10 @@ public class CameraFollow : MonoBehaviour
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             float horizontalInput = Input.GetAxis("Mouse X");
+            float verticalInput = Input.GetAxis("Mouse Y");
+
             transform.Rotate(Vector3.up * horizontalInput * sensitivity);
 
-            float verticalInput = Input.GetAxis("Mouse Y");
             verticalRotation -= verticalInput * sensitivity;
             verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
 

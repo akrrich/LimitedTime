@@ -54,11 +54,11 @@ public class Objects : MonoBehaviour
                     break;
 
                 case ColliderType.Sphere:
-                    dynamicCollider.Spc.enabled = false;
+                    dynamicCollider.Sphere.enabled = false;
                     break;
 
                 case ColliderType.Capsule:
-                    dynamicCollider.Cpc.enabled = false;
+                    dynamicCollider.Capsule.enabled = false;
                     break;
             }
 
