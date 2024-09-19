@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -49,6 +50,8 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
+        print(Time.timeScale);
+
         PauseGame();
     }
 

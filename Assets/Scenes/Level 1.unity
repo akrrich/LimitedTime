@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: cd63e4108403c0a4c90c8d643c0d5b49, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: efd1c33efd2d58340b88804268e6833f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -3069,7 +3069,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 1, y: -2.6063, z: 22.64}
-  m_LocalScale: {x: -1.332146, y: 18.21, z: 93.40349}
+  m_LocalScale: {x: 1.332146, y: 18.21, z: 93.40349}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1186948579}
@@ -8648,7 +8648,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.9686, y: -2.6063, z: -82.92}
-  m_LocalScale: {x: -1.332146, y: 18.21, z: 93.40349}
+  m_LocalScale: {x: 1.332146, y: 18.21, z: 93.40349}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1186948579}
@@ -9373,7 +9373,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 47.1161, y: -2.6063, z: -31.0112}
-  m_LocalScale: {x: -1.332146, y: 18.21, z: 105.40281}
+  m_LocalScale: {x: 1.332146, y: 18.21, z: 105.40281}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1186948579}
@@ -11153,7 +11153,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -45.1, y: -2.6063, z: -31.0112}
-  m_LocalScale: {x: -1.332146, y: 18.21, z: 105.40281}
+  m_LocalScale: {x: 1.332146, y: 18.21, z: 105.40281}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1186948579}
