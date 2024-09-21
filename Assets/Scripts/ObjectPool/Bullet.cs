@@ -22,6 +22,8 @@ public class Bullet : MonoBehaviour
         {
             mr.enabled = false;
             sphere.enabled = false;
+
+            StartCoroutine(ReturnBulletToPullWhenColliding());
         }
     }
 
@@ -62,6 +64,9 @@ public class Bullet : MonoBehaviour
     private IEnumerator ReturnBulletToPullWhenColliding()
     {
         yield return new WaitForSeconds(audioShoot.clip.length);
+
+        mr.enabled = true;
+        sphere.enabled = true;
 
         ReturnToPool();
     }

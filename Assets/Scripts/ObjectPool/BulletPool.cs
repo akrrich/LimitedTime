@@ -11,6 +11,7 @@ public class BulletPool : MonoBehaviour
 
     private int initialPoolSize = 10;
 
+
     void Start()
     {
         for (int i = 0; i < initialPoolSize; i++)

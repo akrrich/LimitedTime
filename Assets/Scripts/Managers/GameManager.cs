@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
+
+    [SerializeField] private Texture2D cursorTexture;
 
     private Scene currentScene;
 
@@ -27,12 +30,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
-    {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-    }
-
     void Update()
     {
         currentScene = SceneManager.GetActiveScene();
@@ -42,7 +39,7 @@ public class GameManager : MonoBehaviour
             case "Menu":
 
                 Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Confined;
 
             break;
 
@@ -52,16 +49,36 @@ public class GameManager : MonoBehaviour
                 if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
                 {
                     Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.lockState = CursorLockMode.Confined;
                 }
 
                 else
                 {
                     Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.lockState = CursorLockMode.Confined;
                 }
 
-            break;
+                break;
+        }
+    }
+
+    void OnGUI()
+    {
+
+        if (currentScene.name != "Menu")
+        {
+            if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
+            {
+                float cursorScale = 0.1f;
+
+                float width = cursorTexture.width * cursorScale;
+                float height = cursorTexture.height * cursorScale;
+
+                float posX = (Screen.width - width) / 2;
+                float posY = (Screen.height - height) / 2;
+
+                GUI.DrawTexture(new Rect(posX, posY, width, height), cursorTexture);
+            }
         }
     }
 }
