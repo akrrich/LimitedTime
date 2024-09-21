@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ObjectsList : MonoBehaviour
 {
@@ -9,9 +9,12 @@ public class ObjectsList : MonoBehaviour
 
     [SerializeField] private string[] objectsTag;
 
-    [SerializeField] private TMP_Text[] objectsTextAmount;
+    [SerializeField] private List<TMP_Text> objectsTextAmount;
 
     private GameObject[] objectsWithTag;
+
+    private static event Action onAllObjectsFound;
+    public static Action OnAllObjectsFound { get { return onAllObjectsFound; } set { onAllObjectsFound = value; } }
 
 
     private bool listMode = false;
@@ -45,8 +48,10 @@ public class ObjectsList : MonoBehaviour
     }
 
 
-    public void ObjectsAmount()
+    private void ObjectsAmount()
     {
+        bool allObjectsFound = true;
+
         for (int i = 0; i < objectsTag.Length; i++)
         {
             objectsWithTag = GameObject.FindGameObjectsWithTag(objectsTag[i]);
@@ -55,7 +60,7 @@ public class ObjectsList : MonoBehaviour
 
             if (objectsTextAmount[i].text == "0")
             {
-                objectsTextAmount[i].text = "";
+                objectsTextAmount[i].text = null;
 
                 Transform parentTransform = objectsTextAmount[i].transform;
                 Transform childTransform = parentTransform.Find("Tilde");
@@ -63,6 +68,16 @@ public class ObjectsList : MonoBehaviour
                 GameObject childGameObject = childTransform.gameObject;
                 childGameObject.SetActive(true);
             }
+
+            if (!string.IsNullOrEmpty(objectsTextAmount[i].text))
+            {
+                allObjectsFound = false;
+            }
+        }
+
+        if (allObjectsFound)
+        {
+            onAllObjectsFound?.Invoke();
         }
     }
 

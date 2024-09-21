@@ -18,14 +18,14 @@ public class Objects : MonoBehaviour
 
     private bool isPlayerInRange = false;
 
-    private static event Action _OnInfoTextHide;
-    public static Action OnInfoTextHide { get { return _OnInfoTextHide; } set { _OnInfoTextHide = value; } }
+    private static event Action onInfoTextHide;
+    public static Action OnInfoTextHide { get { return onInfoTextHide; } set { onInfoTextHide = value; } }
 
-    private static event Action _OnInfoTextShow;
-    public static Action OnInfoTextShow { get { return _OnInfoTextShow; } set { _OnInfoTextShow = value; } }
+    private static event Action onInfoTextShow;
+    public static Action OnInfoTextShow { get { return onInfoTextShow; } set { onInfoTextShow = value; } }
 
-    private static event Action _OnObjectDestroy;
-    public static Action OnObjectDestroy { get { return _OnObjectDestroy; } set { _OnObjectDestroy = value; } }
+    private static event Action onObjectDestroy;
+    public static Action OnObjectDestroy { get { return onObjectDestroy; } set { onObjectDestroy = value; } }
 
 
     void Start()
@@ -68,7 +68,7 @@ public class Objects : MonoBehaviour
 
     void OnDestroy()
     {
-        _OnObjectDestroy?.Invoke();
+        onObjectDestroy?.Invoke();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -76,7 +76,7 @@ public class Objects : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            _OnInfoTextShow?.Invoke();
+            onInfoTextShow?.Invoke();
         }
     }
 
@@ -85,7 +85,7 @@ public class Objects : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            _OnInfoTextHide?.Invoke();
+            onInfoTextHide?.Invoke();
         }
     }
 }

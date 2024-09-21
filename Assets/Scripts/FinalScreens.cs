@@ -19,11 +19,13 @@ public class FinalScreens : MonoBehaviour
         actionSound = GetComponent<AudioSource>();
 
         TimeManager.OnTimeExpired += GoToLoose;
+        ObjectsList.OnAllObjectsFound += GoToWin;
     }
 
     void OnDestroy()
     {
         TimeManager.OnTimeExpired -= GoToLoose;
+        ObjectsList.OnAllObjectsFound -= GoToWin;
     }
 
 

@@ -12,13 +12,14 @@ public class TimeManager : MonoBehaviour
 
     private TMP_Text timeText;
 
-    private float counter = 10f;
+    private float counter = 120f;
 
+    private bool isCounting = true;
     private bool timeExpired = false;
     public bool TimeExpired { get { return timeExpired; } }
 
-    private static event Action _OnTimeExpired;
-    public static Action OnTimeExpired { get { return _OnTimeExpired; } set { _OnTimeExpired = value; } }
+    private static event Action onTimeExpired;
+    public static Action OnTimeExpired { get { return onTimeExpired; } set { onTimeExpired = value; } }
 
 
     void Awake()
@@ -38,6 +39,8 @@ public class TimeManager : MonoBehaviour
     void Start()
     {
         timeText = GetComponent<TMP_Text>();
+
+        ObjectsList.OnAllObjectsFound += StopTimeForWinScreen;
     }
 
     void Update()
@@ -46,16 +49,30 @@ public class TimeManager : MonoBehaviour
         DisocuntTimer();
     }
 
+    private void OnDestroy()
+    {
+        ObjectsList.OnAllObjectsFound -= StopTimeForWinScreen;
+    }
+
     private void DisocuntTimer()
     {
-        counter -= Time.deltaTime;
-
-        if (counter <= 0)
+        if (isCounting)
         {
-            counter = 0f;
-            timeExpired = true;
+            counter -= Time.deltaTime;
 
-            _OnTimeExpired?.Invoke();
+            if (counter <= 0f)
+            {
+                counter = 0f;
+                timeExpired = true;
+
+                onTimeExpired?.Invoke();
+            }
         }
+    }
+
+    private void StopTimeForWinScreen()
+    {
+        isCounting = false;
+        timeExpired = true;
     }
 }

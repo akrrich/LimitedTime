@@ -50,9 +50,7 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        print(Time.timeScale);
-
-        PauseGame();
+        PauseStatus();
     }
 
 
@@ -87,7 +85,7 @@ public class PauseManager : MonoBehaviour
     }
 
 
-    private void PauseGame()
+    private void PauseStatus()
     {
         if (!isGamePaused)
         {

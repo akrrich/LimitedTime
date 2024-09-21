@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
 
+    [SerializeField] private Bullet bullet;
+
     private StateController stateController;
     public StateController StateController { get { return stateController; } }
 
@@ -42,6 +44,11 @@ public class PlayerController : MonoBehaviour
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             stateController.UpdateState();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            bullet.Shoot(cameraTransform, bullet);
         }
     }
 
