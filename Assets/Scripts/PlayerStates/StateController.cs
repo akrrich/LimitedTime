@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateController : MonoBehaviour
+public class StateController
 {
     private IState currentState;
-
     public IState CurrentState { get { return currentState; } }
 
     private IdleState idleState;
     private WalkingState walkingState;
     private RunningState runningState;
     private JumpingState jumpingState;
+    private ShootinState shootingState;
 
     public IdleState IdleState { get { return idleState; } }
     public WalkingState WalkingState { get { return walkingState; } }
     public RunningState RunningState { get { return runningState; } }
     public JumpingState JumpingState { get { return jumpingState; } }
+    public ShootinState ShootingState { get { return shootingState; } }
 
 
     public StateController(PlayerController playerController)
@@ -25,6 +26,7 @@ public class StateController : MonoBehaviour
         walkingState = new WalkingState(playerController); 
         runningState = new RunningState(playerController); 
         jumpingState = new JumpingState(playerController);
+        shootingState = new ShootinState(playerController);
     }
 
     public void InitializeState(IState state)

@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
+    public Transform CameraTransform { get { return cameraTransform; } }
 
-    [SerializeField] private Bullet bullet;
+    [SerializeField] private BulletPool bulletPool;
+    public BulletPool BulletPool { get { return bulletPool; } }
 
     private StateController stateController;
     public StateController StateController { get { return stateController; } }
@@ -22,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public float Speed { set { speed = value; } }
 
     private bool isGrounded = true;
-    public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } } 
+    public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
 
     private float horizontalInput;
     private float verticalInput;
@@ -44,11 +46,6 @@ public class PlayerController : MonoBehaviour
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             stateController.UpdateState();
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            bullet.Shoot(cameraTransform, bullet);
         }
     }
 

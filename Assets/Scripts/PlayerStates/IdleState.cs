@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : MonoBehaviour, IState
+public class IdleState : IState
 {
     private PlayerController playerController;
 
@@ -28,11 +28,16 @@ public class IdleState : MonoBehaviour, IState
             playerController.StateController.TransitionTo(playerController.StateController.WalkingState);
         }
 
-        else if (Input.GetButtonDown("Jump") && playerController.IsGrounded)
+        if (Input.GetButtonDown("Jump") && playerController.IsGrounded)
         {
             playerController.IsGrounded = false;
             playerController.JumpForce = 2.5f;
             playerController.StateController.TransitionTo(playerController.StateController.JumpingState);
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            playerController.StateController.TransitionTo(playerController.StateController.ShootingState);
         }
     }
 }

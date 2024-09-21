@@ -7758,7 +7758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5058c16042fe5524491c776fafb57523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeExpired: 0
 --- !u!222 &6481495406156054416
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8900,6 +8899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 3358599462682551745}
+  bulletPool: {fileID: 0}
 --- !u!1 &7789395462533973684
 GameObject:
   m_ObjectHideFlags: 0

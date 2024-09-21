@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpingState : MonoBehaviour, IState
+public class JumpingState : IState
 {
     private PlayerController playerController;
 
@@ -26,6 +26,11 @@ public class JumpingState : MonoBehaviour, IState
         if (playerController.IsGrounded)
         {
             playerController.StateController.TransitionTo(playerController.StateController.IdleState);
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            playerController.StateController.TransitionTo(playerController.StateController.ShootingState);
         }
     }
 }

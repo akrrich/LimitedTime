@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cola<T> : MonoBehaviour
+public class Cola<T>
 {
     private List<T> elementos = new List<T>();
 
@@ -14,7 +14,7 @@ public class Cola<T> : MonoBehaviour
 
     public T Dequeue()
     {
-        if (elementos.Count == 0)
+        if (Empty())
         {
             throw new Exception("Cola vacia");
         }
@@ -27,7 +27,7 @@ public class Cola<T> : MonoBehaviour
 
     public T Peek()
     {
-        if (elementos.Count == 0)
+        if (Empty())
         {
             throw new Exception("Cola vacia");
         }

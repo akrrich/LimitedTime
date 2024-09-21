@@ -9418,7 +9418,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1200350455}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11198,7 +11198,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370808237}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14465,9 +14465,14 @@ PrefabInstance:
       propertyPath: prefab
       value: 
       objectReference: {fileID: 4340850282333859904, guid: c17cc213a8a2010499538d6b007166f7, type: 3}
+    - target: {fileID: 8880028190045418377, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: bulletPool
+      value: 
+      objectReference: {fileID: 1827506575}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2409395206027175079, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+    - {fileID: 5798336764720220272, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3051792816398814194, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       insertIndex: -1
@@ -14489,6 +14494,17 @@ PrefabInstance:
       addedObject: {fileID: 1277866141}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+--- !u!114 &1827506575 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 513847290377073651, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+  m_PrefabInstance: {fileID: 1827506574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a1833c738ab5b47b332ac217d6a182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1829051933
 GameObject:
   m_ObjectHideFlags: 0
