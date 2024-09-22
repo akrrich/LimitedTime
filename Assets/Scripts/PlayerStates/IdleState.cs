@@ -13,17 +13,17 @@ public class IdleState : IState
 
     public void Enter()
     {
-
+        playerController.Anim.SetFloat("Movements", 0f);
     }
 
     public void Exit()
     {
-
+        
     }
 
     public void UpdateState()
     {
-        if (Mathf.Abs(playerController.Rb.velocity.x) > 0.1f || Mathf.Abs(playerController.Rb.velocity.y) > 0.1f)
+        if (Mathf.Abs(playerController.Rb.velocity.x) > 0.1f || Mathf.Abs(playerController.Rb.velocity.z) > 0.1f)
         {
             playerController.StateController.TransitionTo(playerController.StateController.WalkingState);
         }
@@ -35,8 +35,9 @@ public class IdleState : IState
             playerController.StateController.TransitionTo(playerController.StateController.JumpingState);
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && playerController.CanShoot)
         {
+            playerController.BulletPool.CounterBullets++;
             playerController.StateController.TransitionTo(playerController.StateController.ShootingState);
         }
     }

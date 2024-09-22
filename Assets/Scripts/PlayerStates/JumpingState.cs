@@ -13,6 +13,7 @@ public class JumpingState : IState
 
     public void Enter()
     {
+        playerController.Anim.SetFloat("Movements", 1.5f);
         playerController.Rb.AddForce(Vector3.up * playerController.JumpForce, ForceMode.Impulse);
     }
 
@@ -28,8 +29,9 @@ public class JumpingState : IState
             playerController.StateController.TransitionTo(playerController.StateController.IdleState);
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && playerController.CanShoot)
         {
+            playerController.BulletPool.CounterBullets++;
             playerController.StateController.TransitionTo(playerController.StateController.ShootingState);
         }
     }

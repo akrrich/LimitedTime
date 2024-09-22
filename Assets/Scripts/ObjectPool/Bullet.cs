@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     private AudioSource audioShoot;
 
     private float speed = 30f;
-    private float lifeTime = 2.5f;
+    private float lifeTime = 3f;
 
 
     void OnCollisionEnter(Collision collision)
@@ -23,10 +23,9 @@ public class Bullet : MonoBehaviour
             mr.enabled = false;
             sphere.enabled = false;
 
-            StartCoroutine(ReturnBulletToPullWhenColliding());
+            ReturnToPool();
         }
     }
-
 
     public void InstantiateBullet(Transform cameraTransform, BulletPool pool)
     {
@@ -44,12 +43,11 @@ public class Bullet : MonoBehaviour
         sphere = GetComponent<SphereCollider>();
         audioShoot = GetComponent<AudioSource>();
 
-        rb.velocity = direction * speed;
+        mr.enabled = true;
+        sphere.enabled = true;
 
-        if (audioShoot.isPlaying)
-        {
-            audioShoot.Stop();
-        }
+
+        rb.velocity = direction * speed;
 
         audioShoot.Play();
 
@@ -59,16 +57,6 @@ public class Bullet : MonoBehaviour
     private void ReturnToPool()
     {
         bulletPool.ReturnBulletToPool(this);
-    }
-
-    private IEnumerator ReturnBulletToPullWhenColliding()
-    {
-        yield return new WaitForSeconds(audioShoot.clip.length);
-
-        mr.enabled = true;
-        sphere.enabled = true;
-
-        ReturnToPool();
     }
 }
 

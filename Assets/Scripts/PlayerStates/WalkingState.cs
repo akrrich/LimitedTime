@@ -13,6 +13,7 @@ public class WalkingState : IState
 
     public void Enter()
     {
+        playerController.Anim.SetFloat("Movements", 0.5f);
         playerController.Speed = 4;
     }
 
@@ -40,8 +41,9 @@ public class WalkingState : IState
             playerController.StateController.TransitionTo(playerController.StateController.IdleState);
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && playerController.CanShoot)
         {
+            playerController.BulletPool.CounterBullets++;
             playerController.StateController.TransitionTo(playerController.StateController.ShootingState);
         }
     }

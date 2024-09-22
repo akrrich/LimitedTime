@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private PlayerController player;
 
     private Vector3 offset;
 
@@ -13,7 +13,8 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        transform.position = player.position + offset;
+        offset = new Vector3(0f, 2.3f, 0f);
+        transform.position = player.transform.position + offset;
     }
 
     void Update()
@@ -27,10 +28,10 @@ public class CameraFollow : MonoBehaviour
 
             verticalRotation -= verticalInput * sensitivity;
             verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-
             transform.localRotation = Quaternion.Euler(verticalRotation, transform.localRotation.eulerAngles.y, 0f);
 
-            transform.position = player.position + offset;
+            Vector3 playerPosition = player.transform.position + offset;
+            transform.position = playerPosition;
         }
     }
 }

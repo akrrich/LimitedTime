@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,12 @@ public class BulletPool : MonoBehaviour
 
     private Cola<Bullet> bulletPool = new Cola<Bullet>();
 
+    private int initialPoolSize = 30;
 
-    private int initialPoolSize = 10;
+    private int counterBullets = 0;
+    public int CounterBullets {  get { return counterBullets; } set { counterBullets = value; } }
 
+    public static event Action onReloading;
 
     void Start()
     {
@@ -19,6 +23,16 @@ public class BulletPool : MonoBehaviour
             Bullet bulletInstance = Instantiate(bulletPrefab);
             bulletInstance.gameObject.SetActive(false);
             bulletPool.Enqueue(bulletInstance);
+        }
+    }
+
+    void Update()
+    {
+        print(counterBullets);
+
+        if (counterBullets >= 15)
+        {
+            onReloading?.Invoke();
         }
     }
 

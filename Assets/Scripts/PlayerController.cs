@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public Rigidbody Rb { get { return rb; } }
 
+    private Animator anim;
+    public Animator Anim { get { return anim; } }
+
 
     private float jumpForce;
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
@@ -26,19 +29,25 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = true;
     public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
 
+    private bool canShoot = true;
+    public bool CanShoot { get { return canShoot; } set { canShoot = value; } }
+
     private float horizontalInput;
     private float verticalInput;
 
 
-    void Awake()
-    {
-        stateController = new StateController(this);
-        StateController.InitializeState(stateController.IdleState);
-    }
+    private float timer = 0f;
 
     void Start()
     {
+        speed = 4f;
+
         rb = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
+        stateController = new StateController(this);
+        StateController.InitializeState(stateController.IdleState);
+
+        BulletPool.onReloading += ReloadingGun;
     }
 
     void Update()
@@ -47,6 +56,29 @@ public class PlayerController : MonoBehaviour
         {
             stateController.UpdateState();
         }
+
+        if (!canShoot)
+        {
+            timer += Time.deltaTime;
+
+            print(timer);
+
+            if (timer >= 3f)
+            {
+                BulletPool.onReloading -= ReloadingGun;
+
+                canShoot = true;
+                timer = 0f;
+                bulletPool.CounterBullets = 0;
+
+                BulletPool.onReloading += ReloadingGun;
+            }
+        }
+    }
+
+    void OnDestroy()
+    {
+        BulletPool.onReloading -= ReloadingGun;
     }
 
     void FixedUpdate()
@@ -64,6 +96,8 @@ public class PlayerController : MonoBehaviour
             movement.y = 0;
 
             rb.velocity = movement * speed + new Vector3(0, rb.velocity.y, 0);
+
+            anim.transform.position = transform.position;
         }
     }
 
@@ -73,5 +107,10 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+    }
+
+    private void ReloadingGun()
+    {
+        canShoot = false;
     }
 }

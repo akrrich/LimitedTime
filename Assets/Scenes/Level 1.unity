@@ -7452,15 +7452,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3876616047559491056, guid: e38eb5b9cdaba0f4f9d1aa5c5ca29a2d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28.29
+      value: 24.26
       objectReference: {fileID: 0}
     - target: {fileID: 3876616047559491056, guid: e38eb5b9cdaba0f4f9d1aa5c5ca29a2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.77
+      value: 10.99
       objectReference: {fileID: 0}
     - target: {fileID: 3876616047559491056, guid: e38eb5b9cdaba0f4f9d1aa5c5ca29a2d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.39
+      value: 22.22
       objectReference: {fileID: 0}
     - target: {fileID: 3876616047559491056, guid: e38eb5b9cdaba0f4f9d1aa5c5ca29a2d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11739,6 +11739,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8934408280546704253, guid: d78d76fa32ac3cb4ea1136bc3e63af44, type: 3}
   m_PrefabInstance: {fileID: 1450730438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1451320740 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8880028190045418377, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+  m_PrefabInstance: {fileID: 1827506574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12fa92ead4c47d743a1edc4c4a554b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1464359855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14409,6 +14420,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2690611273862332282, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002330314815802276, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 3022856042714802827, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Size.x
+      value: 0.385643
+      objectReference: {fileID: 0}
+    - target: {fileID: 3022856042714802827, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Size.y
+      value: 1.8329043
+      objectReference: {fileID: 0}
+    - target: {fileID: 3022856042714802827, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Center.x
+      value: 0.027065277
+      objectReference: {fileID: 0}
+    - target: {fileID: 3022856042714802827, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Center.y
+      value: 0.025965929
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726596811662709133, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3746943637453984332, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       propertyPath: m_LocalPosition.x
       value: 46.187206
@@ -14457,9 +14496,64 @@ PrefabInstance:
       propertyPath: objects.Array.data[2]
       value: 
       objectReference: {fileID: -1114119181835701715, guid: 2d434559430d5e54183217ebf67f2bba, type: 3}
+    - target: {fileID: 5460574669625017591, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_CullingMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5460574669625017591, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'Walking'\n\tFrom
+        animation clip 'Running'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992319614263331860, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545084370004956848, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: bae2da28229513a468b243339c68f4b7, type: 3}
+    - target: {fileID: 6545084370004956848, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f6f4877b04bab21459049d3dc082d51e, type: 2}
     - target: {fileID: 6870892993533500184, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158107914871444442, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235775263326553392, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235775263326553392, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235775263326553392, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235775263326553392, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235775263326553392, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235775263326553392, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.39
       objectReference: {fileID: 0}
     - target: {fileID: 8880028190045418377, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       propertyPath: prefab
@@ -14469,10 +14563,15 @@ PrefabInstance:
       propertyPath: bulletPool
       value: 
       objectReference: {fileID: 1827506575}
+    - target: {fileID: 9103926960160341080, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1451320740}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2409395206027175079, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
     - {fileID: 5798336764720220272, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+    - {fileID: 5992319614263331860, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3051792816398814194, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       insertIndex: -1
