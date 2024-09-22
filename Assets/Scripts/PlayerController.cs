@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce;
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
-    private float speed;
+    private float speed = 4f;
     public float Speed { set { speed = value; } }
 
     private bool isGrounded = true;
@@ -36,18 +36,17 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
 
 
-    private float timer = 0f;
+    private float reloadingTime = 0f;
+
 
     void Start()
     {
-        speed = 4f;
+        BulletPool.OnReloading += ReloadingGunEvent;
 
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         stateController = new StateController(this);
         StateController.InitializeState(stateController.IdleState);
-
-        BulletPool.onReloading += ReloadingGun;
     }
 
     void Update()
@@ -57,28 +56,12 @@ public class PlayerController : MonoBehaviour
             stateController.UpdateState();
         }
 
-        if (!canShoot)
-        {
-            timer += Time.deltaTime;
-
-            print(timer);
-
-            if (timer >= 3f)
-            {
-                BulletPool.onReloading -= ReloadingGun;
-
-                canShoot = true;
-                timer = 0f;
-                bulletPool.CounterBullets = 0;
-
-                BulletPool.onReloading += ReloadingGun;
-            }
-        }
+        ReloadGun();
     }
 
     void OnDestroy()
     {
-        BulletPool.onReloading -= ReloadingGun;
+        BulletPool.OnReloading -= ReloadingGunEvent;
     }
 
     void FixedUpdate()
@@ -109,7 +92,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ReloadingGun()
+ 
+    private void ReloadGun()
+    {
+        if (!canShoot)
+        {
+            reloadingTime += Time.deltaTime;
+
+            if (reloadingTime >= 3f)
+            {
+                canShoot = true;
+                reloadingTime = 0f;
+                bulletPool.CounterBullets = 0;
+
+                BulletPool.OnReloading += ReloadingGunEvent;
+            }
+        }
+    }
+
+    private void ReloadingGunEvent()
     {
         canShoot = false;
     }

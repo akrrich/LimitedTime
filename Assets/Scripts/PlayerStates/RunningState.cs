@@ -38,7 +38,6 @@ public class RunningState : IState
 
         if (Input.GetButtonDown("Fire1") && playerController.CanShoot)
         {
-            playerController.BulletPool.CounterBullets++;
             playerController.StateController.TransitionTo(playerController.StateController.ShootingState);
         }
     }

@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
-public class ShootinState : IState
+public class ShootingState : IState
 {
     private PlayerController playerController;
     
-    public ShootinState(PlayerController playerController)
+    public ShootingState(PlayerController playerController)
     {
         this.playerController = playerController;
     }
 
     public void Enter()
     {
+        playerController.BulletPool.CounterBullets++;
+
         Bullet bullet = playerController.BulletPool.GetBullet();
         bullet.InstantiateBullet(playerController.CameraTransform, playerController.BulletPool);
     }
@@ -38,13 +41,6 @@ public class ShootinState : IState
         if (Input.GetKey(KeyCode.LeftShift))
         {
             playerController.StateController.TransitionTo(playerController.StateController.RunningState);
-        }
-
-        if (Input.GetButtonDown("Jump") && playerController.IsGrounded)
-        {
-            playerController.IsGrounded = false;
-            playerController.JumpForce = 7.5f;
-            playerController.StateController.TransitionTo(playerController.StateController.JumpingState);
         }
     }
 }

@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
             mr.enabled = false;
             sphere.enabled = false;
 
-            ReturnToPool();
+            StartCoroutine(ReturnToPoolAfterAudio());
         }
     }
 
@@ -52,6 +52,13 @@ public class Bullet : MonoBehaviour
         audioShoot.Play();
 
         Invoke("ReturnToPool", lifeTime);
+    }
+
+    private IEnumerator ReturnToPoolAfterAudio()
+    {
+        yield return new WaitWhile(() => audioShoot.isPlaying);
+
+        ReturnToPool();
     }
 
     private void ReturnToPool()
