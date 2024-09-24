@@ -8,6 +8,9 @@ TagManager:
   - beachBall
   - strawberry
   - burguer
+  - Broom
+  - Plant
+  - Pincers
   layers:
   - Default
   - TransparentFX

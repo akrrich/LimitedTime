@@ -27,6 +27,12 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        PauseManager.PauseAndUnPauseSounds(audioShoot);
+    }
+
+
     public void InstantiateBullet(Transform cameraTransform, BulletPool pool)
     {
         bulletPool = pool;

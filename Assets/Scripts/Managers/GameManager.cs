@@ -37,14 +37,11 @@ public class GameManager : MonoBehaviour
         switch (currentScene.name)
         {
             case "Menu":
-
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.Confined;
-
             break;
 
-            case "Level 1":
-            case "Level 2":
+            case "Level 1": case "Level 2":
 
                 if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
                 {
@@ -58,13 +55,12 @@ public class GameManager : MonoBehaviour
                     Cursor.lockState = CursorLockMode.Confined;
                 }
 
-                break;
+            break;
         }
     }
 
     void OnGUI()
     {
-
         if (currentScene.name != "Menu")
         {
             if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)

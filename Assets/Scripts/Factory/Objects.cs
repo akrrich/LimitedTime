@@ -16,7 +16,6 @@ public class Objects : MonoBehaviour
     [SerializeField] private int id;
     public int Id { get { return id; } }
 
-    private bool isPlayerInRange = false;
 
     private static event Action onInfoTextHide;
     public static Action OnInfoTextHide { get { return onInfoTextHide; } set { onInfoTextHide = value; } }
@@ -26,6 +25,9 @@ public class Objects : MonoBehaviour
 
     private static event Action onObjectDestroy;
     public static Action OnObjectDestroy { get { return onObjectDestroy; } set { onObjectDestroy = value; } }
+
+
+    private bool isPlayerInRange = false;
 
 
     void Start()
@@ -64,6 +66,8 @@ public class Objects : MonoBehaviour
 
             Destroy(gameObject, itemPickUpSound.clip.length);
         }
+
+        PauseManager.PauseAndUnPauseSounds(itemPickUpSound);
     }
 
     void OnDestroy()

@@ -49,13 +49,13 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         PauseStatus();
+
+        PauseAndUnPauseSounds(musicSource);
     }
 
 
     public void ResumeGame()
     {
-        musicSource.UnPause();
-
         actionSound.Play();
         panel.SetActive(false);
         Buttons.SetActive(false);
@@ -90,7 +90,6 @@ public class PauseManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 actionSound.Play();
-                musicSource.Pause();
 
                 isGamePaused = true;
                 panel.SetActive(isGamePaused);
@@ -103,7 +102,6 @@ public class PauseManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 actionSound.Play();
-                musicSource.UnPause();
 
                 isGamePaused = false;
                 panel.SetActive(isGamePaused);
@@ -128,6 +126,19 @@ public class PauseManager : MonoBehaviour
         if (!string.IsNullOrEmpty(sceneToLoad))
         {
             SceneManager.LoadScene(sceneToLoad);
+        }
+    }
+
+    public static void PauseAndUnPauseSounds(AudioSource sound)
+    {
+        if (PauseManager.Instance.IsGamePaused)
+        {
+            sound.Pause();
+        }
+
+        else
+        {
+            sound.UnPause();
         }
     }
 }
