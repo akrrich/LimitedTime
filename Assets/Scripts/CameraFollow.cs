@@ -1,37 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private PlayerController player;
+    private PlayerController playerController;
 
-    private Vector3 offset;
+    private Vector3 cameraOffset;
 
     private float sensitivity = 2f;
-    private float verticalRotation = 0f;
+    private float rotationX = 0f;
 
+    private float offSetY = 2.75f;
+
+    
     void Start()
     {
-        offset = new Vector3(0f, 2.3f, 0f);
-        transform.position = player.transform.position + offset;
+        playerController = GetComponentInParent<PlayerController>();
+
+        cameraOffset = new Vector3(0f, offSetY, 0.3f);
+        transform.position = playerController.transform.position + cameraOffset;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
-            float horizontalInput = Input.GetAxis("Mouse X");
-            float verticalInput = Input.GetAxis("Mouse Y");
+            cameraOffset = new Vector3(0f, offSetY, 0.3f);
 
-            transform.Rotate(Vector3.up * horizontalInput * sensitivity);
+            float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
-            verticalRotation -= verticalInput * sensitivity;
-            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-            transform.localRotation = Quaternion.Euler(verticalRotation, transform.localRotation.eulerAngles.y, 0f);
+            rotationX -= mouseY;
+            rotationX = Mathf.Clamp(rotationX, -80f, 80f);
 
-            Vector3 playerPosition = player.transform.position + offset;
-            transform.position = playerPosition;
+            transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+
+            playerController.transform.Rotate(Vector3.up * mouseX);
         }
     }
 }

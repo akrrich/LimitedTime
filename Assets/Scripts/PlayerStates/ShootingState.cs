@@ -18,7 +18,7 @@ public class ShootingState : IState
         playerController.BulletPool.CounterBullets++;
 
         Bullet bullet = playerController.BulletPool.GetBullet();
-        bullet.InstantiateBullet(playerController.CameraTransform, playerController.BulletPool);
+        bullet.InstantiateBullet(playerController.CameraTransform.transform, playerController.BulletPool);
     }
 
     public void Exit()

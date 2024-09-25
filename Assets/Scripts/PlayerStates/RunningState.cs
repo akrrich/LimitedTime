@@ -13,13 +13,15 @@ public class RunningState : IState
 
     public void Enter()
     {
+        playerController.PLayerAudios[1].Play();
+
         playerController.Anim.SetFloat("Movements", 1f);
         playerController.Speed = 7f;
     }
 
     public void Exit()
     {
-
+        playerController.PLayerAudios[1].Stop();
     }
 
     public void UpdateState()

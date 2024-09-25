@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class JumpingState : IState
@@ -13,12 +14,15 @@ public class JumpingState : IState
 
     public void Enter()
     {
+        playerController.PLayerAudios[2].Play();
+
         playerController.Anim.SetFloat("Movements", 1.5f);
         playerController.Rb.AddForce(Vector3.up * playerController.JumpForce, ForceMode.Impulse);
     }
 
     public void Exit()
     {
+        playerController.PLayerAudios[3].Play();
         playerController.JumpForce = 0;
     }
 

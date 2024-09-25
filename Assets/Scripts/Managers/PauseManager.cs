@@ -131,7 +131,7 @@ public class PauseManager : MonoBehaviour
 
     public static void PauseAndUnPauseSounds(AudioSource sound)
     {
-        if (PauseManager.Instance.IsGamePaused)
+        if (Instance.IsGamePaused)
         {
             sound.Pause();
         }

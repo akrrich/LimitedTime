@@ -13,13 +13,15 @@ public class WalkingState : IState
 
     public void Enter()
     {
+        playerController.PLayerAudios[0].Play();
+
         playerController.Anim.SetFloat("Movements", 0.5f);
         playerController.Speed = 4;
     }
 
     public void Exit()
     {
-
+        playerController.PLayerAudios[0].Stop();
     }
 
     public void UpdateState()

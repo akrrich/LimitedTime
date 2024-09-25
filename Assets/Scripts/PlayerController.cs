@@ -4,39 +4,39 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Transform cameraTransform;
-    public Transform CameraTransform { get { return cameraTransform; } }
-
     [SerializeField] private BulletPool bulletPool;
-    public BulletPool BulletPool { get { return bulletPool; } }
 
-    private StateController stateController;
-    public StateController StateController { get { return stateController; } }
-
+    private CameraFollow cameraTransform;
     private Rigidbody rb;
-    public Rigidbody Rb { get { return rb; } }
-
+    private AudioSource[] playerAudios;
     private Animator anim;
-    public Animator Anim { get { return anim; } }
+    private StateController stateController;
 
+    public BulletPool BulletPool { get => bulletPool; }
+    public CameraFollow CameraTransform { get => cameraTransform; }
+    public Rigidbody Rb { get => rb; }
+    public AudioSource[] PLayerAudios { get => playerAudios; }
+    public Animator Anim { get => anim; }
+    public StateController StateController { get => stateController; }
 
-    private float jumpForce;
-    public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
+    private Vector3 position;
 
-    private float speed = 4f;
-    public float Speed { set { speed = value; } }
-
-    private bool isGrounded = true;
-    public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
-
-    private bool canShoot = true;
-    public bool CanShoot { get { return canShoot; } set { canShoot = value; } }
 
     private float horizontalInput;
     private float verticalInput;
 
-
     private float reloadingTime = 0f;
+
+    private float jumpForce;
+    private float speed = 4f;
+
+    private bool isGrounded = true;
+    private bool canShoot = true;
+
+    public float JumpForce { get => jumpForce; set { jumpForce = value; } }
+    public float Speed { set { speed = value; } }
+    public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
+    public bool CanShoot { get => canShoot; set { canShoot = value; } }
 
 
     void Start()
@@ -44,7 +44,10 @@ public class PlayerController : MonoBehaviour
         BulletPool.OnReloading += ReloadingGunEvent;
 
         rb = GetComponent<Rigidbody>();
+        playerAudios = GetComponentsInChildren<AudioSource>();
+        cameraTransform = GetComponentInChildren<CameraFollow>();
         anim = GetComponentInChildren<Animator>();
+
         stateController = new StateController(this);
         StateController.InitializeState(stateController.IdleState);
     }
@@ -68,19 +71,22 @@ public class PlayerController : MonoBehaviour
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
+            position = transform.position;
+
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
 
-            Vector3 inputMovement = new Vector3(horizontalInput, 0, verticalInput);
-
-            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraForward = cameraTransform.transform.forward;
             cameraForward.y = 0;
-            Vector3 movement = cameraForward * inputMovement.z + cameraTransform.right * inputMovement.x;
-            movement.y = 0;
+            cameraForward.Normalize();
 
-            rb.velocity = movement * speed + new Vector3(0, rb.velocity.y, 0);
+            Vector3 right = cameraTransform.transform.right;
+            Vector3 movement = (cameraForward * verticalInput + right * horizontalInput).normalized * speed;
 
+            rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);   
+            
             anim.transform.position = transform.position;
+            anim.transform.rotation = transform.rotation;
         }
     }
 
