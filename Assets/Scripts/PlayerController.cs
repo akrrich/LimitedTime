@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
             stateController.UpdateState();
         }
 
+        foreach (AudioSource audios in playerAudios)
+        {
+            PauseManager.PauseAndUnPauseSounds(audios);
+        }
+
         ReloadGun();
     }
 
@@ -95,6 +100,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("floor"))
         {
             isGrounded = true;
+        }
+
+        if (collision.gameObject.CompareTag("EnemieDeforme"))
+        {
+            Destroy(gameObject, playerAudios[4].clip.length);
         }
     }
 

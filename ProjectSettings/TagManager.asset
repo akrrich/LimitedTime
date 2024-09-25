@@ -11,6 +11,8 @@ TagManager:
   - Broom
   - Plant
   - Pincers
+  - BulletPlayer
+  - EnemieDeforme
   layers:
   - Default
   - TransparentFX

@@ -6,11 +6,11 @@ public abstract class Enemies : MonoBehaviour
 {
     [SerializeField] protected Transform playerTransform;
 
-    protected Rigidbody rb;
-    protected BoxCollider boxCollider;
-    protected MeshRenderer mr;
-    protected Animator anim;
-    protected AudioSource[] enemiesAudios;
+    private Rigidbody rb;
+    private BoxCollider boxCollider;
+    private MeshRenderer mr;
+    private Animator anim;
+    private AudioSource[] enemiesAudios;
 
     protected int life;
     protected float speed;
@@ -24,20 +24,38 @@ public abstract class Enemies : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         mr = GetComponent<MeshRenderer>();
         //anim = GetComponentInChildren<Animator>();
-        //enemiesAudios = GetComponentsInChildren<AudioSource>();
+        enemiesAudios = GetComponentsInChildren<AudioSource>();
     }
 
     void Update()
     {
-        CalculateDistance();
+        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
+        {
+            CalculateDistance();
+        }
+
+        foreach (AudioSource audios in enemiesAudios)
+        {
+            PauseManager.PauseAndUnPauseSounds(audios);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("BulletPlayer"))
+        {
+            life -= 1;
+
+            die();
+        }
     }
 
     void OnDestroy()
     {
-            
+        // instanciar PowerUps
     }
 
-    protected virtual void CalculateDistance()
+    private void CalculateDistance()
     {
         if (Vector3.Distance(transform.position, playerTransform.position) <= radius)
         {
@@ -45,16 +63,16 @@ public abstract class Enemies : MonoBehaviour
         }
     }
 
-    protected virtual void die()
+    private void die()
     {
         if (life <= 0)
         {
-            enemiesAudios[3].Play();
+            enemiesAudios[0].Play();
 
             mr.enabled = false;
             boxCollider.enabled = false;
 
-            Destroy(gameObject, enemiesAudios[3].clip.length);
+            Destroy(gameObject, enemiesAudios[0].clip.length);
         }
     }
 
