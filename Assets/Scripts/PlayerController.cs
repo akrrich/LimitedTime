@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private bool canShoot = true;
 
     public float JumpForce { get => jumpForce; set { jumpForce = value; } }
-    public float Speed { set { speed = value; } }
+    public float Speed { get => speed; set { speed = value; } }
     public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
     public bool CanShoot { get => canShoot; set { canShoot = value; } }
 
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("EnemieDeforme"))
         {
-            Destroy(gameObject, playerAudios[4].clip.length);
+            // Destroy(gameObject, playerAudios[4].clip.length);
         }
     }
 

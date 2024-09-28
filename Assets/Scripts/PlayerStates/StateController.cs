@@ -46,4 +46,9 @@ public class StateController
     {
         currentState.UpdateState();
     }
+
+    public IState ActualState()
+    {
+        return currentState;
+    }
 }

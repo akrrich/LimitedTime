@@ -35,7 +35,7 @@ public class Pila<T> : MonoBehaviour
         return elements[elements.Count - 1];
     }
 
-    public bool EstaVacia()
+    public bool Empty()
     {
         return elements.Count == 0;
     }

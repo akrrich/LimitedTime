@@ -16,6 +16,7 @@ public class RunningState : IState
         playerController.PLayerAudios[1].Play();
 
         playerController.Anim.SetFloat("Movements", 1f);
+
         playerController.Speed = 7f;
     }
 

@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PowerUpsManager : MonoBehaviour
+{
+    private Pila<ICommand> commandStack = new Pila<ICommand>();
+
+
+    public void AddPowerUp(ICommand command, float durationActualPowerUp)
+    {
+        command.Execute();
+        commandStack.Push(command);
+
+        StartCoroutine(HandlePowerUpDuration(command, durationActualPowerUp));
+    }
+
+    private IEnumerator HandlePowerUpDuration(ICommand command, float durationActualPowerUp)
+    {
+        yield return new WaitForSeconds(durationActualPowerUp);
+
+        command.Undo();
+        commandStack.Pop();
+    }
+}

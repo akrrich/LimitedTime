@@ -9,13 +9,13 @@ public class Deforme : Enemies
     {
         base.Start();
 
-        life = 5;
+        life = 1;
         speed = 2.5f;
         radius = 15f;
     }
 
     protected override void Attack()
-    {
+    { 
         Vector3 direction = (playerTransform.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
     }

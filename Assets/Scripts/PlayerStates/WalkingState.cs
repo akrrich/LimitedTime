@@ -16,7 +16,8 @@ public class WalkingState : IState
         playerController.PLayerAudios[0].Play();
 
         playerController.Anim.SetFloat("Movements", 0.5f);
-        playerController.Speed = 4;
+
+        playerController.Speed = 4f;
     }
 
     public void Exit()

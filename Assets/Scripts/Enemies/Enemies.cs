@@ -50,11 +50,6 @@ public abstract class Enemies : MonoBehaviour
         }
     }
 
-    void OnDestroy()
-    {
-        // instanciar PowerUps
-    }
-
     private void CalculateDistance()
     {
         if (Vector3.Distance(transform.position, playerTransform.position) <= radius)
@@ -69,11 +64,18 @@ public abstract class Enemies : MonoBehaviour
         {
             enemiesAudios[0].Play();
 
+            AbstractFactory.CreatePowerUp(Random.Range(0, 0), transform);
+
             mr.enabled = false;
             boxCollider.enabled = false;
 
             Destroy(gameObject, enemiesAudios[0].clip.length);
         }
+    }
+
+    private void InstantiatePowerUp()
+    {
+
     }
 
     protected abstract void Attack();

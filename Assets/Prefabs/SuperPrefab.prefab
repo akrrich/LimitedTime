@@ -1573,6 +1573,50 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1460810380127170446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7871705459226471841}
+  - component: {fileID: 6645259634169956240}
+  m_Layer: 0
+  m_Name: PowerUpsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7871705459226471841
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460810380127170446}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.347629, y: 0.314221, z: -4.3848267}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3746943637453984332}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6645259634169956240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460810380127170446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5ef2dce05d24d4a8caafa923bfb4e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1696681194006375105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,6 +1954,7 @@ Transform:
   - {fileID: 7339483126806533866}
   - {fileID: 3051792816398814194}
   - {fileID: 5739047887454868730}
+  - {fileID: 7871705459226471841}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2364901267223112297
@@ -3568,6 +3613,8 @@ MonoBehaviour:
   - {fileID: 8955997543904414927, guid: c17cc213a8a2010499538d6b007166f7, type: 3}
   - {fileID: 9106880612316317146, guid: 4cff40cefa656cd47bc206b33441b49f, type: 3}
   - {fileID: -1114119181835701715, guid: 2d434559430d5e54183217ebf67f2bba, type: 3}
+  powerUps:
+  - {fileID: -5785347558158784471, guid: b2cbd2ec06465274aa0aba46d00df4f7, type: 3}
 --- !u!1 &5534417719270442001
 GameObject:
   m_ObjectHideFlags: 0
