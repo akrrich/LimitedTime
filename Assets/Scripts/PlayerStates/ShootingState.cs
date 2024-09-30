@@ -7,7 +7,8 @@ using UnityEngine;
 public class ShootingState : IState
 {
     private PlayerController playerController;
-    
+
+
     public ShootingState(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -15,6 +16,7 @@ public class ShootingState : IState
 
     public void Enter()
     {
+        //playerController.Anim.SetFloat("Movements", 2f);
         playerController.BulletPool.CounterBullets++;
 
         Bullet bullet = playerController.BulletPool.GetBullet();

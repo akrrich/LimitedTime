@@ -13,6 +13,7 @@ TagManager:
   - Pincers
   - BulletPlayer
   - EnemieDeforme
+  - Floor2
   layers:
   - Default
   - TransparentFX

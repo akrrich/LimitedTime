@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody rb;
     private MeshRenderer mr;
-    private SphereCollider sphere;
+    private CapsuleCollider capsule;
     private AudioSource audioShoot;
 
     private float speed = 30f;
@@ -20,8 +20,9 @@ public class Bullet : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
+            rb.isKinematic = true;
             mr.enabled = false;
-            sphere.enabled = false;
+            capsule.enabled = false;
 
             StartCoroutine(ReturnToPoolAfterAudio());
         }
@@ -30,6 +31,8 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         PauseManager.PauseAndUnPauseSounds(audioShoot);
+
+        transform.Rotate(0, 0, 750 * Time.deltaTime);
     }
 
 
@@ -39,6 +42,8 @@ public class Bullet : MonoBehaviour
         Vector3 cameraForward = cameraTransform.forward;
         Initialize(cameraForward.normalized);
         transform.position = cameraTransform.position + cameraForward;
+
+        transform.rotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y + 90, 0);
     }
 
 
@@ -46,12 +51,12 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         mr = GetComponent<MeshRenderer>();
-        sphere = GetComponent<SphereCollider>();
+        capsule = GetComponent<CapsuleCollider>();
         audioShoot = GetComponent<AudioSource>();
 
+        rb.isKinematic = false;
         mr.enabled = true;
-        sphere.enabled = true;
-
+        capsule.enabled = true;
 
         rb.velocity = direction * speed;
 

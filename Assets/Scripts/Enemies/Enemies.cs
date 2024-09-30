@@ -4,34 +4,52 @@ using UnityEngine;
 
 public abstract class Enemies : MonoBehaviour
 {
-    [SerializeField] protected Transform playerTransform;
+    protected PlayerController player;
 
     private Rigidbody rb;
     private BoxCollider boxCollider;
-    private MeshRenderer mr;
-    private Animator anim;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
+    protected Animator anim;
     private AudioSource[] enemiesAudios;
 
     protected int life;
     protected float speed;
-
+    
     protected float radius;
+
+    protected bool isMovinmgForAttack = false;
 
 
     protected virtual void Start()
     {
+        player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mr = GetComponent<MeshRenderer>();
-        //anim = GetComponentInChildren<Animator>();
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        anim = GetComponentInChildren<Animator>();
         enemiesAudios = GetComponentsInChildren<AudioSource>();
+
+        anim.transform.LookAt(player.transform);
     }
 
     void Update()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
+            anim.transform.position = transform.position;
+
+            if (player.IsGrounded && player.playerAlive)
+            {
+                anim.transform.LookAt(player.transform);
+            }
+
+            if (isMovinmgForAttack)
+            {
+                anim.SetFloat("Movements", 1f);
+            }
+
             CalculateDistance();
+
         }
 
         foreach (AudioSource audios in enemiesAudios)
@@ -46,15 +64,33 @@ public abstract class Enemies : MonoBehaviour
         {
             life -= 1;
 
+            if (life >= 1)
+            {
+                enemiesAudios[0].Play();
+            }
+
             die();
         }
     }
 
     private void CalculateDistance()
     {
-        if (Vector3.Distance(transform.position, playerTransform.position) <= radius)
+        if (!isMovinmgForAttack && player.playerAlive)
         {
-            Attack();
+            if (Vector3.Distance(transform.position, player.transform.position) <= radius)
+            {
+                Movement();
+            }
+
+            else
+            {
+                anim.SetFloat("Movements", 0f);
+            }
+        }
+
+        else if (!isMovinmgForAttack)
+        {
+            anim.SetFloat("Movements", 0f);
         }
     }
 
@@ -62,21 +98,19 @@ public abstract class Enemies : MonoBehaviour
     {
         if (life <= 0)
         {
-            enemiesAudios[0].Play();
+            enemiesAudios[1].Play();
 
             AbstractFactory.CreatePowerUp(Random.Range(0, 0), transform);
 
-            mr.enabled = false;
+            skinnedMeshRenderer.enabled = false;
             boxCollider.enabled = false;
 
-            Destroy(gameObject, enemiesAudios[0].clip.length);
+            Destroy(gameObject, enemiesAudios[1].clip.length);
         }
     }
 
-    private void InstantiatePowerUp()
-    {
+    protected abstract void Movement();
 
-    }
+    protected abstract void Attack(Collision collision);
 
-    protected abstract void Attack();
 }

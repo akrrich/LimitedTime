@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 position;
 
+    private int life = 3;
 
     private float horizontalInput;
     private float verticalInput;
@@ -32,7 +33,9 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrounded = true;
     private bool canShoot = true;
+    public bool playerAlive = true;
 
+    public int Life { get => life; set => life = value; }
     public float JumpForce { get => jumpForce; set { jumpForce = value; } }
     public float Speed { get => speed; set { speed = value; } }
     public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             stateController.UpdateState();
+            CheckPlayerAlive();
         }
 
         foreach (AudioSource audios in playerAudios)
@@ -65,6 +69,8 @@ public class PlayerController : MonoBehaviour
         }
 
         ReloadGun();
+
+        print(life);
     }
 
     void OnDestroy()
@@ -101,11 +107,6 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
-
-        if (collision.gameObject.CompareTag("EnemieDeforme"))
-        {
-            // Destroy(gameObject, playerAudios[4].clip.length);
-        }
     }
 
  
@@ -129,5 +130,18 @@ public class PlayerController : MonoBehaviour
     private void ReloadingGunEvent()
     {
         canShoot = false;
+    }
+
+    private void CheckPlayerAlive()
+    {
+        if (life >= 1)
+        {
+            playerAlive = true;
+        }
+
+        else
+        {
+            playerAlive = false;
+        }
     }
 }
