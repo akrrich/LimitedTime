@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource[] playerAudios;
     private Animator anim;
     private StateController stateController;
-
+    
     public BulletPool BulletPool { get => bulletPool; }
     public CameraFollow CameraTransform { get => cameraTransform; }
     public Rigidbody Rb { get => rb; }
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 position;
 
     private int life = 3;
+    private int damage = 1;
 
     private float horizontalInput;
     private float verticalInput;
@@ -36,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public bool playerAlive = true;
 
     public int Life { get => life; set => life = value; }
+    public int Damage { get => damage; set => damage = value; } 
+
     public float JumpForce { get => jumpForce; set { jumpForce = value; } }
     public float Speed { get => speed; set { speed = value; } }
     public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
@@ -61,16 +64,13 @@ public class PlayerController : MonoBehaviour
         {
             stateController.UpdateState();
             CheckPlayerAlive();
+            ReloadGun();
         }
 
         foreach (AudioSource audios in playerAudios)
         {
             PauseManager.PauseAndUnPauseSounds(audios);
         }
-
-        ReloadGun();
-
-        print(life);
     }
 
     void OnDestroy()

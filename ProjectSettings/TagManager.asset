@@ -9,11 +9,10 @@ TagManager:
   - strawberry
   - burguer
   - Broom
-  - Plant
   - Pincers
   - BulletPlayer
   - EnemieDeforme
-  - Floor2
+  - Crystal
   layers:
   - Default
   - TransparentFX

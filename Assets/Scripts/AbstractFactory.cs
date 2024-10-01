@@ -23,6 +23,7 @@ public class AbstractFactory : MonoBehaviour
             idPowerUps.Add(powerUps.Id, powerUps);
         }
     }
+
     void OnDestroy()
     {
         idObjects.Clear();

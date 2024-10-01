@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Enemies : MonoBehaviour
 {
-    protected PlayerController player;
+    protected PlayerController playerController;
 
     private Rigidbody rb;
     private BoxCollider boxCollider;
@@ -22,14 +22,14 @@ public abstract class Enemies : MonoBehaviour
 
     protected virtual void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         anim = GetComponentInChildren<Animator>();
         enemiesAudios = GetComponentsInChildren<AudioSource>();
 
-        anim.transform.LookAt(player.transform);
+        anim.transform.LookAt(playerController.transform);
     }
 
     void Update()
@@ -38,9 +38,9 @@ public abstract class Enemies : MonoBehaviour
         {
             anim.transform.position = transform.position;
 
-            if (player.IsGrounded && player.playerAlive)
+            if (playerController.IsGrounded && playerController.playerAlive)
             {
-                anim.transform.LookAt(player.transform);
+                anim.transform.LookAt(playerController.transform);
             }
 
             if (isMovinmgForAttack)
@@ -49,7 +49,6 @@ public abstract class Enemies : MonoBehaviour
             }
 
             CalculateDistance();
-
         }
 
         foreach (AudioSource audios in enemiesAudios)
@@ -62,7 +61,7 @@ public abstract class Enemies : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("BulletPlayer"))
         {
-            life -= 1;
+            life -= playerController.Damage;
 
             if (life >= 1)
             {
@@ -75,9 +74,9 @@ public abstract class Enemies : MonoBehaviour
 
     private void CalculateDistance()
     {
-        if (!isMovinmgForAttack && player.playerAlive)
+        if (!isMovinmgForAttack && playerController.playerAlive)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) <= radius)
+            if (Vector3.Distance(transform.position, playerController.transform.position) <= radius)
             {
                 Movement();
             }
@@ -100,7 +99,12 @@ public abstract class Enemies : MonoBehaviour
         {
             enemiesAudios[1].Play();
 
-            AbstractFactory.CreatePowerUp(Random.Range(0, 0), transform);
+            int randomNumer = Random.Range(0, 8);
+
+            if (randomNumer == Random.Range(0, 8))
+            {
+                AbstractFactory.CreatePowerUp(Random.Range(0, 3), transform);
+            }
 
             skinnedMeshRenderer.enabled = false;
             boxCollider.enabled = false;

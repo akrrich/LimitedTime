@@ -43,7 +43,7 @@ public class PauseManager : MonoBehaviour
 
         panel = transform.Find("Panel").gameObject;
         Buttons = transform.Find("Buttons").gameObject;
-        panelSettings = transform.Find("Panel Settings").gameObject;
+        //panelSettings = transform.Find("Panel Settings").gameObject;
     }
 
     void Update()

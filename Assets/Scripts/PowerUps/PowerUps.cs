@@ -11,13 +11,14 @@ public abstract class PowerUps : MonoBehaviour
     private BoxCollider boxCollider;
     private AudioSource PowerUpSound;
 
-    protected int id;
+    [SerializeField] private int id;
+
     protected float durationPowerUp;
 
     public int Id { get => id; }
 
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {        
         powerUpsManager = FindObjectOfType<PowerUpsManager>();
 
@@ -35,20 +36,20 @@ public abstract class PowerUps : MonoBehaviour
         transform.Rotate(transform.rotation.x,  125 * Time.deltaTime, transform.rotation.z);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("Player"))
         {
-            ActivePowerUp(collision);
+            ActivePowerUp(collider);
 
             mr.enabled = false;
             boxCollider.enabled = false;
 
             PowerUpSound.Play();
-            
+
             Destroy(gameObject, PowerUpSound.clip.length);
         }
     }
 
-    protected abstract void ActivePowerUp(Collision collision);
+    protected abstract void ActivePowerUp(Collider collider);
 }

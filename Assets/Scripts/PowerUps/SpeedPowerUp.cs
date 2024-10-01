@@ -5,17 +5,15 @@ using UnityEngine;
 
 public class SpeedPowerUp : PowerUps
 {
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
-
-        id = 0;
+        base.Awake();
         durationPowerUp = 7.5f;
     }
 
-    protected override void ActivePowerUp(Collision collision)
+    protected override void ActivePowerUp(Collider collider)
     {
-        PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+        PlayerController playerController = collider.gameObject.GetComponent<PlayerController>();
         SpeedCommand speedCommand = new SpeedCommand(playerController);
 
         powerUpsManager.AddPowerUp(speedCommand, durationPowerUp);

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PowerUpsManager : MonoBehaviour
 {
-    private Pila<ICommand> commandStack = new Pila<ICommand>();
+    private Pila<ICommand> commandPowerUpsStack = new Pila<ICommand>();
 
 
     public void AddPowerUp(ICommand command, float durationActualPowerUp)
     {
         command.Execute();
-        commandStack.Push(command);
+        commandPowerUpsStack.Push(command);
 
         StartCoroutine(HandlePowerUpDuration(command, durationActualPowerUp));
     }
@@ -20,6 +20,6 @@ public class PowerUpsManager : MonoBehaviour
         yield return new WaitForSeconds(durationActualPowerUp);
 
         command.Undo();
-        commandStack.Pop();
+        commandPowerUpsStack.Pop();
     }
 }

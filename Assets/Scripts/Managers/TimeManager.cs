@@ -12,11 +12,15 @@ public class TimeManager : MonoBehaviour
 
     private TMP_Text timeText;
 
-    private float counter = 120f;
+    private Scene currentScene;
+
+    private float counter;
 
     private bool isCounting = true;
     private bool timeExpired = false;
-    public bool TimeExpired { get { return timeExpired; } }
+
+    public bool TimeExpired { get => timeExpired; }
+    public bool IsCounting { get => isCounting; set => isCounting = value; }
 
     private static event Action onTimeExpired;
     public static Action OnTimeExpired { get { return onTimeExpired; } set { onTimeExpired = value; } }
@@ -38,9 +42,13 @@ public class TimeManager : MonoBehaviour
 
     void Start()
     {
+        currentScene = SceneManager.GetActiveScene();
+        CheckSceneForRealTime();
+
         timeText = GetComponent<TMP_Text>();
 
-        ObjectsList.OnAllObjectsFound += StopTimeForWinScreen;
+        ObjectsList.OnAllObjectsFound += StopTimeForWinScreenOrLoseScreen;
+        Deforme.OnPlayerDefeated += StopTimeForWinScreenOrLoseScreen;
     }
 
     void Update()
@@ -49,9 +57,25 @@ public class TimeManager : MonoBehaviour
         DisocuntTimer();
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
-        ObjectsList.OnAllObjectsFound -= StopTimeForWinScreen;
+        ObjectsList.OnAllObjectsFound -= StopTimeForWinScreenOrLoseScreen;
+        Deforme.OnPlayerDefeated -= StopTimeForWinScreenOrLoseScreen;
+    }
+
+
+    private void CheckSceneForRealTime()
+    {
+        switch (currentScene.name)
+        {
+            case "Level 1":
+                counter = 120f;
+            break;
+
+            case "Level 2":
+                counter = 180;
+            break;
+        }
     }
 
     private void DisocuntTimer()
@@ -70,7 +94,7 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    private void StopTimeForWinScreen()
+    private void StopTimeForWinScreenOrLoseScreen()
     {
         isCounting = false;
         timeExpired = true;

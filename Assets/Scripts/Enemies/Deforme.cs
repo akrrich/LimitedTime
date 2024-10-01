@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -5,9 +6,13 @@ using UnityEngine;
 
 public class Deforme : Enemies
 {
-    private float damageDelay = 1f;
+    private float damageDelay = 1.5f;
 
     private bool canDamage = true;
+
+
+    private static event Action onPlayerDefeated;
+    public static Action OnPlayerDefeated { get => onPlayerDefeated; set => onPlayerDefeated = value; } 
 
 
     protected override void Start()
@@ -16,7 +21,7 @@ public class Deforme : Enemies
 
         life = 5;
         speed = 2.5f;
-        radius = 15f;
+        radius = 25f;
     }
 
     void OnCollisionStay(Collision collision)
@@ -40,7 +45,7 @@ public class Deforme : Enemies
     {
         anim.SetFloat("Movements", 0.5f);
 
-        Vector3 direction = (player.transform.position - transform.position).normalized;
+        Vector3 direction = (playerController.transform.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
     }
 
@@ -49,15 +54,16 @@ public class Deforme : Enemies
         if (collision.gameObject.CompareTag("Player"))
         { 
             isMovinmgForAttack = true;
-            player.Life -= 1;
+            playerController.Life -= 1;
 
-            if (player.Life <= 0)
+            if (playerController.Life <= 0)
             {
                 canDamage = false;
                 isMovinmgForAttack = false;
+                onPlayerDefeated?.Invoke();
             }
 
-            if (player.Life >= 1)
+            else if (playerController.Life >= 1)
             {
                 StartCoroutine(DamageCooldown());
             }
