@@ -694,10 +694,10 @@ RectTransform:
   m_Children:
   - {fileID: 4377384297809733015}
   - {fileID: 624682788440718437}
-  - {fileID: 2271888546875724380}
   - {fileID: 6672617496675778975}
-  - {fileID: 7533243801080118379}
   - {fileID: 1573263862892379995}
+  - {fileID: 2271888546875724380}
+  - {fileID: 7533243801080118379}
   m_Father: {fileID: 3746943637453984332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2327,7 +2327,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17, y: 0}
+  m_AnchoredPosition: {x: -30, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &669214825796886066
@@ -5742,7 +5742,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d617122d66a66a646bbd59b2ca504cdb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.399
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
