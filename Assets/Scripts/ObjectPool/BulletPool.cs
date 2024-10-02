@@ -15,7 +15,10 @@ public class BulletPool : MonoBehaviour
 
     private int initialPoolSize = 15;
 
-    private int counterBullets = 0;
+    private int totalBullets = 60;
+    private int counterBullets = 15;
+
+    public int TotalBullets {  get { return totalBullets; } set { totalBullets = value; } }
     public int CounterBullets { get { return counterBullets; } set { counterBullets = value; } }
 
 
@@ -31,7 +34,7 @@ public class BulletPool : MonoBehaviour
 
     void Update()
     {
-        if (counterBullets >= 15)
+        if (counterBullets <= 0)
         {
             onReloading?.Invoke();
         }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pila<T> : MonoBehaviour
+public class Pila<T>
 {
     private List<T> elements = new List<T>();
 

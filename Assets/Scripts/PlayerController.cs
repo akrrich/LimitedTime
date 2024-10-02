@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private BulletPool bulletPool;
-
+    private BulletPool bulletPool;
     private CameraFollow cameraTransform;
     private Rigidbody rb;
     private AudioSource[] playerAudios;
     private Animator anim;
     private StateController stateController;
-    
+
+    private static event Action onReloadingText;
+    public static Action OnReloadingText { get => onReloadingText; set => onReloadingText = value; }
+
+    private static event Action onReloadingFinished;
+    public static Action OnReloadingFinished { get => onReloadingFinished; set => onReloadingFinished = value; }
+
+
     public BulletPool BulletPool { get => bulletPool; }
     public CameraFollow CameraTransform { get => cameraTransform; }
     public Rigidbody Rb { get => rb; }
@@ -47,8 +54,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        BulletPool.OnReloading += ReloadingGunEvent;
-
+        bulletPool = FindObjectOfType<BulletPool>();
         rb = GetComponent<Rigidbody>();
         playerAudios = GetComponentsInChildren<AudioSource>();
         cameraTransform = GetComponentInChildren<CameraFollow>();
@@ -56,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
         stateController = new StateController(this);
         StateController.InitializeState(stateController.IdleState);
+
+        BulletPool.OnReloading += ReloadingGunEvent;
     }
 
     void Update()
@@ -64,18 +72,14 @@ public class PlayerController : MonoBehaviour
         {
             stateController.UpdateState();
             CheckPlayerAlive();
-            ReloadGun();
+            ReloadGunAutomatic();
+            ReloadGunManualy();
         }
 
         foreach (AudioSource audios in playerAudios)
         {
             PauseManager.PauseAndUnPauseSounds(audios);
         }
-    }
-
-    void OnDestroy()
-    {
-        BulletPool.OnReloading -= ReloadingGunEvent;
     }
 
     void FixedUpdate()
@@ -109,20 +113,51 @@ public class PlayerController : MonoBehaviour
         }
     }
 
- 
-    private void ReloadGun()
+    void OnDestroy()
     {
-        if (!canShoot)
+        BulletPool.OnReloading -= ReloadingGunEvent;
+    }
+
+
+    private void ReloadGunManualy()
+    { 
+        if (Input.GetKeyDown(KeyCode.R) && canShoot)
         {
+            onReloadingText?.Invoke();
+
+            canShoot = false;
             reloadingTime += Time.deltaTime;
 
-            if (reloadingTime >= 3f)
+            if (reloadingTime >= 2f)
             {
                 canShoot = true;
                 reloadingTime = 0f;
-                bulletPool.CounterBullets = 0;
+                bulletPool.CounterBullets = 15;
 
                 BulletPool.OnReloading += ReloadingGunEvent;
+
+                onReloadingFinished?.Invoke();
+            }
+        }
+    }
+
+    private void ReloadGunAutomatic()
+    {
+        if (!canShoot)
+        {
+            onReloadingText?.Invoke();
+
+            reloadingTime += Time.deltaTime;
+
+            if (reloadingTime >= 2f)
+            {
+                canShoot = true;
+                reloadingTime = 0f;
+                bulletPool.CounterBullets = 15;
+
+                BulletPool.OnReloading += ReloadingGunEvent;
+
+                onReloadingFinished?.Invoke();
             }
         }
     }
