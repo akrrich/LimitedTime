@@ -6,6 +6,8 @@ public abstract class Enemies : MonoBehaviour
 {
     protected PlayerController playerController;
 
+    [SerializeField] protected EnemyScriptable enemyScriptable;
+
     private Rigidbody rb;
     private BoxCollider boxCollider;
     private SkinnedMeshRenderer skinnedMeshRenderer;
@@ -13,8 +15,8 @@ public abstract class Enemies : MonoBehaviour
     private AudioSource[] enemiesAudios;
 
     protected int life;
+
     protected float speed;
-    
     protected float radius;
 
     protected bool isMovinmgForAttack = false;
@@ -71,6 +73,7 @@ public abstract class Enemies : MonoBehaviour
             die();
         }
     }
+
 
     private void CalculateDistance()
     {

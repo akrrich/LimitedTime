@@ -8,7 +8,7 @@ public abstract class PowerUps : MonoBehaviour
 
     private Rigidbody rb;
     private MeshRenderer mr;
-    private BoxCollider boxCollider;
+    private BoxCollider boxCollider; 
     private AudioSource PowerUpSound;
 
     [SerializeField] private int id;

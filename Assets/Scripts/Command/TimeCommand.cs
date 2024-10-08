@@ -13,7 +13,7 @@ public class TimeCommand : ICommand
     }
 
 
-    public void Execute()
+    public void Execute() 
     {
         TimeManager.Instance.IsCounting = false;
     }

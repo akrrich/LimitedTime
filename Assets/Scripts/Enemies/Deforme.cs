@@ -19,9 +19,15 @@ public class Deforme : Enemies
     {
         base.Start();
 
+        life = enemyScriptable.Life;
+        speed = enemyScriptable.Speed;
+        radius = enemyScriptable.Radius;
+
+        /*
         life = 5;
         speed = 2.5f;
         radius = 25f;
+        */
     }
 
     void OnCollisionStay(Collision collision)
