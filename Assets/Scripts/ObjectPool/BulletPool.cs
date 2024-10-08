@@ -6,7 +6,7 @@ using UnityEngine;
 public class BulletPool : MonoBehaviour
 {
     [SerializeField] private Bullet bulletPrefab;
-
+     
     private Cola<Bullet> bulletPool = new Cola<Bullet>();
 
     private static event Action onReloading;
@@ -28,7 +28,7 @@ public class BulletPool : MonoBehaviour
         {
             Bullet bulletInstance = Instantiate(bulletPrefab);
             bulletInstance.gameObject.SetActive(false);
-            bulletPool.Enqueue(bulletInstance);
+            bulletPool.Enqueue(bulletInstance); 
         }
     }
 
