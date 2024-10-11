@@ -9,8 +9,8 @@ public class BulletPool : MonoBehaviour
      
     private Cola<Bullet> bulletPool = new Cola<Bullet>();
 
-    private static event Action onReloading;
-    public static Action OnReloading { get { return onReloading; } set { onReloading = value; } }
+    private static event Action onReloadingAutomatic;
+    public static Action OnReloadingAutomatic { get { return onReloadingAutomatic; } set { onReloadingAutomatic = value; } }
 
 
     private int initialPoolSize = 15;
@@ -34,9 +34,9 @@ public class BulletPool : MonoBehaviour
 
     void Update()
     {
-        if (counterBullets <= 0)
+        if (counterBullets <= 0 && totalBullets >= 1)
         {
-            onReloading?.Invoke();
+            onReloadingAutomatic?.Invoke();
         }
     }
 

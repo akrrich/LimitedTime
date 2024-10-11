@@ -38,7 +38,8 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
-    private float reloadingTime = 0f;
+    private float reloadingTimeManualy = 0f;
+    private float reloadingTimeAutomatic = 0f;
 
     private float jumpForce;
     private float speed = 4f;
@@ -46,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = true;
     private bool canShoot = true;
     private bool playerAlive = true;
+    private bool realoadingGunAutomatic = false;
+    private bool realoadingManualy = false;
 
     public int Life { get => life; set => life = value; }
     public int Damage { get => damage; set => damage = value; } 
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour
         stateController = new StateController(this);
         StateController.InitializeState(stateController.IdleState);
 
-        BulletPool.OnReloading += ReloadingGunEvent;
+        BulletPool.OnReloadingAutomatic += ReloadGunAutomaticEvent;
     }
 
     void Update()
@@ -78,8 +81,9 @@ public class PlayerController : MonoBehaviour
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             stateController.UpdateState();
-            ReloadGunAutomatic();
             ReloadGunManualy();
+            ReloadGunAutomatic();
+            CheckIfCanShootOrNot();
         }
 
         foreach (AudioSource audios in playerAudios)
@@ -121,56 +125,87 @@ public class PlayerController : MonoBehaviour
 
     void OnDestroy()
     {
-        BulletPool.OnReloading -= ReloadingGunEvent;
+        BulletPool.OnReloadingAutomatic -= ReloadGunAutomaticEvent;
     }
 
 
     private void ReloadGunManualy()
-    { 
-        if (Input.GetKeyDown(KeyCode.R) && canShoot)
+    {
+        if (bulletPool.TotalBullets >= 1)
         {
-            onReloadingText?.Invoke();
-
-            canShoot = false;
-            reloadingTime += Time.deltaTime;
-
-            if (reloadingTime >= 2f)
+            if (Input.GetKeyDown(KeyCode.R) && canShoot)
             {
-                canShoot = true;
-                reloadingTime = 0f;
-                bulletPool.CounterBullets = 15;
-
-                BulletPool.OnReloading += ReloadingGunEvent;
-
-                onReloadingFinished?.Invoke();
+                onReloadingText?.Invoke();
+                canShoot = false;
+                realoadingManualy = true;
             }
+
+            if (!canShoot && realoadingManualy)
+            {
+                reloadingTimeManualy += Time.deltaTime;
+
+                if (reloadingTimeManualy >= 2f)
+                {
+                    canShoot = true;
+                    realoadingManualy = false;
+
+                    int bulletsNeeded = 15 - bulletPool.CounterBullets;
+                    int bulletsToReload = Mathf.Min(bulletsNeeded, bulletPool.TotalBullets);
+
+                    bulletPool.CounterBullets += bulletsToReload;
+                    bulletPool.TotalBullets -= bulletsToReload;
+
+                    reloadingTimeManualy = 0f;
+
+                    onReloadingFinished?.Invoke();
+                }
+            }
+        }
+
+        else
+        {
+            canShoot = true;
         }
     }
 
     private void ReloadGunAutomatic()
     {
-        if (!canShoot)
+        if (realoadingGunAutomatic)
         {
+            canShoot = false;
             onReloadingText?.Invoke();
 
-            reloadingTime += Time.deltaTime;
+            reloadingTimeAutomatic += Time.deltaTime;
 
-            if (reloadingTime >= 2f)
+            if (reloadingTimeAutomatic >= 2f)
             {
+                realoadingGunAutomatic = false;
                 canShoot = true;
-                reloadingTime = 0f;
-                bulletPool.CounterBullets = 15;
 
-                BulletPool.OnReloading += ReloadingGunEvent;
+                int bulletsNeeded = 15 - bulletPool.CounterBullets;
+                int bulletsToReload = Mathf.Min(bulletsNeeded, bulletPool.TotalBullets);
+
+                bulletPool.CounterBullets += bulletsToReload;
+                bulletPool.TotalBullets -= bulletsToReload;
+
+                reloadingTimeAutomatic = 0f;
 
                 onReloadingFinished?.Invoke();
             }
         }
     }
 
-    private void ReloadingGunEvent()
+    private void ReloadGunAutomaticEvent()
     {
-        canShoot = false;
+        realoadingGunAutomatic = true;
+    }
+
+    private void CheckIfCanShootOrNot()
+    {
+        if (bulletPool.CounterBullets == 0 && bulletPool.TotalBullets == 0)
+        {
+            canShoot = false;
+        }
     }
 
     private void CheckPlayerAlive()
