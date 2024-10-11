@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
-using System.Runtime.CompilerServices;
 
 public class Objects : MonoBehaviour
 {

@@ -8,7 +8,6 @@ public abstract class Enemies : MonoBehaviour
 
     [SerializeField] protected EnemyScriptable enemyScriptable;
 
-    private Rigidbody rb;
     private BoxCollider boxCollider;
     private SkinnedMeshRenderer skinnedMeshRenderer;
     protected Animator anim;
@@ -16,16 +15,12 @@ public abstract class Enemies : MonoBehaviour
 
     protected int life;
 
-    protected float speed;
-    protected float radius;
-
     protected bool isMovinmgForAttack = false;
 
 
     protected virtual void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
-        rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         anim = GetComponentInChildren<Animator>();
@@ -40,7 +35,7 @@ public abstract class Enemies : MonoBehaviour
         {
             anim.transform.position = transform.position;
 
-            if (playerController.IsGrounded && playerController.playerAlive)
+            if (playerController.IsGrounded && playerController.PlayerAlive)
             {
                 anim.transform.LookAt(playerController.transform);
             }
@@ -51,6 +46,11 @@ public abstract class Enemies : MonoBehaviour
             }
 
             CalculateDistance();
+        }
+
+        else
+        {
+            StopAnimationWhenPlayerDeaths();
         }
 
         foreach (AudioSource audios in enemiesAudios)
@@ -77,9 +77,9 @@ public abstract class Enemies : MonoBehaviour
 
     private void CalculateDistance()
     {
-        if (!isMovinmgForAttack && playerController.playerAlive)
+        if (!isMovinmgForAttack && playerController.PlayerAlive)
         {
-            if (Vector3.Distance(transform.position, playerController.transform.position) <= radius)
+            if (Vector3.Distance(transform.position, playerController.transform.position) <= enemyScriptable.Radius)
             {
                 Movement();
             }
@@ -116,8 +116,12 @@ public abstract class Enemies : MonoBehaviour
         }
     }
 
+    private void StopAnimationWhenPlayerDeaths()
+    {
+        anim.SetFloat("Movements", 0f);
+    }
+
     protected abstract void Movement();
 
     protected abstract void Attack(Collision collision);
-
 }

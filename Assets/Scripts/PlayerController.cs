@@ -11,13 +11,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource[] playerAudios;
     private Animator anim;
     private StateController stateController;
-
-    private static event Action onReloadingText;
-    public static Action OnReloadingText { get => onReloadingText; set => onReloadingText = value; }
-
-    private static event Action onReloadingFinished;
-    public static Action OnReloadingFinished { get => onReloadingFinished; set => onReloadingFinished = value; }
-
+    private PlayerMemento playerMemento;
 
     public BulletPool BulletPool { get => bulletPool; }
     public CameraFollow CameraTransform { get => cameraTransform; }
@@ -25,6 +19,16 @@ public class PlayerController : MonoBehaviour
     public AudioSource[] PLayerAudios { get => playerAudios; }
     public Animator Anim { get => anim; }
     public StateController StateController { get => stateController; }
+    public PlayerMemento PlayerMemento { get => playerMemento; }
+
+    private static event Action onReloadingText;
+    public static Action OnReloadingText { get => onReloadingText; set => onReloadingText = value; }
+
+    private static event Action onReloadingFinished;
+    public static Action OnReloadingFinished { get => onReloadingFinished; set => onReloadingFinished = value; }
+
+    private static event Action onRespawningPlayer;
+    public static Action OnRespawningPlayer { get => onRespawningPlayer; set => onRespawningPlayer = value; }
 
     private Vector3 position;
 
@@ -41,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrounded = true;
     private bool canShoot = true;
-    public bool playerAlive = true;
+    private bool playerAlive = true;
 
     public int Life { get => life; set => life = value; }
     public int Damage { get => damage; set => damage = value; } 
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
     public float Speed { get => speed; set { speed = value; } }
     public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
     public bool CanShoot { get => canShoot; set { canShoot = value; } }
+    public bool PlayerAlive { get => playerAlive; set { playerAlive = value; } }
 
 
     void Start()
@@ -68,10 +73,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        CheckPlayerAlive();
+
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             stateController.UpdateState();
-            CheckPlayerAlive();
             ReloadGunAutomatic();
             ReloadGunManualy();
         }
@@ -176,7 +182,9 @@ public class PlayerController : MonoBehaviour
 
         else
         {
+            playerMemento = new PlayerMemento(this);
             playerAlive = false;
+            gameObject.SetActive(false);
         }
     }
 }

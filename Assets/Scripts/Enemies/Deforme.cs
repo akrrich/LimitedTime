@@ -12,22 +12,14 @@ public class Deforme : Enemies
 
 
     private static event Action onPlayerDefeated;
-    public static Action OnPlayerDefeated { get => onPlayerDefeated; set => onPlayerDefeated = value; } 
+    public static Action OnPlayerDefeated { get => onPlayerDefeated; set => onPlayerDefeated = value; }
 
 
     protected override void Start()
     {
         base.Start();
 
-        life = enemyScriptable.Life;
-        speed = enemyScriptable.Speed;
-        radius = enemyScriptable.Radius;
-
-        /*
-        life = 5;
-        speed = 2.5f;
-        radius = 25f;
-        */
+        life = 4;
     }
 
     void OnCollisionStay(Collision collision)
@@ -46,13 +38,12 @@ public class Deforme : Enemies
         }
     }
 
-
     protected override void Movement()
     {
         anim.SetFloat("Movements", 0.5f);
 
         Vector3 direction = (playerController.transform.position - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += direction * enemyScriptable.Speed * Time.deltaTime;
     }
 
     protected override void Attack(Collision collision)
@@ -66,7 +57,10 @@ public class Deforme : Enemies
             {
                 canDamage = false;
                 isMovinmgForAttack = false;
+
                 onPlayerDefeated?.Invoke();
+
+                canDamage = true;
             }
 
             else if (playerController.Life >= 1)

@@ -10,9 +10,13 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
+    [SerializeField] private PlayerController playerController;
+
     [SerializeField] private Texture2D cursorTexture;
 
     private Scene currentScene;
+
+    private float cursorScale = 0.1f;
 
 
     void Awake()
@@ -66,7 +70,7 @@ public class GameManager : MonoBehaviour
         {
             if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
             {
-                float cursorScale = 0.1f;
+                cursorScale = 0.1f;
 
                 float width = cursorTexture.width * cursorScale;
                 float height = cursorTexture.height * cursorScale;
@@ -75,6 +79,11 @@ public class GameManager : MonoBehaviour
                 float posY = (Screen.height - height) / 2;
 
                 GUI.DrawTexture(new Rect(posX, posY, width, height), cursorTexture);
+            }
+
+            else
+            {
+                cursorScale = 0f;
             }
         }
     }

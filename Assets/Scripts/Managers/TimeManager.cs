@@ -19,7 +19,7 @@ public class TimeManager : MonoBehaviour
     private bool isCounting = true;
     private bool timeExpired = false;
 
-    public bool TimeExpired { get => timeExpired; }
+    public bool TimeExpired { get => timeExpired; set => timeExpired = value; }
     public bool IsCounting { get => isCounting; set => isCounting = value; }
 
     private static event Action onTimeExpired;
@@ -96,7 +96,7 @@ public class TimeManager : MonoBehaviour
 
     private void StopTimeForWinScreenOrLoseScreen()
     {
-        isCounting = false;
         timeExpired = true;
+        isCounting = false;
     }
 }

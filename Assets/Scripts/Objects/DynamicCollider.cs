@@ -15,15 +15,13 @@ public class DynamicCollider : MonoBehaviour
     private ColliderType colliderType;
 
     private MeshRenderer ms;
-    public MeshRenderer Ms { get { return ms; } set { ms = value; } }
-
     private BoxCollider box;
-    public BoxCollider Box { get { return box; } set { box = value; } }
-
     private SphereCollider sphere;
-    public SphereCollider Sphere { get { return sphere; } set { sphere = value; } }
-
     private CapsuleCollider capsule;
+
+    public MeshRenderer Ms { get { return ms; } set { ms = value; } }
+    public BoxCollider Box { get { return box; } set { box = value; } }
+    public SphereCollider Sphere { get { return sphere; } set { sphere = value; } }
     public CapsuleCollider Capsule { get { return capsule; } set { capsule = value; } }
 
 

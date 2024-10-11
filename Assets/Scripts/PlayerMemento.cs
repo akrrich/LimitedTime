@@ -6,8 +6,8 @@ public class PlayerMemento
 {
     private PlayerController playerController;
 
-    public Vector3 position;
-    public int life = 3;
+    private Vector3 position;
+    private int life = 3;
 
 
     public PlayerMemento(PlayerController playerController)
@@ -19,12 +19,13 @@ public class PlayerMemento
     public void SaveState()
     {
         position = playerController.transform.position;
-        life = playerController.Life;
     }
 
     public void RestoreState()
     {
         playerController.transform.position = position;
         playerController.Life = life;
+        playerController.PlayerAlive = true;
+        playerController.gameObject.SetActive(true);
     }
 }
