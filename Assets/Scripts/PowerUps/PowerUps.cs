@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class PowerUps : MonoBehaviour
@@ -10,6 +8,7 @@ public abstract class PowerUps : MonoBehaviour
     private MeshRenderer mr;
     private BoxCollider boxCollider; 
     private AudioSource PowerUpSound;
+    private SpriteRenderer spriteMiniMap;
 
     [SerializeField] private int id;
 
@@ -26,6 +25,7 @@ public abstract class PowerUps : MonoBehaviour
         mr = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
         PowerUpSound = GetComponent<AudioSource>();
+        spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -41,6 +41,8 @@ public abstract class PowerUps : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             ActivePowerUp(collider);
+
+            spriteMiniMap.enabled = false;
 
             mr.enabled = false;
             boxCollider.enabled = false;

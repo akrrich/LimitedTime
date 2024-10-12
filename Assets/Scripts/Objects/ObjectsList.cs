@@ -89,6 +89,7 @@ public class ObjectsList : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
+                    GameManager.Instance.ShowMira = false;
                     listMode = true;
                 }
             }
@@ -97,6 +98,7 @@ public class ObjectsList : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
+                    GameManager.Instance.ShowMira = true;
                     listMode = false;
                 }
             }

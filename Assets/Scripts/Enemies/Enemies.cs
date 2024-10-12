@@ -11,7 +11,8 @@ public abstract class Enemies : MonoBehaviour
     private BoxCollider boxCollider;
     private SkinnedMeshRenderer skinnedMeshRenderer;
     protected Animator anim;
-    private AudioSource[] enemiesAudios;
+    protected AudioSource[] enemiesAudios;
+    private SpriteRenderer spriteMiniMap;
 
     protected int life;
 
@@ -25,6 +26,7 @@ public abstract class Enemies : MonoBehaviour
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         anim = GetComponentInChildren<Animator>();
         enemiesAudios = GetComponentsInChildren<AudioSource>();
+        spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
 
         anim.transform.LookAt(playerController.transform);
     }
@@ -38,6 +40,11 @@ public abstract class Enemies : MonoBehaviour
             if (playerController.IsGrounded && playerController.PlayerAlive)
             {
                 anim.transform.LookAt(playerController.transform);
+
+                Vector3 direction = playerController.transform.position - spriteMiniMap.transform.position;
+                direction.y = 0; 
+                spriteMiniMap.transform.rotation = Quaternion.LookRotation(direction);
+                spriteMiniMap.transform.rotation *= Quaternion.Euler(-90, 130, 0);
             }
 
             if (isMovinmgForAttack)
@@ -101,10 +108,11 @@ public abstract class Enemies : MonoBehaviour
         if (life <= 0)
         {
             enemiesAudios[1].Play();
+            spriteMiniMap.enabled = false;
 
-            int randomNumer = Random.Range(0, 8);
+            int randomNumer = Random.Range(0, 5);
 
-            if (randomNumer == Random.Range(0, 8))
+            if (randomNumer == Random.Range(0, 5))
             {
                 AbstractFactory.CreatePowerUp(Random.Range(0, 3), transform);
             }

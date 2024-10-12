@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +13,10 @@ public class GameManager : MonoBehaviour
     private Scene currentScene;
 
     private float cursorScale = 0.1f;
+
+    private bool showMira = true;
+
+    public bool ShowMira { get => showMira; set => showMira = value; }
 
 
     void Awake()
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentScene.name != "Menu")
         {
-            if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
+            if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && showMira)
             {
                 cursorScale = 0.1f;
 

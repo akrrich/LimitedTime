@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Deforme : Enemies
 {
-    private float damageDelay = 1.5f;
+    private float damageDelay = 1.6f;
 
     private bool canDamage = true;
 
@@ -49,7 +49,9 @@ public class Deforme : Enemies
     protected override void Attack(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-        { 
+        {
+            enemiesAudios[2].Play();
+
             isMovinmgForAttack = true;
             playerController.Life -= 1;
 

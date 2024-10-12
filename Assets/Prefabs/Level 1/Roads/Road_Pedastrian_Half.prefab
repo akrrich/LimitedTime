@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3664501176133584462}
   - component: {fileID: 393282058283026923}
   - component: {fileID: 2490983979083005217}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Road_Pedastrian_Half
   m_TagString: Untagged
   m_Icon: {fileID: 0}

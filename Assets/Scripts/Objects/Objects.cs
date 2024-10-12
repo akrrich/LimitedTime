@@ -6,6 +6,7 @@ public class Objects : MonoBehaviour
     private DynamicCollider dynamicCollider;
 
     private AudioSource itemPickUpSound;
+    private SpriteRenderer spriteMiniMap;
 
     [SerializeField] private ColliderType colliderType;
 
@@ -33,6 +34,7 @@ public class Objects : MonoBehaviour
         dynamicCollider.InitializeCollider();
 
         itemPickUpSound = GetComponent<AudioSource>();
+        spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -42,6 +44,7 @@ public class Objects : MonoBehaviour
             isPlayerInRange = false;
 
             itemPickUpSound.Play();
+            spriteMiniMap.enabled = false;
 
             dynamicCollider.Ms.enabled = false;
 

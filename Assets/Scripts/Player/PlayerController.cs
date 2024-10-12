@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -32,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 position;
 
-    private int life = 3;
+    private int life = 5;
     private int damage = 1;
 
     private float horizontalInput;

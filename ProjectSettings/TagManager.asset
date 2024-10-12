@@ -13,6 +13,7 @@ TagManager:
   - BulletPlayer
   - EnemieDeforme
   - Crystal
+  - Floor2
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - MiniMap
   - 
   - 
   - 
