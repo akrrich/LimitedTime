@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Deforme : Enemies
@@ -22,6 +20,11 @@ public class Deforme : Enemies
         life = 4;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     void OnCollisionStay(Collision collision)
     {
         if (canDamage)
@@ -37,6 +40,7 @@ public class Deforme : Enemies
             isMovinmgForAttack = false;
         }
     }
+
 
     protected override void Movement()
     {

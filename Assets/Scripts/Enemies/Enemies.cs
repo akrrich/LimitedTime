@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Enemies : MonoBehaviour
@@ -17,6 +15,7 @@ public abstract class Enemies : MonoBehaviour
     protected int life;
 
     protected bool isMovinmgForAttack = false;
+    private bool dieAnimation = false;
 
 
     protected virtual void Start()
@@ -31,23 +30,23 @@ public abstract class Enemies : MonoBehaviour
         anim.transform.LookAt(playerController.transform);
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
-            anim.transform.position = transform.position;
+            if (!dieAnimation)
+            {
+                anim.transform.position = transform.position;
+            }
 
             if (playerController.IsGrounded && playerController.PlayerAlive)
             {
                 anim.transform.LookAt(playerController.transform);
 
-                Vector3 direction = playerController.transform.position - spriteMiniMap.transform.position;
-                direction.y = 0; 
-                spriteMiniMap.transform.rotation = Quaternion.LookRotation(direction);
-                spriteMiniMap.transform.rotation *= Quaternion.Euler(-90, 130, 0);
+                RotateMiniMapSprite();
             }
 
-            if (isMovinmgForAttack)
+            if (isMovinmgForAttack && !dieAnimation)
             {
                 anim.SetFloat("Movements", 1f);
             }
@@ -107,8 +106,15 @@ public abstract class Enemies : MonoBehaviour
     {
         if (life <= 0)
         {
+            dieAnimation = true;
+            isMovinmgForAttack = true;
+
+            anim.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            anim.transform.SetParent(null);
+
+            anim.SetFloat("Movements", 1.5f);
+
             enemiesAudios[1].Play();
-            spriteMiniMap.enabled = false;
 
             int randomNumer = Random.Range(0, 5);
 
@@ -117,16 +123,25 @@ public abstract class Enemies : MonoBehaviour
                 AbstractFactory.CreatePowerUp(Random.Range(0, 3), transform);
             }
 
-            skinnedMeshRenderer.enabled = false;
             boxCollider.enabled = false;
+            spriteMiniMap.enabled = false;
 
             Destroy(gameObject, enemiesAudios[1].clip.length);
+            Destroy(anim.gameObject, 3f);
         }
     }
 
     private void StopAnimationWhenPlayerDeaths()
     {
         anim.SetFloat("Movements", 0f);
+    }
+
+    private void RotateMiniMapSprite()
+    {
+        Vector3 direction = playerController.transform.position - spriteMiniMap.transform.position;
+        direction.y = 0;
+        spriteMiniMap.transform.rotation = Quaternion.LookRotation(direction);
+        spriteMiniMap.transform.rotation *= Quaternion.Euler(-90, 130, 0);
     }
 
     protected abstract void Movement();

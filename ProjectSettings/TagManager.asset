@@ -13,7 +13,8 @@ TagManager:
   - BulletPlayer
   - EnemieDeforme
   - Crystal
-  - Floor2
+  - EnemieManzillado
+  - BulletManzillado
   layers:
   - Default
   - TransparentFX

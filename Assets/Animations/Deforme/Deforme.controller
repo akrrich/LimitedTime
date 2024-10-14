@@ -17,10 +17,10 @@ BlendTree:
     m_DirectBlendParameter: Movements
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7dcb9a0e92a972a448e8f2cbbd0dcae2, type: 2}
+    m_Motion: {fileID: 7400000, guid: 6f361c69438cae54d9c89ab25d9eaa08, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 2.5
+    m_TimeScale: 2
     m_CycleOffset: 0
     m_DirectBlendParameter: Movements
     m_Mirror: 0
@@ -32,10 +32,18 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: Movements
     m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: fb0c4c3f64ae8ae43a5ce1d263eb592c, type: 2}
+    m_Threshold: 1.5
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1.5
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Movements
+    m_Mirror: 0
   m_BlendParameter: Movements
   m_BlendParameterY: Blend
   m_MinThreshold: 0
-  m_MaxThreshold: 1
+  m_MaxThreshold: 1.5
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -46,7 +54,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Movements
+  m_Name: MovementsDeforme
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

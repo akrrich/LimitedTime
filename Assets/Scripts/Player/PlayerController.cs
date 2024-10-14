@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
     private static event Action onRespawningPlayer;
     public static Action OnRespawningPlayer { get => onRespawningPlayer; set => onRespawningPlayer = value; }
 
-    private Vector3 position;
 
     private int life = 5;
     private int damage = 1;
@@ -94,8 +93,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
-            position = transform.position;
-
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
 
@@ -118,6 +115,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("floor"))
         {
             isGrounded = true;
+        }
+
+        if (collision.gameObject.CompareTag("BulletManzillado"))
+        {
+            //life -= 1;
         }
     }
 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7038574519980899414}
   m_Layer: 0
   m_Name: Env_Road_Column
-  m_TagString: Floor2
+  m_TagString: floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
