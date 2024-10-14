@@ -20,7 +20,12 @@ public class Manzillado : Enemies
     {
         base.Update();
 
-        Attack();
+        Attack(null);
+
+        if (playerController.Life <= 0)
+        {
+            OnPlayerDefeated?.Invoke();
+        }
     }
 
     void OnTriggerEnter(Collider collider)
@@ -39,10 +44,10 @@ public class Manzillado : Enemies
 
             counterForAttack += Time.deltaTime;
 
-            if (counterForAttack > 3f)
+            if (counterForAttack >= 3f)
             {
-                canShoot = true;
                 counterForAttack = 0f;
+                canShoot = true;
             }
         }
     }
@@ -51,6 +56,7 @@ public class Manzillado : Enemies
     {
         if (collider.gameObject.CompareTag("Player"))
         {
+            canShoot = false;
             isMovinmgForAttack = false;
             counterForAttack = 0f;
         }
@@ -65,7 +71,7 @@ public class Manzillado : Enemies
         transform.position += direction * enemyScriptable.Speed * Time.deltaTime;   
     }
 
-    protected override void Attack(Collision collision = null)
+    protected override void Attack(Collision collision)
     {
         if (canShoot && life >= 1)
         {

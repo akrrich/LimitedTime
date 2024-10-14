@@ -8,8 +8,6 @@ public class PlayerMemento : MonoBehaviour
     private int life = 5;
     private float respawnRadius = 15f;
 
-    private string[] enemiesTags = { "EnemieDeforme", "EnemieManzillado" };
-
 
     public PlayerMemento(PlayerController playerController)
     {
@@ -35,6 +33,8 @@ public class PlayerMemento : MonoBehaviour
     private void DestroySurroundings()
     {
         Collider[] colliders = Physics.OverlapSphere(playerController.transform.position, respawnRadius);
+
+        string[] enemiesTags = { "EnemieDeforme", "EnemieManzillado" };
 
         foreach (Collider collider in colliders)
         {

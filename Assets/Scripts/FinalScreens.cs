@@ -25,14 +25,14 @@ public class FinalScreens : MonoBehaviour
         PanelDeath = transform.Find("PanelDeath").gameObject;
 
         TimeManager.OnTimeExpired += GoToLoose;
-        Deforme.OnPlayerDefeated += GoToDeath;
+        Enemies.OnPlayerDefeated += GoToDeath;
         ObjectsList.OnAllObjectsFound += GoToWin;
     }
 
     void OnDestroy()
     {
         TimeManager.OnTimeExpired -= GoToLoose;
-        Deforme.OnPlayerDefeated -= GoToDeath;
+        Enemies.OnPlayerDefeated -= GoToDeath;
         ObjectsList.OnAllObjectsFound -= GoToWin;
     }
 
@@ -84,6 +84,14 @@ public class FinalScreens : MonoBehaviour
         ChangeScene(sceneToLoad);
     }
 
+    private void ChangeScene(string sceneToLoad)
+    {
+        if (!string.IsNullOrEmpty(sceneToLoad))
+        {
+            SceneManager.LoadScene(sceneToLoad);
+        }
+    }
+
     private IEnumerator PlayClickSoundAndRespawnPlayer()
     {
         actionSound.Play();
@@ -99,14 +107,5 @@ public class FinalScreens : MonoBehaviour
         PlayerController.OnRespawningPlayer -= playerController.PlayerMemento.RestoreState;
 
         PanelDeath.SetActive(false);
-    }
-
-
-    private void ChangeScene(string sceneToLoad)
-    {
-        if (!string.IsNullOrEmpty(sceneToLoad))
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
     }
 }

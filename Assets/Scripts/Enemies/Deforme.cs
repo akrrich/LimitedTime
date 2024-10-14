@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,10 +6,6 @@ public class Deforme : Enemies
     private float damageDelay = 1.6f;
 
     private bool canDamage = true;
-
-
-    private static event Action onPlayerDefeated;
-    public static Action OnPlayerDefeated { get => onPlayerDefeated; set => onPlayerDefeated = value; }
 
 
     protected override void Start()
@@ -61,12 +56,12 @@ public class Deforme : Enemies
 
             if (playerController.Life <= 0)
             {
-                canDamage = false;
+                //canDamage = false;
                 isMovinmgForAttack = false;
 
-                onPlayerDefeated?.Invoke();
+                OnPlayerDefeated?.Invoke();
 
-                canDamage = true;
+                //canDamage = true;
             }
 
             else if (playerController.Life >= 1)

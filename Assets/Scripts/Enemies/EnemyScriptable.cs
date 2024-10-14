@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "EnemyName", menuName = "Flyweight/EnemyData", order = 1)]
 

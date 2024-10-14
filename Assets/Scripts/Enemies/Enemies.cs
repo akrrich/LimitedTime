@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public abstract class Enemies : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public abstract class Enemies : MonoBehaviour
 
     protected bool isMovinmgForAttack = false;
     private bool dieAnimation = false;
+
+    private static event Action onPlayerDefeated;
+    public static Action OnPlayerDefeated { get => onPlayerDefeated; set => onPlayerDefeated = value; }
 
 
     protected virtual void Start()
@@ -113,14 +117,14 @@ public abstract class Enemies : MonoBehaviour
             anim.transform.SetParent(null);
 
             anim.SetFloat("Movements", 1.5f);
-
+             
             enemiesAudios[1].Play();
 
-            int randomNumer = Random.Range(0, 5);
+            int randomNumer = UnityEngine.Random.Range(0, 5);
 
-            if (randomNumer == Random.Range(0, 5))
+            if (randomNumer == UnityEngine.Random.Range(0, 5))
             {
-                AbstractFactory.CreatePowerUp(Random.Range(0, 3), transform);
+                AbstractFactory.CreatePowerUp(UnityEngine.Random.Range(0, 3), transform);
             }
 
             boxCollider.enabled = false;
