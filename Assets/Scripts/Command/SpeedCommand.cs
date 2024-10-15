@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class SpeedCommand : ICommand
 {
     private PlayerController playerController;
-
 
     public SpeedCommand(PlayerController playerController)
     {

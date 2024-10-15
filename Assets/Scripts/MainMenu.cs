@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,12 +10,15 @@ public class MainMenu : MonoBehaviour
 
     private AudioSource actionSound;
 
+    [SerializeField] private ButtonsFacade buttonsFacade;
+
     private bool inOptionsMode = false;
 
 
     private void Start()
     {
         actionSound = GetComponent<AudioSource>();
+        buttonsFacade.InitializeReferences(this, null, null);
     }
 
     private void Update()

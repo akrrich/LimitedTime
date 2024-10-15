@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,12 +9,14 @@ public class PauseManager : MonoBehaviour
 
     private AudioSource actionSound;
     private static AudioSource musicSource;
-    public static AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
 
     private GameObject panel;
     private GameObject Buttons;
     private GameObject panelSettings;
 
+    [SerializeField] private ButtonsFacade buttonsFacade;
+
+    public static AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
 
     private bool isGamePaused = false;
     public bool IsGamePaused { get { return isGamePaused; } }
@@ -44,6 +44,8 @@ public class PauseManager : MonoBehaviour
         panel = transform.Find("Panel").gameObject;
         Buttons = transform.Find("Buttons").gameObject;
         //panelSettings = transform.Find("Panel Settings").gameObject;
+
+        buttonsFacade.InitializeReferences(null, this, FinalScreens.Instance);
     }
 
     void Update()
@@ -62,17 +64,17 @@ public class PauseManager : MonoBehaviour
         isGamePaused = false;
     }
 
-    public void ReturnToMenu()
-    {
-        StartCoroutine(PlayClickSoundAndChangeScene("Menu"));
-        isGamePaused = false;
-    }
-
-    public void Setting()
+    public void Settings()
     {
         actionSound.Play();
         panelSettings.SetActive(true);
         Buttons.SetActive(false);
+    }
+
+    public void ReturnToMenu()
+    {
+        StartCoroutine(PlayClickSoundAndChangeScene("Menu"));
+        isGamePaused = false;
     }
 
     public void BackButton()

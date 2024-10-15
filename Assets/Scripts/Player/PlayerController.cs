@@ -83,6 +83,11 @@ public class PlayerController : MonoBehaviour
             CheckIfCanShootOrNot();
         }
 
+        else
+        {
+            stateController.TransitionTo(stateController.IdleState);
+        }
+
         foreach (AudioSource audios in playerAudios)
         {
             PauseManager.PauseAndUnPauseSounds(audios);

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class ObjectsList : MonoBehaviour
 {
@@ -14,8 +15,12 @@ public class ObjectsList : MonoBehaviour
     private GameObject[] objectsWithTag;
 
     private static event Action onAllObjectsFound;
-    public static Action OnAllObjectsFound { get { return onAllObjectsFound; } set { onAllObjectsFound = value; } }
+    public static Action OnAllObjectsFound { get => onAllObjectsFound; set => onAllObjectsFound = value; }
 
+    private static event Action onGameComplete;
+    public static Action OnGameComplete { get => onGameComplete; set => onGameComplete = value; }
+
+    private Scene currentScene;
 
     private bool listMode = false;
 
@@ -36,6 +41,8 @@ public class ObjectsList : MonoBehaviour
 
     void Update()
     {
+        currentScene = SceneManager.GetActiveScene();   
+
         imageList.SetActive(listMode);
 
         ObjectsAmount();
@@ -77,7 +84,15 @@ public class ObjectsList : MonoBehaviour
 
         if (allObjectsFound)
         {
-            onAllObjectsFound?.Invoke();
+            if (currentScene.name == "Level 2")
+            {
+                onGameComplete?.Invoke();
+            }
+
+            else
+            {
+                onAllObjectsFound?.Invoke();
+            }
         }
     }
 

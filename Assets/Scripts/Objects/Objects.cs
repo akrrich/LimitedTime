@@ -39,6 +39,8 @@ public class Objects : MonoBehaviour
 
     void Update()
     {
+        spriteMiniMap.transform.rotation = Quaternion.Euler(-90, 0, 0);
+
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && isPlayerInRange && Input.GetKey(KeyCode.E))
         {
             isPlayerInRange = false;

@@ -1,18 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class FinalScreens : MonoBehaviour
 {
+    private static FinalScreens instance;
+    public static FinalScreens Instance {  get { return instance; } }
+
     private PlayerController playerController;
 
     private AudioSource actionSound;
 
-    private GameObject PanelWin;
-    private GameObject PanelLoose;
-    private GameObject PanelDeath;
+    private GameObject panelWin;
+    private GameObject panelLoose;
+    private GameObject panelDeath;
+    private GameObject panelGameComplete;
 
+    [SerializeField] private ButtonsFacade buttonsFacade;
+
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     void Start()
     {
@@ -20,13 +39,17 @@ public class FinalScreens : MonoBehaviour
 
         actionSound = GetComponent<AudioSource>();
 
-        PanelWin = transform.Find("PanelWin").gameObject;
-        PanelLoose = transform.Find("PanelLoose").gameObject;
-        PanelDeath = transform.Find("PanelDeath").gameObject;
+        panelWin = transform.Find("PanelWin").gameObject;
+        panelLoose = transform.Find("PanelLoose").gameObject;
+        panelDeath = transform.Find("PanelDeath").gameObject;
+        panelGameComplete = transform.Find("PanelGameComplete").gameObject ;
 
         TimeManager.OnTimeExpired += GoToLoose;
         Enemies.OnPlayerDefeated += GoToDeath;
         ObjectsList.OnAllObjectsFound += GoToWin;
+        ObjectsList.OnGameComplete += GoToGameComplete;
+
+        buttonsFacade.InitializeReferences(null, PauseManager.Instance, this);
     }
 
     void OnDestroy()
@@ -34,15 +57,16 @@ public class FinalScreens : MonoBehaviour
         TimeManager.OnTimeExpired -= GoToLoose;
         Enemies.OnPlayerDefeated -= GoToDeath;
         ObjectsList.OnAllObjectsFound -= GoToWin;
+        ObjectsList.OnGameComplete -= GoToGameComplete;
     }
 
 
-    public void BackToMenuButton(string nameNextScene)
+    public void PlayAgainThisLevel(string nameNextScene)
     {
         StartCoroutine(PlayClickSoundAndChangeScene(nameNextScene));
     }
 
-    public void PlayAgainThisLevel(string nameNextScene)
+    public void BackToMenuButton(string nameNextScene)
     {
         StartCoroutine(PlayClickSoundAndChangeScene(nameNextScene));
     }
@@ -61,18 +85,23 @@ public class FinalScreens : MonoBehaviour
     private void GoToLoose()
     {
         PauseManager.MusicSource.Pause();
-        PanelLoose.SetActive(true);
+        panelLoose.SetActive(true);
     }
 
     private void GoToWin()
     {
         PauseManager.MusicSource.Pause();
-        PanelWin.SetActive(true);
+        panelWin.SetActive(true);
     }
 
     private void GoToDeath()
     {
-        PanelDeath.SetActive(true);
+        panelDeath.SetActive(true);
+    }
+
+    private void GoToGameComplete()
+    {
+        panelGameComplete.SetActive(true);
     }
 
     private IEnumerator PlayClickSoundAndChangeScene(string sceneToLoad)
@@ -106,6 +135,6 @@ public class FinalScreens : MonoBehaviour
         PlayerController.OnRespawningPlayer?.Invoke();
         PlayerController.OnRespawningPlayer -= playerController.PlayerMemento.RestoreState;
 
-        PanelDeath.SetActive(false);
+        panelDeath.SetActive(false);
     }
 }

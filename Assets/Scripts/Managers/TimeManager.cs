@@ -48,7 +48,8 @@ public class TimeManager : MonoBehaviour
         timeText = GetComponent<TMP_Text>();
 
         ObjectsList.OnAllObjectsFound += StopTimeForWinScreenOrLoseScreen;
-        Deforme.OnPlayerDefeated += StopTimeForWinScreenOrLoseScreen;
+        ObjectsList.OnGameComplete += StopTimeForWinScreenOrLoseScreen;
+        Enemies.OnPlayerDefeated += StopTimeForWinScreenOrLoseScreen;
     }
 
     void Update()
@@ -60,7 +61,8 @@ public class TimeManager : MonoBehaviour
     void OnDestroy()
     {
         ObjectsList.OnAllObjectsFound -= StopTimeForWinScreenOrLoseScreen;
-        Deforme.OnPlayerDefeated -= StopTimeForWinScreenOrLoseScreen;
+        ObjectsList.OnGameComplete -= StopTimeForWinScreenOrLoseScreen;
+        Enemies.OnPlayerDefeated -= StopTimeForWinScreenOrLoseScreen;
     }
 
 
