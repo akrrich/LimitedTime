@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
     private void ReloadGunManualy()
     {
-        if (bulletPool.TotalBullets >= 1)
+        if (bulletPool.TotalBullets >= 1 && bulletPool.CounterBullets < 15)
         {
             if (Input.GetKeyDown(KeyCode.R) && canShoot)
             {

@@ -56,6 +56,25 @@ public class DynamicCollider : MonoBehaviour
         }
     }
 
+    public void DisableColliderType(DynamicCollider dynamicCollider, ColliderType colliderType)
+    {
+        switch (colliderType)
+        {
+            case ColliderType.Box:
+                dynamicCollider.Box.enabled = false;
+                break;
+
+            case ColliderType.Sphere:
+                dynamicCollider.Sphere.enabled = false;
+                break;
+
+            case ColliderType.Capsule:
+                dynamicCollider.Capsule.enabled = false;
+                break;
+        }
+    }
+
+
     private void AddAndConfigureBoxCollider(MeshRenderer meshRenderer)
     {
         box = gameObject.GetComponent<BoxCollider>();

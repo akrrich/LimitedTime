@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    [SerializeField] private Bu bulletPrefab;
+    [SerializeField] private Bullet bulletPrefab;
      
-    private Cola<Bu> bulletPool = new Cola<Bu>();
+    private Cola<Bullet> bulletPool = new Cola<Bullet>();
 
     private static event Action onReloadingAutomatic;
     public static Action OnReloadingAutomatic { get { return onReloadingAutomatic; } set { onReloadingAutomatic = value; } }
@@ -26,7 +26,7 @@ public class BulletPool : MonoBehaviour
     {
         for (int i = 0; i < initialPoolSize; i++)
         {
-            Bu bulletInstance = Instantiate(bulletPrefab);
+            Bullet bulletInstance = Instantiate(bulletPrefab);
             bulletInstance.gameObject.SetActive(false);
             bulletPool.Enqueue(bulletInstance); 
         }
@@ -40,9 +40,9 @@ public class BulletPool : MonoBehaviour
         }
     }
 
-    public Bu GetBullet()
+    public Bullet GetBullet()
     {
-        Bu bullet;
+        Bullet bullet;
 
         if (!bulletPool.Empty())
         {
@@ -58,7 +58,7 @@ public class BulletPool : MonoBehaviour
         }
     }
 
-    public void ReturnBulletToPool(Bu bullet)
+    public void ReturnBulletToPool(Bullet bullet)
     {
         bullet.gameObject.SetActive(false); 
         bulletPool.Enqueue(bullet);

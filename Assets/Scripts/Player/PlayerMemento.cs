@@ -7,6 +7,7 @@ public class PlayerMemento : MonoBehaviour
     private Vector3 position;
     private int life = 5;
     private float respawnRadius = 15f;
+    private bool playerAlive = true;
 
 
     public PlayerMemento(PlayerController playerController)
@@ -25,7 +26,7 @@ public class PlayerMemento : MonoBehaviour
         DestroySurroundings();
         playerController.transform.position = position;
         playerController.Life = life;
-        playerController.PlayerAlive = true;
+        playerController.PlayerAlive = playerAlive;
         playerController.gameObject.SetActive(true);
         playerController.PLayerAudios[4].Play();
     }

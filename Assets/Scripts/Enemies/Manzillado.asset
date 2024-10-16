@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea14ff776f37d2c47a298fe5e4536c5c, type: 3}
   m_Name: Manzillado
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 3.5
   radius: 30

@@ -19,7 +19,7 @@ public class ShootingState : IState
         //playerController.Anim.SetFloat("Movements", 2f);
         playerController.BulletPool.CounterBullets--;
 
-        Bu bullet = playerController.BulletPool.GetBullet();
+        Bullet bullet = playerController.BulletPool.GetBullet();
         bullet.InstantiateBullet(playerController.CameraTransform.transform, playerController.BulletPool);
     }
 

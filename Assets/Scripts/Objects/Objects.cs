@@ -50,20 +50,7 @@ public class Objects : MonoBehaviour
 
             dynamicCollider.Ms.enabled = false;
 
-            switch (colliderType)
-            {
-                case ColliderType.Box:
-                    dynamicCollider.Box.enabled = false;
-                    break;
-
-                case ColliderType.Sphere:
-                    dynamicCollider.Sphere.enabled = false;
-                    break;
-
-                case ColliderType.Capsule:
-                    dynamicCollider.Capsule.enabled = false;
-                    break;
-            }
+            dynamicCollider.DisableColliderType(dynamicCollider, colliderType);
 
             Destroy(gameObject, itemPickUpSound.clip.length);
         }
