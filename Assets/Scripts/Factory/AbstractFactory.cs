@@ -9,7 +9,7 @@ public class AbstractFactory : MonoBehaviour
     [SerializeField] private PowerUps[] powerUps;
     private static Dictionary<int, PowerUps> idPowerUps = new Dictionary<int, PowerUps>();
 
-
+    // la concha de tu abuela
     void Awake()
     {
         foreach (Objects obj in objects)
