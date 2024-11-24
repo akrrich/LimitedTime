@@ -27,13 +27,20 @@ public class BulletManzillado : MonoBehaviour
 
         audioShoot.Play();
         StartCoroutine(DestroyBulletAfterLifeTime());
+
+        GameManager.Instance.GameStatePlaying += UpdateBulletManzillado;
     }
 
-    void Update()
+    void UpdateBulletManzillado()
     {
-        PauseManager.PauseAndUnPauseSounds(audioShoot);
+        PauseManager.Instance.PauseAndUnPauseSounds(audioShoot);
 
         transform.position += direction * speed * Time.deltaTime;        
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.GameStatePlaying -= UpdateBulletManzillado;
     }
 
     void OnCollisionEnter(Collision collision)

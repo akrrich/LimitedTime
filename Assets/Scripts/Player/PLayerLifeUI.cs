@@ -22,6 +22,7 @@ public class PLayerLifeUI : MonoBehaviour
         UpdateHealthBarColor();
     }
 
+
     private void UpdateHealthBarColor()
     {
         Color[] healthColors = {

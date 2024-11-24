@@ -15770,6 +15770,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 842984065006980873, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 889516755244450753, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -15982,6 +15986,10 @@ PrefabInstance:
       propertyPath: objects.Array.data[2]
       value: 
       objectReference: {fileID: -1114119181835701715, guid: 2d434559430d5e54183217ebf67f2bba, type: 3}
+    - target: {fileID: 4008839349239763854, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4107910358345373860, guid: 9618e4fb648370548b213dd7ebf09056, type: 3}
       propertyPath: m_Layer
       value: 3

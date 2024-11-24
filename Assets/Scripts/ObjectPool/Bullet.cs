@@ -14,6 +14,18 @@ public class Bullet : MonoBehaviour
     private float lifeTime = 3f;
 
 
+    void Start()
+    {
+        GameManager.Instance.GameStatePlaying += UpdateBullet;  
+    }
+
+    void UpdateBullet()
+    {
+        PauseManager.Instance.PauseAndUnPauseSounds(audioShoot);
+
+        transform.Rotate(0, 0, 750 * Time.deltaTime);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Player"))
@@ -26,11 +38,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void Update()
+    void OnDestroy()
     {
-        PauseManager.PauseAndUnPauseSounds(audioShoot);
-
-        transform.Rotate(0, 0, 750 * Time.deltaTime);
+        GameManager.Instance.GameStatePlaying -= UpdateBullet;
     }
 
 

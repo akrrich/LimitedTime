@@ -32,9 +32,11 @@ public abstract class Enemies : MonoBehaviour
         spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
 
         anim.transform.LookAt(playerController.transform);
+
+        GameManager.Instance.GameStatePlaying += UpdateEnemies;
     }
 
-    protected virtual void Update()
+    protected virtual void UpdateEnemies()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
@@ -65,8 +67,13 @@ public abstract class Enemies : MonoBehaviour
 
         foreach (AudioSource audios in enemiesAudios)
         {
-            PauseManager.PauseAndUnPauseSounds(audios);
+            PauseManager.Instance.PauseAndUnPauseSounds(audios);
         }
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.GameStatePlaying -= UpdateEnemies;
     }
 
     void OnCollisionEnter(Collision collision)

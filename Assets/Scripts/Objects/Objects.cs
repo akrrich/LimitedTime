@@ -35,9 +35,11 @@ public class Objects : MonoBehaviour
 
         itemPickUpSound = GetComponent<AudioSource>();
         spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
+
+        GameManager.Instance.GameStatePlaying += UpdateObjects;
     }
 
-    void Update()
+    void UpdateObjects()
     {
         spriteMiniMap.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
@@ -55,12 +57,14 @@ public class Objects : MonoBehaviour
             Destroy(gameObject, itemPickUpSound.clip.length);
         }
 
-        PauseManager.PauseAndUnPauseSounds(itemPickUpSound);
+        PauseManager.Instance.PauseAndUnPauseSounds(itemPickUpSound);
     }
 
     void OnDestroy()
     {
         onObjectDestroy?.Invoke();
+
+        GameManager.Instance.GameStatePlaying -= UpdateObjects;
     }
 
     void OnCollisionEnter(Collision collision)

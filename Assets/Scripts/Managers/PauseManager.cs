@@ -19,7 +19,7 @@ public class PauseManager : MonoBehaviour
     public static AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
 
     private bool isGamePaused = false;
-    public bool IsGamePaused { get { return isGamePaused; } }
+    public bool IsGamePaused { get { return isGamePaused; } set => isGamePaused = value; }
 
 
     void Awake()
@@ -131,9 +131,9 @@ public class PauseManager : MonoBehaviour
         }
     }
 
-    public static void PauseAndUnPauseSounds(AudioSource sound)
+    public void PauseAndUnPauseSounds(AudioSource sound)
     {
-        if (Instance.IsGamePaused)
+        if (isGamePaused)
         {
             sound.Pause();
         }

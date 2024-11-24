@@ -37,13 +37,13 @@ public class ObjectsList : MonoBehaviour
 
             objectsTextAmount[i].text = objectsWithTag.Length.ToString();
         }
+
+        StartCoroutine(TimeManager.Instance.WaitFiveSeconds(imageList));
     }
 
     void Update()
     {
         currentScene = SceneManager.GetActiveScene();   
-
-        imageList.SetActive(listMode);
 
         ObjectsAmount();
         EnabledAndDisabledList();
@@ -106,6 +106,7 @@ public class ObjectsList : MonoBehaviour
                 {
                     GameManager.Instance.ShowMira = false;
                     listMode = true;
+                    imageList.SetActive(true);
                 }
             }
 
@@ -115,6 +116,7 @@ public class ObjectsList : MonoBehaviour
                 {
                     GameManager.Instance.ShowMira = true;
                     listMode = false;
+                    imageList.SetActive(false);
                 }
             }
         }

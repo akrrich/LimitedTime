@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
@@ -14,9 +13,11 @@ public class TimeManager : MonoBehaviour
 
     private Scene currentScene;
 
+    private int waitingTimeForStartGame = 5;
+
     private float counter;
 
-    private bool isCounting = true;
+    private bool isCounting;
     private bool timeExpired = false;
 
     public bool TimeExpired { get => timeExpired; set => timeExpired = value; }
@@ -66,6 +67,22 @@ public class TimeManager : MonoBehaviour
     }
 
 
+    public IEnumerator WaitFiveSeconds(GameObject objectList)
+    {
+        isCounting = false;
+        GameManager.Instance.ChangeStateTo(GameState.WaitingFiveSeconds);
+        GameManager.Instance.ShowMira = false;
+        objectList.SetActive(true);
+
+        yield return new WaitForSeconds(waitingTimeForStartGame);
+
+        isCounting = true;
+        GameManager.Instance.ShowMira = true;
+        objectList.SetActive(false);
+        GameManager.Instance.ChangeStateTo(GameState.Playing);
+    }
+
+
     private void CheckSceneForRealTime()
     {
         switch (currentScene.name)
@@ -75,7 +92,7 @@ public class TimeManager : MonoBehaviour
             break;
 
             case "Level 2":
-                counter = 180;
+                counter = 180;     
             break;
         }
     }

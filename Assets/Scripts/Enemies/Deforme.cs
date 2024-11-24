@@ -15,9 +15,9 @@ public class Deforme : Enemies
         life = 4;
     }
 
-    protected override void Update()
+    protected override void UpdateEnemies()
     {
-        base.Update();
+        base.UpdateEnemies();
     }
 
     void OnCollisionStay(Collision collision)

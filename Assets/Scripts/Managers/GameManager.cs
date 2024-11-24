@@ -1,22 +1,39 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+public enum GameState {
+
+    Start,
+    WaitingFiveSeconds,
+    Playing
+}
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
-    [SerializeField] private PlayerController playerController;
+    private UpdateManager updateManager = new UpdateManager();
 
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private Texture2D cursorTexture;
+
+    private GameState gameState;
+
+    private event Action gameStatePlaying;
+    private event Action gameStatePlayingFixedUpdate;
 
     private Scene currentScene;
 
-    private float cursorScale = 0.1f;
-
     private bool showMira = true;
 
+    public GameState GameState { get => gameState; }
+    public Texture2D CursorTexture { get => cursorTexture; }
+    public Action GameStatePlaying { get => gameStatePlaying; set => gameStatePlaying = value; }
+    public Action GameStatePlayingFixedUpdate { get => gameStatePlayingFixedUpdate; set => gameStatePlayingFixedUpdate = value; }
     public bool ShowMira { get => showMira; set => showMira = value; }
+    public Scene CurrentScene { get => currentScene; }
 
 
     void Awake()
@@ -35,56 +52,31 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    void Start()
+    {
+        gameState = GameState.Start;
+    }
+
     void Update()
     {
         currentScene = SceneManager.GetActiveScene();
 
-        switch (currentScene.name)
-        {
-            case "Menu":
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
-            break;
+        updateManager.UpdateAllGame();
+    }
 
-            case "Level 1": case "Level 2":
-
-                if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
-                {
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Confined;
-                }
-
-                else
-                {
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.Confined;
-                }
-
-            break;
-        }
+    void FixedUpdate()
+    {
+        updateManager.FixedUpdateAllGame();
     }
 
     void OnGUI()
     {
-        if (currentScene.name != "Menu")
-        {
-            if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && showMira)
-            {
-                cursorScale = 0.1f;
+        updateManager.OnGUIAllGame();
+    }
 
-                float width = cursorTexture.width * cursorScale;
-                float height = cursorTexture.height * cursorScale;
 
-                float posX = (Screen.width - width) / 2;
-                float posY = (Screen.height - height) / 2;
-
-                GUI.DrawTexture(new Rect(posX, posY, width, height), cursorTexture);
-            }
-
-            else
-            {
-                cursorScale = 0f;
-            }
-        }
+    public void ChangeStateTo(GameState state)
+    {
+        gameState = state;
     }
 }

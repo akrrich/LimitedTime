@@ -18,9 +18,11 @@ public class CameraFollow : MonoBehaviour
 
         cameraOffset = new Vector3(0f, offSetY, 0.3f);
         transform.position = playerController.transform.position + cameraOffset;
+
+        GameManager.Instance.GameStatePlaying += UpdateCameraFollow;
     }
 
-    void LateUpdate()
+    void UpdateCameraFollow()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
@@ -36,5 +38,10 @@ public class CameraFollow : MonoBehaviour
 
             playerController.transform.Rotate(Vector3.up * mouseX);
         }
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.GameStatePlaying -= UpdateCameraFollow;
     }
 }

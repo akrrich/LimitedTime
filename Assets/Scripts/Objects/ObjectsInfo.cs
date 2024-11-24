@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class ObjectsInfo : MonoBehaviour
@@ -13,9 +10,11 @@ public class ObjectsInfo : MonoBehaviour
 
         Objects.OnInfoTextShow += ShowInfoText;
         Objects.OnInfoTextHide += HideInfoText;
+
+        GameManager.Instance.GameStatePlaying += UpdateObjectsInfo;
     }
 
-    void Update()
+    void UpdateObjectsInfo()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && Input.GetKey(KeyCode.E))
         {
@@ -27,6 +26,8 @@ public class ObjectsInfo : MonoBehaviour
     {
         Objects.OnInfoTextShow -= ShowInfoText;
         Objects.OnInfoTextHide -= HideInfoText;
+
+        GameManager.Instance.GameStatePlaying -= UpdateObjectsInfo;
     }
 
     private void ShowInfoText()

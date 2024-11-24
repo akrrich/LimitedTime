@@ -26,14 +26,21 @@ public abstract class PowerUps : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         PowerUpSound = GetComponent<AudioSource>();
         spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
+
+        GameManager.Instance.GameStatePlaying += UpdatePowerUps;
     }
 
-    void Update()
+    void UpdatePowerUps()
     {
-        PauseManager.PauseAndUnPauseSounds(PowerUpSound);
+        PauseManager.Instance.PauseAndUnPauseSounds(PowerUpSound);
 
         transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
         transform.Rotate(transform.rotation.x,  125 * Time.deltaTime, transform.rotation.z);
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.GameStatePlaying -= UpdatePowerUps;
     }
 
     void OnTriggerEnter(Collider collider)

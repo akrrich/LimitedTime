@@ -49,7 +49,6 @@ public class PlayerController : MonoBehaviour
 
     public int Life { get => life; set => life = value; }
     public int Damage { get => damage; set => damage = value; } 
-
     public float JumpForce { get => jumpForce; set { jumpForce = value; } }
     public float Speed { get => speed; set { speed = value; } }
     public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
@@ -69,9 +68,41 @@ public class PlayerController : MonoBehaviour
         StateController.InitializeState(stateController.IdleState);
 
         BulletPool.OnReloadingAutomatic += ReloadGunAutomaticEvent;
+
+        GameManager.Instance.GameStatePlaying += UpdatePlayerController;
+        GameManager.Instance.GameStatePlayingFixedUpdate += FixedUpdatePlayerController;
     }
 
-    void Update()
+    void UpdatePlayerController()
+    {
+        PlayerMechanics();
+
+        foreach (AudioSource audios in playerAudios)
+        {
+            PauseManager.Instance.PauseAndUnPauseSounds(audios);
+        }
+    }
+
+    void FixedUpdatePlayerController()
+    {
+        PlayerPhysics();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        CheckPlayerColisions(collision);
+    }
+
+    void OnDestroy()
+    {
+        BulletPool.OnReloadingAutomatic -= ReloadGunAutomaticEvent;
+
+        GameManager.Instance.GameStatePlaying -= UpdatePlayerController;
+        GameManager.Instance.GameStatePlayingFixedUpdate -= FixedUpdatePlayerController;
+    }
+
+
+    private void PlayerMechanics()
     {
         CheckPlayerAlive();
 
@@ -87,14 +118,9 @@ public class PlayerController : MonoBehaviour
         {
             stateController.TransitionTo(stateController.IdleState);
         }
-
-        foreach (AudioSource audios in playerAudios)
-        {
-            PauseManager.PauseAndUnPauseSounds(audios);
-        }
     }
 
-    void FixedUpdate()
+    private void PlayerPhysics()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
@@ -108,31 +134,26 @@ public class PlayerController : MonoBehaviour
             Vector3 right = cameraTransform.transform.right;
             Vector3 movement = (cameraForward * verticalInput + right * horizontalInput).normalized * speed;
 
-            rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);   
-            
+            rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
+
             anim.transform.position = transform.position;
             anim.transform.rotation = transform.rotation;
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void CheckPlayerColisions(Collision collision)
     {
-        if (collision.gameObject.CompareTag("floor"))
+        switch (collision.gameObject.tag)
         {
-            isGrounded = true;
-        }
+            case "floor":
+                isGrounded = true;
+                break;
 
-        if (collision.gameObject.CompareTag("BulletManzillado"))
-        {
-            life -= 1;
+            case "BulletManzillado":
+                life -= 1;
+                break;
         }
     }
-
-    void OnDestroy()
-    {
-        BulletPool.OnReloadingAutomatic -= ReloadGunAutomaticEvent;
-    }
-
 
     private void ReloadGunManualy()
     {

@@ -28,14 +28,21 @@ public class BulletPool : MonoBehaviour
             bulletInstance.gameObject.SetActive(false);
             bulletPool.Enqueue(bulletInstance); 
         }
+
+        GameManager.Instance.GameStatePlaying += UpdateBulletPool;
     }
 
-    void Update()
+    void UpdateBulletPool()
     {
         if (counterBullets <= 0 && totalBullets >= 1)
         {
             onReloadingAutomatic?.Invoke();
         }
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.GameStatePlaying -= UpdateBulletPool;
     }
 
     public Bullet GetBullet()
