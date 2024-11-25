@@ -8,15 +8,16 @@ public class PauseManager : MonoBehaviour
     public static PauseManager Instance {  get { return instance; } }
 
     private AudioSource actionSound;
-    private static AudioSource musicSource;
+    private AudioSource musicSource;
 
     private GameObject panel;
     private GameObject Buttons;
     private GameObject panelSettings;
+    private GameObject panelSkillTree;
 
     [SerializeField] private ButtonsFacade buttonsFacade;
 
-    public static AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
+    public AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
 
     private bool isGamePaused = false;
     public bool IsGamePaused { get { return isGamePaused; } set => isGamePaused = value; }
@@ -44,6 +45,7 @@ public class PauseManager : MonoBehaviour
         panel = transform.Find("Panel").gameObject;
         Buttons = transform.Find("Buttons").gameObject;
         //panelSettings = transform.Find("Panel Settings").gameObject;
+        panelSkillTree = transform.Find("PanelSkillTree").gameObject;
 
         buttonsFacade.InitializeReferences(null, this, FinalScreens.Instance);
     }
@@ -62,6 +64,13 @@ public class PauseManager : MonoBehaviour
         panel.SetActive(false);
         Buttons.SetActive(false);
         isGamePaused = false;
+    }
+
+    public void SkillTree()
+    {
+        actionSound.Play();
+        panel.SetActive(false);
+        panelSkillTree.SetActive(true);
     }
 
     public void Settings()

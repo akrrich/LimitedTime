@@ -48,6 +48,11 @@ public class ButtonsFacade : MonoBehaviour
         pauseManager.ResumeGame();
     }
 
+    public void SkillTree()
+    {
+        pauseManager.SkillTree();
+    }
+
     public void ShowSettingsPauseManager()
     {
         pauseManager.Settings();

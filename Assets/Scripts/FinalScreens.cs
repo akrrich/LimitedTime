@@ -84,13 +84,13 @@ public class FinalScreens : MonoBehaviour
 
     private void GoToLoose()
     {
-        PauseManager.MusicSource.Pause();
+        PauseManager.Instance.MusicSource.Pause();
         panelLoose.SetActive(true);
     }
 
     private void GoToWin()
     {
-        PauseManager.MusicSource.Pause();
+        PauseManager.Instance.MusicSource.Pause();
         panelWin.SetActive(true);
     }
 
