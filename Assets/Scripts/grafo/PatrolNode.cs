@@ -6,7 +6,6 @@ public class PatrolNode : MonoBehaviour
 {
     public List<PatrolNode> connectedNodes; // Lista de nodos conectados a este nodo
 
-    // Método opcional para visualizar los nodos en el editor
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

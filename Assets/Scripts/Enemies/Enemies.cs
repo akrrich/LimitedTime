@@ -1,20 +1,20 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public abstract class Enemies : MonoBehaviour
 {
     protected PlayerController playerController;
 
-    private PatrolNode currentNode; // Nodo en el que está el enemigo
-    private PatrolNode targetNode; // Nodo hacia el cual se dirige el enemigo
-
-    private bool isPatrolling = true; // Controla si el enemigo patrulla
-    private bool playerDetected = false; // Controla si el jugador está en el radio
+    [SerializeField] private List<PatrolNode> patrolNodes; // Lista de nodos configurables en el Inspector
+    private int currentNodeIndex = 0; // Índice del nodo actual
 
     [SerializeField] private float patrolSpeed = 2f; // Velocidad de patrullaje
     [SerializeField] private float followSpeed = 3f; // Velocidad al seguir al jugador
-    protected bool isMovinmgForAttack = false;
-    // Para la animación y sonido
+
+    private bool isPatrolling = true; // Controla si el enemigo patrulla
+    private bool playerDetected = false; // Controla si el jugador está en el radio
+    protected bool isMovinmgForAttack = false;  
     protected Animator anim;
     protected AudioSource[] enemiesAudios;
 
@@ -29,7 +29,6 @@ public abstract class Enemies : MonoBehaviour
     private static event System.Action onPlayerDefeated;
     public static System.Action OnPlayerDefeated { get => onPlayerDefeated; set => onPlayerDefeated = value; }
 
-    // Start is called before the first frame update
     protected virtual void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
@@ -39,11 +38,6 @@ public abstract class Enemies : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
 
-        // Asumimos que el primer nodo es donde empieza el enemigo
-        currentNode = FindObjectOfType<PatrolNode>(); // Suponemos que hay al menos un nodo en la escena
-        targetNode = currentNode;
-
-        // Comienza patrullando
         Patrol();
 
         anim.transform.LookAt(playerController.transform);
@@ -51,20 +45,19 @@ public abstract class Enemies : MonoBehaviour
         GameManager.Instance.GameStatePlaying += UpdateEnemies;
     }
 
-    // Update is called once per frame
     protected virtual void Update()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
-            CheckPlayerDetection(); // Verificar si el jugador está en el radio
+            CheckPlayerDetection();
 
             if (playerDetected)
             {
-                FollowPlayer(); // Seguir al jugador
+                FollowPlayer();
             }
             else
             {
-                Patrol(); // Patrullar entre los nodos
+                Patrol();
             }
         }
 
@@ -74,24 +67,22 @@ public abstract class Enemies : MonoBehaviour
         }
     }
 
-    // Función de patrullaje
     private void Patrol()
     {
-        if (currentNode == null || targetNode == null)
-            return;
+        if (patrolNodes == null || patrolNodes.Count == 0) return;
+
+        // Obtener el nodo actual
+        PatrolNode targetNode = patrolNodes[currentNodeIndex];
 
         MoveTowardsNode(targetNode);
 
-        // Comprobar si hemos llegado al nodo actual
+        // Si llegamos al nodo, avanzar al siguiente
         if (Vector3.Distance(transform.position, targetNode.transform.position) < 0.2f)
         {
-            // Cambiar al siguiente nodo en el grafo
-            targetNode = GetNextPatrolNode(currentNode);
-            currentNode = targetNode;
+            currentNodeIndex = (currentNodeIndex + 1) % patrolNodes.Count; // Ciclo en la lista
         }
     }
 
-    // Moverse hacia el siguiente nodo
     private void MoveTowardsNode(PatrolNode node)
     {
         Vector3 direction = (node.transform.position - transform.position).normalized;
@@ -100,15 +91,6 @@ public abstract class Enemies : MonoBehaviour
         anim.SetFloat("Movements", 0.5f); // Ajustar animación según la velocidad de movimiento
     }
 
-    // Obtener el siguiente nodo de patrullaje
-    private PatrolNode GetNextPatrolNode(PatrolNode node)
-    {
-        // Escoge un nodo aleatorio entre los nodos conectados
-        int randomIndex = UnityEngine.Random.Range(0, node.connectedNodes.Count);
-        return node.connectedNodes[randomIndex];
-    }
-
-    // Función para seguir al jugador
     private void FollowPlayer()
     {
         Vector3 direction = (playerController.transform.position - transform.position).normalized;
@@ -118,16 +100,15 @@ public abstract class Enemies : MonoBehaviour
         anim.transform.LookAt(playerController.transform);
     }
 
-    // Detectar si el jugador está dentro del radio
     private void CheckPlayerDetection()
     {
         if (Vector3.Distance(transform.position, playerController.transform.position) <= enemyScriptable.Radius)
         {
-            playerDetected = true; // El enemigo detecta al jugador
+            playerDetected = true;
         }
         else
         {
-            playerDetected = false; // El enemigo deja de seguir al jugador
+            playerDetected = false;
         }
     }
 
@@ -138,44 +119,23 @@ public abstract class Enemies : MonoBehaviour
             life -= playerController.Damage;
             if (life <= 0)
             {
-                die();
+                Die();
             }
         }
     }
 
-    // Función de muerte
-    private void die()
+    private void Die()
     {
-        if (life <= 0)
-        {
-            PlayerController.AddScore(50);
-            dieAnimation = true;
-            anim.SetFloat("Movements", 1.5f); // Animación de muerte
+        PlayerController.AddScore(50);
+        dieAnimation = true;
 
-            enemiesAudios[1].Play(); // Sonido de muerte
-            boxCollider.enabled = false;
-            spriteMiniMap.enabled = false; // Desactivar sprite del minimapa
+        anim.SetFloat("Movements", 1.5f); // Animación de muerte
+        enemiesAudios[1].Play(); // Sonido de muerte
+        boxCollider.enabled = false;
+        spriteMiniMap.enabled = false; // Desactivar sprite del minimapa
 
-            // Matar al enemigo después de la duración del sonido
-            Destroy(gameObject, enemiesAudios[1].clip.length);
-            Destroy(anim.gameObject, 3f);
-        }
-    }
-   
-
-    // Detener animaciones cuando el jugador muere
-    private void StopAnimationWhenPlayerDeaths()
-    {
-        anim.SetFloat("Movements", 0f);
-    }
-
-    // Función para rotar el sprite en el minimapa
-    private void RotateMiniMapSprite()
-    {
-        Vector3 direction = playerController.transform.position - spriteMiniMap.transform.position;
-        direction.y = 0;
-        spriteMiniMap.transform.rotation = Quaternion.LookRotation(direction);
-        spriteMiniMap.transform.rotation *= Quaternion.Euler(-90, 130, 0);
+        Destroy(gameObject, enemiesAudios[1].clip.length);
+        Destroy(anim.gameObject, 3f);
     }
 
     void OnDestroy()
@@ -183,7 +143,6 @@ public abstract class Enemies : MonoBehaviour
         GameManager.Instance.GameStatePlaying -= UpdateEnemies;
     }
 
-    // Función para actualizar el comportamiento del enemigo
     protected virtual void UpdateEnemies()
     {
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
@@ -209,5 +168,19 @@ public abstract class Enemies : MonoBehaviour
             StopAnimationWhenPlayerDeaths();
         }
     }
+
+    private void StopAnimationWhenPlayerDeaths()
+    {
+        anim.SetFloat("Movements", 0f);
+    }
+
+    private void RotateMiniMapSprite()
+    {
+        Vector3 direction = playerController.transform.position - spriteMiniMap.transform.position;
+        direction.y = 0;
+        spriteMiniMap.transform.rotation = Quaternion.LookRotation(direction);
+        spriteMiniMap.transform.rotation *= Quaternion.Euler(-90, 130, 0);
+    }
+
     protected abstract void Attack(Collision collision);
 }
