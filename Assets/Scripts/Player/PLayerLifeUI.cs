@@ -3,10 +3,11 @@ using UnityEngine.UI;
 
 public class PLayerLifeUI : MonoBehaviour
 {
-    private Slider sliderLife;
     private PlayerController playerController;
+    private Slider sliderLife;
 
     [SerializeField] private Image fillImage;
+    [SerializeField] private RawImage ShieldImage;
 
 
     void Start()

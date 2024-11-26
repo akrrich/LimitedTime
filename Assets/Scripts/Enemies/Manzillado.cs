@@ -13,7 +13,7 @@ public class Manzillado : Enemies
     {
         base.Start();
 
-        life = 4;
+        life = 5;
     }
 
     protected override void UpdateEnemies()

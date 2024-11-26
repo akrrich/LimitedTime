@@ -15,12 +15,13 @@ public class RunningState : IState
 
         playerController.Anim.SetFloat("Movements", 1f);
 
-        playerController.Speed = 7f;
+        playerController.Speed += 3f;
     }
 
     public void Exit()
     {
         playerController.PLayerAudios[1].Stop();
+        playerController.Speed -= 3f;
     }
 
     public void UpdateState()
@@ -33,7 +34,6 @@ public class RunningState : IState
         if (Input.GetButtonDown("Jump") && playerController.IsGrounded)
         {
             playerController.IsGrounded = false;
-            playerController.JumpForce = 7.5f;
             playerController.StateController.TransitionTo(playerController.StateController.JumpingState);
         }
 

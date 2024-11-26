@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WalkingState : IState
@@ -17,7 +15,7 @@ public class WalkingState : IState
 
         playerController.Anim.SetFloat("Movements", 0.5f);
 
-        playerController.Speed = 4f;
+        playerController.Speed = playerController.Speed;
     }
 
     public void Exit()
@@ -35,7 +33,6 @@ public class WalkingState : IState
         if (Input.GetButtonDown("Jump") && playerController.IsGrounded)
         {
             playerController.IsGrounded = false;
-            playerController.JumpForce = 5;
             playerController.StateController.TransitionTo(playerController.StateController.JumpingState);
         }
 

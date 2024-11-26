@@ -20,7 +20,6 @@ public class JumpingState : IState
     public void Exit()
     {
         playerController.PLayerAudios[3].Play();
-        playerController.JumpForce = 0;
     }
 
     public void UpdateState() 

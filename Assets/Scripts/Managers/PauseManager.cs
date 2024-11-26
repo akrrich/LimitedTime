@@ -69,7 +69,7 @@ public class PauseManager : MonoBehaviour
     public void SkillTree()
     {
         actionSound.Play();
-        panel.SetActive(false);
+        Buttons.SetActive(false);
         panelSkillTree.SetActive(true);
     }
 
@@ -89,7 +89,7 @@ public class PauseManager : MonoBehaviour
     public void BackButton()
     {
         actionSound.Play();
-        panelSettings.SetActive(false);
+        panelSkillTree.SetActive(false);
         Buttons.SetActive(true);
     }
 

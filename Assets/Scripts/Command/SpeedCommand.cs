@@ -11,12 +11,12 @@ public class SpeedCommand : ICommand
     {
         if (playerController.StateController.ActualState() == playerController.StateController.WalkingState)
         {
-            playerController.Speed = 9f;
+            playerController.Speed += 4f;
         }
 
         if (playerController.StateController.ActualState() == playerController.StateController.RunningState)
         {
-            playerController.Speed = 12f;
+            playerController.Speed += 4f;
         }
     }
 
@@ -24,12 +24,12 @@ public class SpeedCommand : ICommand
     {
         if (playerController.StateController.ActualState() == playerController.StateController.WalkingState)
         {
-            playerController.Speed = 4f;
+            playerController.Speed -= 4f;
         }
 
         if (playerController.StateController.ActualState() == playerController.StateController.RunningState)
         {
-            playerController.Speed = 7f;
+            playerController.Speed -= 4f;
         }
     }
 }

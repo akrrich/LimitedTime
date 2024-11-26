@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private StateController stateController;
     private PlayerMemento playerMemento;
+    private PlayerSkills playerControllerSkills;
 
     public BulletPool BulletPool { get => bulletPool; }
     public CameraFollow CameraTransform { get => cameraTransform; }
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public Animator Anim { get => anim; }
     public StateController StateController { get => stateController; }
     public PlayerMemento PlayerMemento { get => playerMemento; }
+    public PlayerSkills PlayerControllerSkills { get => playerControllerSkills; }
 
     private static event Action onReloadingText;
     public static Action OnReloadingText { get => onReloadingText; set => onReloadingText = value; }
@@ -37,8 +39,9 @@ public class PlayerController : MonoBehaviour
 
     private float reloadingTimeManualy = 0f;
     private float reloadingTimeAutomatic = 0f;
+    private float timeToFinishTheReload = 2f;
 
-    private float jumpForce;
+    private float jumpForce = 7.5f;
     private float speed = 4f;
 
     private bool isGrounded = true;
@@ -64,6 +67,7 @@ public class PlayerController : MonoBehaviour
         cameraTransform = GetComponentInChildren<CameraFollow>();
         anim = GetComponentInChildren<Animator>();
 
+        playerControllerSkills = new PlayerSkills(this);
         stateController = new StateController(this);
         StateController.InitializeState(stateController.IdleState);
 
@@ -170,7 +174,7 @@ public class PlayerController : MonoBehaviour
             {
                 reloadingTimeManualy += Time.deltaTime;
 
-                if (reloadingTimeManualy >= 2f)
+                if (reloadingTimeManualy >= timeToFinishTheReload)
                 {
                     canShoot = true;
                     realoadingManualy = false;
@@ -203,7 +207,7 @@ public class PlayerController : MonoBehaviour
 
             reloadingTimeAutomatic += Time.deltaTime;
 
-            if (reloadingTimeAutomatic >= 2f)
+            if (reloadingTimeAutomatic >= timeToFinishTheReload)
             {
                 realoadingGunAutomatic = false;
                 canShoot = true;

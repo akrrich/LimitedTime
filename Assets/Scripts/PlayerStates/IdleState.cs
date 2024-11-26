@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleState : IState
@@ -31,7 +29,6 @@ public class IdleState : IState
         if (Input.GetButtonDown("Jump") && playerController.IsGrounded)
         {
             playerController.IsGrounded = false;
-            playerController.JumpForce = 2.5f;
             playerController.StateController.TransitionTo(playerController.StateController.JumpingState);
         }
 

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class DamageCommand : ICommand
 {
     private PlayerController playerController;
@@ -15,11 +11,11 @@ public class DamageCommand : ICommand
 
     public void Execute()
     {
-        playerController.Damage = 2;
+        playerController.Damage += 1;
     }
 
     public void Undo()
     {
-        playerController.Damage = 1;
+        playerController.Damage -= 1;
     }
 }
