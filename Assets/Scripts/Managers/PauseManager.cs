@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PauseManager : MonoBehaviour
 {
@@ -15,11 +16,14 @@ public class PauseManager : MonoBehaviour
     private GameObject panelSettings;
     private GameObject panelSkillTree;
 
+    [SerializeField] private TMP_Text[] scoreText; // index 0 = in game text, index 1 = in pause text
+
     [SerializeField] private ButtonsFacade buttonsFacade;
 
     public AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
 
     private bool isGamePaused = false;
+    private bool isSkillTreeMode = false;
     public bool IsGamePaused { get { return isGamePaused; } set => isGamePaused = value; }
 
 
@@ -53,8 +57,8 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         PauseStatus();
-
         PauseAndUnPauseSounds(musicSource);
+        ShowTextPoints();
     }
 
 
@@ -68,6 +72,7 @@ public class PauseManager : MonoBehaviour
 
     public void SkillTree()
     {
+        isSkillTreeMode = true;
         actionSound.Play();
         Buttons.SetActive(false);
         panelSkillTree.SetActive(true);
@@ -88,6 +93,7 @@ public class PauseManager : MonoBehaviour
 
     public void BackButton()
     {
+        isSkillTreeMode = false;
         actionSound.Play();
         panelSkillTree.SetActive(false);
         Buttons.SetActive(true);
@@ -96,27 +102,30 @@ public class PauseManager : MonoBehaviour
 
     private void PauseStatus()
     {
-        if (!isGamePaused)
+        if (!isSkillTreeMode)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (!isGamePaused)
             {
-                actionSound.Play();
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    actionSound.Play();
 
-                isGamePaused = true;
-                panel.SetActive(isGamePaused);
-                Buttons.SetActive(isGamePaused);
+                    isGamePaused = true;
+                    panel.SetActive(isGamePaused);
+                    Buttons.SetActive(isGamePaused);
+                }
             }
-        }
 
-        else if (isGamePaused)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            else if (isGamePaused)
             {
-                actionSound.Play();
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    actionSound.Play();
 
-                isGamePaused = false;
-                panel.SetActive(isGamePaused);
-                Buttons.SetActive(isGamePaused);
+                    isGamePaused = false;
+                    panel.SetActive(isGamePaused);
+                    Buttons.SetActive(isGamePaused);
+                }
             }
         }
 
@@ -150,6 +159,14 @@ public class PauseManager : MonoBehaviour
         else
         {
             sound.UnPause();
+        }
+    }
+
+    private void ShowTextPoints()
+    {
+        for (int i = 0; i < scoreText.Length; i++)
+        {
+            scoreText[i].text = "Puntuación: " + PlayerController.Score.ToString();
         }
     }
 }

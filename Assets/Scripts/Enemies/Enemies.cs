@@ -117,6 +117,8 @@ public abstract class Enemies : MonoBehaviour
     {
         if (life <= 0)
         {
+            PlayerController.AddScore(50);
+
             dieAnimation = true;
             isMovinmgForAttack = true;
 

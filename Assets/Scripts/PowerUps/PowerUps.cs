@@ -47,6 +47,8 @@ public abstract class PowerUps : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
+            PlayerController.AddScore(10);
+
             ActivePowerUp(collider);
 
             spriteMiniMap.enabled = false;

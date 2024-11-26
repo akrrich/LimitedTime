@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMemento : MonoBehaviour
+public class PlayerMemento
 {
     private PlayerController playerController;
 
@@ -43,7 +43,7 @@ public class PlayerMemento : MonoBehaviour
             {
                 if (collider.gameObject.CompareTag(tag))
                 {
-                    Destroy(collider.gameObject);
+                    UnityEngine.MonoBehaviour.Destroy(collider.gameObject);
                 }
             }
         }

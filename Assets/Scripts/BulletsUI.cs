@@ -23,8 +23,8 @@ public class BulletsUI : MonoBehaviour
 
         originalText = textReloading.text;
 
-        PlayerController.OnReloadingText += ShowReloadingText;
-        PlayerController.OnReloadingFinished += HideReloadingText;
+        PlayerEvents.OnReloadingText += ShowReloadingText;
+        PlayerEvents.OnReloadingFinished += HideReloadingText;
     }
 
     void Update()
@@ -37,8 +37,8 @@ public class BulletsUI : MonoBehaviour
 
     void OnDestroy()
     {
-        PlayerController.OnReloadingText -= ShowReloadingText;
-        PlayerController.OnReloadingFinished -= HideReloadingText;
+        PlayerEvents.OnReloadingText -= ShowReloadingText;
+        PlayerEvents.OnReloadingFinished -= HideReloadingText;
     }
 
 

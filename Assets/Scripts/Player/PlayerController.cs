@@ -21,15 +21,7 @@ public class PlayerController : MonoBehaviour
     public PlayerMemento PlayerMemento { get => playerMemento; }
     public PlayerSkills PlayerControllerSkills { get => playerControllerSkills; }
 
-    private static event Action onReloadingText;
-    public static Action OnReloadingText { get => onReloadingText; set => onReloadingText = value; }
-
-    private static event Action onReloadingFinished;
-    public static Action OnReloadingFinished { get => onReloadingFinished; set => onReloadingFinished = value; }
-
-    private static event Action onRespawningPlayer;
-    public static Action OnRespawningPlayer { get => onRespawningPlayer; set => onRespawningPlayer = value; }
-
+    private static int score = 0;
 
     private int life = 5;
     private int damage = 1;
@@ -50,8 +42,10 @@ public class PlayerController : MonoBehaviour
     private bool realoadingGunAutomatic = false;
     private bool realoadingManualy = false;
 
+    public static int Score { get => score; }
     public int Life { get => life; set => life = value; }
     public int Damage { get => damage; set => damage = value; } 
+    public float TimeToFinishTheReload { get => timeToFinishTheReload; set => timeToFinishTheReload = value; }
     public float JumpForce { get => jumpForce; set { jumpForce = value; } }
     public float Speed { get => speed; set { speed = value; } }
     public bool IsGrounded { get => isGrounded; set { isGrounded = value; } }
@@ -103,6 +97,17 @@ public class PlayerController : MonoBehaviour
 
         GameManager.Instance.GameStatePlaying -= UpdatePlayerController;
         GameManager.Instance.GameStatePlayingFixedUpdate -= FixedUpdatePlayerController;
+    }
+
+
+    public static void AddScore(int value)
+    {
+        score += value;
+    }
+
+    public static void SubScore(int value)
+    {
+        score -= value;
     }
 
 
@@ -165,7 +170,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R) && canShoot)
             {
-                onReloadingText?.Invoke();
+                PlayerEvents.OnReloadingText?.Invoke();
                 canShoot = false;
                 realoadingManualy = true;
             }
@@ -187,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
                     reloadingTimeManualy = 0f;
 
-                    onReloadingFinished?.Invoke();
+                    PlayerEvents.OnReloadingFinished?.Invoke();
                 }
             }
         }
@@ -203,7 +208,7 @@ public class PlayerController : MonoBehaviour
         if (realoadingGunAutomatic)
         {
             canShoot = false;
-            onReloadingText?.Invoke();
+            PlayerEvents.OnReloadingText?.Invoke();
 
             reloadingTimeAutomatic += Time.deltaTime;
 
@@ -220,7 +225,7 @@ public class PlayerController : MonoBehaviour
 
                 reloadingTimeAutomatic = 0f;
 
-                onReloadingFinished?.Invoke();
+                PlayerEvents.OnReloadingFinished?.Invoke();
             }
         }
     }

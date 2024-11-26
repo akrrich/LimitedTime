@@ -131,9 +131,9 @@ public class FinalScreens : MonoBehaviour
         TimeManager.Instance.IsCounting = true;
 
 
-        PlayerController.OnRespawningPlayer += playerController.PlayerMemento.RestoreState;
-        PlayerController.OnRespawningPlayer?.Invoke();
-        PlayerController.OnRespawningPlayer -= playerController.PlayerMemento.RestoreState;
+        PlayerEvents.OnRespawningPlayer += playerController.PlayerMemento.RestoreState;
+        PlayerEvents.OnRespawningPlayer?.Invoke();
+        PlayerEvents.OnRespawningPlayer -= playerController.PlayerMemento.RestoreState;
 
         panelDeath.SetActive(false);
     }

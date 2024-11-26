@@ -45,6 +45,8 @@ public class Objects : MonoBehaviour
 
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired && isPlayerInRange && Input.GetKey(KeyCode.E))
         {
+            PlayerController.AddScore(25);
+
             isPlayerInRange = false;
 
             itemPickUpSound.Play();

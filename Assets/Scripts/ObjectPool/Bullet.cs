@@ -13,10 +13,14 @@ public class Bullet : MonoBehaviour
     private float speed = 30f;
     private float lifeTime = 3f;
 
+    public float Speed { get => speed; set => speed = value; }
+
 
     void Start()
     {
-        GameManager.Instance.GameStatePlaying += UpdateBullet;  
+        GameManager.Instance.GameStatePlaying += UpdateBullet;
+
+        PlayerSkills.OnAxeSpeed += ModifySpeed;
     }
 
     void UpdateBullet()
@@ -83,6 +87,11 @@ public class Bullet : MonoBehaviour
     private void ReturnToPool()
     {
         bulletPool.ReturnBulletToPool(this);
+    }
+
+    private void ModifySpeed()
+    {
+        speed = 37.5f;
     }
 }
 

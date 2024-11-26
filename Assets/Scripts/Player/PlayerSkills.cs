@@ -1,12 +1,20 @@
+using System;
+
 public class PlayerSkills
 {
     private PlayerController playerController;
 
+    private float newSpeed = 3.5f;
+    private float newJumpForce = 1.25f;
+    private int newDamage = 1;
+    private int newLife = 2;
 
-    private float speed = 3.5f;
-    private float jumpForce = 1.25f;
-    private int damage = 1;
-    private int life = 2;
+    private float TimeToFinishTheReload = 1.25f;
+
+
+    private static event Action onAxeSpeed;
+    public static Action OnAxeSpeed { get => onAxeSpeed; set => onAxeSpeed = value; }
+
 
     public PlayerSkills(PlayerController playerController)
     {
@@ -16,21 +24,41 @@ public class PlayerSkills
 
     public void SpeedSkill()
     {
-        playerController.Speed += speed;
+        playerController.Speed += newSpeed;
     }
 
     public void JumpForceSkill()
     {
-        playerController.JumpForce += jumpForce;
+        playerController.JumpForce += newJumpForce;
     }
 
     public void damageSkill()
     {
-        playerController.Damage += damage;
+        playerController.Damage += newDamage;
     }
 
     public void LifeSkill()
     {
-        playerController.Life += life;
+        playerController.Life += newLife;
+    }
+
+    public void ReloadingTime()
+    {
+        playerController.TimeToFinishTheReload = TimeToFinishTheReload;
+    }
+
+    public void AxeSpeed()
+    {
+        onAxeSpeed?.Invoke();
+    }
+
+    public void FireRate()
+    {
+
+    }
+
+    public void ExtraBullets()
+    {
+
     }
 }

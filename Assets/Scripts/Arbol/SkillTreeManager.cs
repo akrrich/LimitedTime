@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class SkillTreeManager : MonoBehaviour
 {
-    private List<Skill> skills = new List<Skill>();
+    private List<SkillNode> skills = new List<SkillNode>();
 
     private PlayerController playerController; 
-
     private AudioSource buttonClick;
+
     [SerializeField] private Button[] buttons;
     [SerializeField] private RawImage[] borderButtons;
 
@@ -27,59 +27,60 @@ public class SkillTreeManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         buttonClick = GetComponent<AudioSource>();
 
-        AddSkills();
-        AddChilds();
+        AddSkillsNodes();
+        AddChildsToNodes();
     }
 
 
-    public void PlayerButton()
+    public void ClickButton(int index)
     {
-        buttonClick.Play();
-        skills[0].CheckIfCanUnlockSkill();
+        //if (PlayerController.Score >= skills[index].Price)
+        //{
+            buttonClick.Play();
+            skills[index].CheckIfCanUnlockSkill();
+
+            switch (index)
+            {
+                case 1:
+                    playerController.PlayerControllerSkills.SpeedSkill();
+                    break;
+                case 2:
+                    playerController.PlayerControllerSkills.damageSkill();
+                    break;
+                case 3:
+                    playerController.PlayerControllerSkills.JumpForceSkill();
+                    break;
+                case 4:
+                    playerController.PlayerControllerSkills.LifeSkill();
+                    break;
+                case 6:
+                    playerController.PlayerControllerSkills.ReloadingTime();
+                    break;
+                case 7:
+                    playerController.PlayerControllerSkills.AxeSpeed();
+                    break;
+                case 8:
+                    playerController.PlayerControllerSkills.FireRate();
+                    break;
+                case 9:
+                    playerController.PlayerControllerSkills.ExtraBullets();
+                    break;
+            }
+
+        //PlayerController.SubScore(skills[index].Price);
+        //}
     }
 
-    public void SpeedButton()
-    {
-        buttonClick.Play();
-        skills[1].CheckIfCanUnlockSkill();
 
-        playerController.PlayerControllerSkills.SpeedSkill();
-    }
-
-    public void DamageButton()
-    {
-        buttonClick.Play();
-        skills[2].CheckIfCanUnlockSkill();
-
-        playerController.PlayerControllerSkills.damageSkill();
-    }
-
-    public void JumpForceButton()
-    {
-        buttonClick.Play();
-        skills[3].CheckIfCanUnlockSkill();
-
-        playerController.PlayerControllerSkills.JumpForceSkill();
-    }
-
-    public void LifeButton()
-    {
-        buttonClick.Play();
-        skills[4].CheckIfCanUnlockSkill();
-
-        playerController.PlayerControllerSkills.LifeSkill();
-    }
-
-
-    private void AddSkills()
+    private void AddSkillsNodes()
     {
         for (int i = 0; i < skillNames.Length; i++)
         {
-            skills.Add(new Skill(skillNames[i], isUnlocked[i], buttons[i], borderButtons[i]));
+            skills.Add(new SkillNode(skillNames[i], isUnlocked[i], buttons[i], borderButtons[i]));
         }
     }
 
-    private void AddChilds()
+    private void AddChildsToNodes()
     {
         skills[0].AddChild(skills[1]);
         skills[0].AddChild(skills[2]);
@@ -90,11 +91,5 @@ public class SkillTreeManager : MonoBehaviour
         skills[5].AddChild(skills[7]);
         skills[6].AddChild(skills[8]);
         skills[7].AddChild(skills[9]);
-    }
-
-    private void ClickButton(int index)
-    {
-        buttonClick.Play();
-        skills[index].CheckIfCanUnlockSkill();
     }
 }
