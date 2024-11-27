@@ -119,6 +119,7 @@ public abstract class Enemies : MonoBehaviour
 
     private void Patrol()
     {
+        anim.SetFloat("Movements", 0.5f);
         if (path == null || path.Count == 0)
         {
             SetRandomTargetNode();
