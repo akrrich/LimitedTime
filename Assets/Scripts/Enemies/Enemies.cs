@@ -1,28 +1,27 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
 
 public abstract class Enemies : MonoBehaviour
 {
     protected PlayerController playerController;
+    public Graph graph; // Referencia al grafo
+    public List<PatrolNode> allowedNodes; // Nodos permitidos para este enemigo
+    public PatrolNode currentNode;
+    public PatrolNode targetNode; // Un solo nodo objetivo
+    private List<PatrolNode> path;
+    private int currentPathIndex; // Índice del nodo en el camino
 
-    [SerializeField] private List<PatrolNode> patrolNodes; // Lista de nodos configurables en el Inspector
-    private int currentNodeIndex = 0; // Índice del nodo actual
-
-    [SerializeField] private float patrolSpeed = 2f; // Velocidad de patrullaje
-    [SerializeField] private float followSpeed = 3f; // Velocidad al seguir al jugador
-
-    private bool isPatrolling = true; // Controla si el enemigo patrulla
     private bool playerDetected = false; // Controla si el jugador está en el radio
-    protected bool isMovinmgForAttack = false;  
+    protected bool isMovinmgForAttack = false;
     protected Animator anim;
     protected AudioSource[] enemiesAudios;
 
     [SerializeField] protected EnemyScriptable enemyScriptable;
-
     private BoxCollider boxCollider;
     private SpriteRenderer spriteMiniMap;
-
     protected int life;
     private bool dieAnimation = false;
 
@@ -35,18 +34,69 @@ public abstract class Enemies : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         enemiesAudios = GetComponentsInChildren<AudioSource>();
 
+        if (graph != null && allowedNodes.Count > 0)
+        {
+            // Elegir un nodo aleatorio tanto para currentNode como para targetNode
+            SetRandomCurrentNode();
+            SetRandomTargetNode();
+            
+            
+        }
+
         boxCollider = GetComponent<BoxCollider>();
         spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
-
-        Patrol();
 
         anim.transform.LookAt(playerController.transform);
 
         GameManager.Instance.GameStatePlaying += UpdateEnemies;
     }
 
+    private void SetRandomCurrentNode()
+    {
+        if (allowedNodes == null || allowedNodes.Count == 0) return;
+
+        // Elegir un nodo aleatorio para currentNode
+        currentNode = allowedNodes[UnityEngine.Random.Range(0, allowedNodes.Count)];
+    }
+
+    private void SetRandomTargetNode()
+    {
+        if (allowedNodes == null || allowedNodes.Count == 0) return;
+
+        PatrolNode newTargetNode;
+        do
+        {
+            newTargetNode = allowedNodes[UnityEngine.Random.Range(0, allowedNodes.Count)];
+        }
+        while (newTargetNode == currentNode); // Asegurar que no sea igual al nodo actual
+
+        targetNode = newTargetNode;
+    }
+
+    private void FindPathToTargetNode()
+    {
+        if (graph == null || currentNode == null || targetNode == null) return;
+
+        path = graph.FindShortestPath(currentNode, targetNode);
+
+        // Validar que el camino sea válido
+        if (path == null || path.Count == 0)
+        {
+            Debug.LogWarning($"Path not found or empty from {currentNode.name} to {targetNode.name}.");
+            path = null; // Asegúrate de que el enemigo no intente moverse con un camino inválido
+            return;
+        }
+
+        currentPathIndex = 0; //  // Reiniciar índice del camino
+
+    }
+
+    
+
     protected virtual void Update()
     {
+
+        Debug.Log(path);
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             CheckPlayerDetection();
@@ -69,32 +119,41 @@ public abstract class Enemies : MonoBehaviour
 
     private void Patrol()
     {
-        if (patrolNodes == null || patrolNodes.Count == 0) return;
-
-        // Obtener el nodo actual
-        PatrolNode targetNode = patrolNodes[currentNodeIndex];
-
-        MoveTowardsNode(targetNode);
-
-        // Si llegamos al nodo, avanzar al siguiente
-        if (Vector3.Distance(transform.position, targetNode.transform.position) < 0.2f)
+        if (path == null || path.Count == 0)
         {
-            currentNodeIndex = (currentNodeIndex + 1) % patrolNodes.Count; // Ciclo en la lista
+            SetRandomTargetNode();
+            FindPathToTargetNode();
+            return;
         }
-    }
 
-    private void MoveTowardsNode(PatrolNode node)
-    {
-        Vector3 direction = (node.transform.position - transform.position).normalized;
-        transform.position += direction * patrolSpeed * Time.deltaTime;
+        if (currentPathIndex < 0 || currentPathIndex >= path.Count)
+        {
+            Debug.LogError($"Invalid path index: {currentPathIndex}. Path count: {path.Count}");
+            currentPathIndex = 0; // Reiniciar índice si está fuera de rango
+            return;
+        }
 
-        anim.SetFloat("Movements", 0.5f); // Ajustar animación según la velocidad de movimiento
+        PatrolNode nextNode = path[currentPathIndex];
+        Vector3 direction = (nextNode.transform.position - transform.position).normalized;
+        transform.position += direction * 3 * Time.deltaTime;
+
+        if (Vector3.Distance(transform.position, nextNode.transform.position) < 0.5f)
+        {
+            currentPathIndex++;
+
+            if (currentPathIndex >= path.Count)
+            {
+                currentPathIndex = 0;
+                SetRandomTargetNode();
+                FindPathToTargetNode();
+            }
+        }
     }
 
     private void FollowPlayer()
     {
         Vector3 direction = (playerController.transform.position - transform.position).normalized;
-        transform.position += direction * followSpeed * Time.deltaTime;
+        transform.position += direction * 3 * Time.deltaTime;
 
         anim.SetFloat("Movements", 0.5f); // Ajustar animación para seguir al jugador
         anim.transform.LookAt(playerController.transform);
@@ -184,3 +243,4 @@ public abstract class Enemies : MonoBehaviour
 
     protected abstract void Attack(Collision collision);
 }
+

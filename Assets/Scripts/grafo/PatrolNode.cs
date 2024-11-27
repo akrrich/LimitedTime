@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PatrolNode : MonoBehaviour
 {
     public List<PatrolNode> connectedNodes; // Lista de nodos conectados a este nodo
+    public List<float> connectionCosts; // Costo de cada conexión
 
     private void OnDrawGizmos()
     {
@@ -17,4 +19,5 @@ public class PatrolNode : MonoBehaviour
             Gizmos.DrawLine(transform.position, neighbor.transform.position);
         }
     }
+    
 }

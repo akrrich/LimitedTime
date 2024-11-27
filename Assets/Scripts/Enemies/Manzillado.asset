@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Manzillado
   m_EditorClassIdentifier: 
   speed: 3.5
-  radius: 30
+  radius: 20
