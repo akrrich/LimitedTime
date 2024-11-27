@@ -46,7 +46,7 @@ public abstract class Enemies : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         spriteMiniMap = GetComponentInChildren<SpriteRenderer>();
 
-        anim.transform.LookAt(playerController.transform);
+        anim.transform.LookAt(targetNode.transform.position);
 
         GameManager.Instance.GameStatePlaying += UpdateEnemies;
     }
@@ -212,10 +212,14 @@ public abstract class Enemies : MonoBehaviour
                 anim.transform.position = transform.position;
             }
 
-            if (playerController.IsGrounded && playerController.PlayerAlive)
+            if (playerController.IsGrounded && playerController.PlayerAlive && playerDetected)
             {
                 anim.transform.LookAt(playerController.transform);
                 RotateMiniMapSprite();
+            }
+            if (!playerDetected)
+            {
+                anim.transform.LookAt(targetNode.transform.position);
             }
 
             if (!dieAnimation)
