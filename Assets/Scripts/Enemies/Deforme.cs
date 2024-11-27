@@ -37,13 +37,7 @@ public class Deforme : Enemies
     }
 
 
-    protected override void Movement()
-    {
-        anim.SetFloat("Movements", 0.5f);
-
-        Vector3 direction = (playerController.transform.position - transform.position).normalized;
-        transform.position += direction * enemyScriptable.Speed * Time.deltaTime;
-    }
+   
 
     protected override void Attack(Collision collision)
     {
