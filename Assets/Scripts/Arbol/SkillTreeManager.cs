@@ -36,8 +36,8 @@ public class SkillTreeManager : MonoBehaviour
 
     public void ClickButton(int index)
     {
-        //if (PlayerController.Score >= skills[index].Price)
-        //{
+        if (PlayerController.Score >= skills[index].Price)
+        {
             buttonClick.Play();
             skills[index].CheckIfCanUnlockSkill();
 
@@ -46,8 +46,8 @@ public class SkillTreeManager : MonoBehaviour
                 playerController.PlayerControllerSkills.SkillsMethods[index].Invoke();
             }
 
-            //PlayerController.SubScore(skills[index].Price);
-        //}
+            PlayerController.SubScore(skills[index].Price);
+        }
     }
 
 

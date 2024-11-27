@@ -47,7 +47,7 @@ public abstract class PowerUps : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            PlayerController.AddScore(10);
+            PlayerController.AddScore(25);
 
             ActivePowerUp(collider);
 

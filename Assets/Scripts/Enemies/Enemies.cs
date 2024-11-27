@@ -185,7 +185,7 @@ public abstract class Enemies : MonoBehaviour
 
     private void Die()
     {
-        PlayerController.AddScore(50);
+        PlayerController.AddScore(150);
         dieAnimation = true;
 
         anim.SetFloat("Movements", 1.5f); // Animación de muerte
