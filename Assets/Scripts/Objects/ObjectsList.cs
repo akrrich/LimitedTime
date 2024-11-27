@@ -8,7 +8,7 @@ public class ObjectsList : MonoBehaviour
 {
     private GameObject imageList;
 
-    [SerializeField] private string[] objectsTag;
+    [SerializeField] private string[] objectsTag; 
 
     [SerializeField] private List<TMP_Text> objectsTextAmount;
 

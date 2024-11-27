@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 
 public class PlayerSkills
 {
     private PlayerController playerController;
+
+    private Dictionary<int, Action> skillsMethods = new Dictionary<int, Action>();
 
     private float newSpeed = 3.5f;
     private float newJumpForce = 1.25f;
@@ -12,53 +15,68 @@ public class PlayerSkills
     private float TimeToFinishTheReload = 1.25f;
 
 
+    public Dictionary<int, Action> SkillsMethods { get => skillsMethods; }
     private static event Action onAxeSpeed;
     public static Action OnAxeSpeed { get => onAxeSpeed; set => onAxeSpeed = value; }
 
 
     public PlayerSkills(PlayerController playerController)
     {
-        this.playerController = playerController; 
+        this.playerController = playerController;
+
+        InitializeSkillsMethodsInDictionary();
     }
 
 
-    public void SpeedSkill()
+    private void InitializeSkillsMethodsInDictionary()
+    {
+        skillsMethods.Add(1, SpeedSkill);
+        skillsMethods.Add(2, damageSkill);
+        skillsMethods.Add(3, JumpForceSkill);
+        skillsMethods.Add(4, LifeSkill);
+        skillsMethods.Add(6, ReloadingTime);
+        skillsMethods.Add(7, AxeSpeed);
+        skillsMethods.Add(8, FireRate);
+        skillsMethods.Add(9, ExtraBullets);
+    }
+
+    private void SpeedSkill()
     {
         playerController.Speed += newSpeed;
     }
 
-    public void JumpForceSkill()
-    {
-        playerController.JumpForce += newJumpForce;
-    }
-
-    public void damageSkill()
+    private void damageSkill()
     {
         playerController.Damage += newDamage;
     }
 
-    public void LifeSkill()
+    private void JumpForceSkill()
+    {
+        playerController.JumpForce += newJumpForce;
+    }
+
+    private void LifeSkill()
     {
         playerController.Life += newLife;
     }
 
-    public void ReloadingTime()
+    private void ReloadingTime()
     {
         playerController.TimeToFinishTheReload = TimeToFinishTheReload;
     }
 
-    public void AxeSpeed()
+    private void AxeSpeed()
     {
         onAxeSpeed?.Invoke();
     }
 
-    public void FireRate()
+    private void FireRate()
     {
 
     }
 
-    public void ExtraBullets()
+    private void ExtraBullets()
     {
-
+        playerController.BulletPool.TotalBullets = 75;
     }
 }

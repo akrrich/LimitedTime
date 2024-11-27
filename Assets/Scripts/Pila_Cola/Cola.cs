@@ -37,4 +37,9 @@ public class Cola<T>
     {
         return elementos.Count == 0;
     }
+
+    public int Size()
+    {
+        return elementos.Count;
+    }
 }

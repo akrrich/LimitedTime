@@ -56,11 +56,7 @@ public class BulletPool : MonoBehaviour
             return bullet;
         }
 
-        else
-        {
-            bullet = Instantiate(bulletPrefab);
-            return bullet;
-        }
+        return null;
     }
 
     public void ReturnBulletToPool(Bullet bullet)

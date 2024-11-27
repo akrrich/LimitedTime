@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     public static int Score { get => score; }
     public int Life { get => life; set => life = value; }
-    public int Damage { get => damage; set => damage = value; } 
+    public int Damage { get => damage; set => damage = value; }
     public float TimeToFinishTheReload { get => timeToFinishTheReload; set => timeToFinishTheReload = value; }
     public float JumpForce { get => jumpForce; set { jumpForce = value; } }
     public float Speed { get => speed; set { speed = value; } }
@@ -93,6 +92,8 @@ public class PlayerController : MonoBehaviour
 
     void OnDestroy()
     {
+        score = 0;
+
         BulletPool.OnReloadingAutomatic -= ReloadGunAutomaticEvent;
 
         GameManager.Instance.GameStatePlaying -= UpdatePlayerController;
@@ -105,9 +106,9 @@ public class PlayerController : MonoBehaviour
         score += value;
     }
 
-    public static void SubScore(int value)
-    {
-        score -= value;
+    public static void SubScore(int value)  
+    { 
+        score -= value; 
     }
 
 

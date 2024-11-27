@@ -16,6 +16,7 @@ public class TimeManager : MonoBehaviour
     private int waitingTimeForStartGame = 5;
 
     private float counter;
+    private float initialCounterTime;
 
     private bool isCounting;
     private bool timeExpired = false;
@@ -45,6 +46,8 @@ public class TimeManager : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene();
         CheckSceneForRealTime();
+
+        initialCounterTime = counter;
 
         timeText = GetComponent<TMP_Text>();
 
@@ -82,17 +85,22 @@ public class TimeManager : MonoBehaviour
         GameManager.Instance.ChangeStateTo(GameState.Playing);
     }
 
+    public float GetElapsedTime()
+    {
+        return initialCounterTime - counter; 
+    }
+
 
     private void CheckSceneForRealTime()
     {
         switch (currentScene.name)
         {
             case "Level 1":
-                counter = 120f;
+                counter = 180f;
             break;
 
             case "Level 2":
-                counter = 180;     
+                counter = 280;     
             break;
         }
     }

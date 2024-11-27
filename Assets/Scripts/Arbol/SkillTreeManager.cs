@@ -21,6 +21,8 @@ public class SkillTreeManager : MonoBehaviour
 
     private bool[] isUnlocked = { true, false, false, false, false, true, false, false, false, false };
 
+    private int[] price = { 0, 250, 250, 500, 500, 0, 250, 250, 500, 500 };
+
 
     void Start()
     {
@@ -39,35 +41,12 @@ public class SkillTreeManager : MonoBehaviour
             buttonClick.Play();
             skills[index].CheckIfCanUnlockSkill();
 
-            switch (index)
+            if (playerController.PlayerControllerSkills.SkillsMethods.ContainsKey(index))
             {
-                case 1:
-                    playerController.PlayerControllerSkills.SpeedSkill();
-                    break;
-                case 2:
-                    playerController.PlayerControllerSkills.damageSkill();
-                    break;
-                case 3:
-                    playerController.PlayerControllerSkills.JumpForceSkill();
-                    break;
-                case 4:
-                    playerController.PlayerControllerSkills.LifeSkill();
-                    break;
-                case 6:
-                    playerController.PlayerControllerSkills.ReloadingTime();
-                    break;
-                case 7:
-                    playerController.PlayerControllerSkills.AxeSpeed();
-                    break;
-                case 8:
-                    playerController.PlayerControllerSkills.FireRate();
-                    break;
-                case 9:
-                    playerController.PlayerControllerSkills.ExtraBullets();
-                    break;
+                playerController.PlayerControllerSkills.SkillsMethods[index].Invoke();
             }
 
-        //PlayerController.SubScore(skills[index].Price);
+            //PlayerController.SubScore(skills[index].Price);
         //}
     }
 
@@ -76,7 +55,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         for (int i = 0; i < skillNames.Length; i++)
         {
-            skills.Add(new SkillNode(skillNames[i], isUnlocked[i], buttons[i], borderButtons[i]));
+            skills.Add(new SkillNode(skillNames[i], isUnlocked[i], price[i], buttons[i], borderButtons[i]));
         }
     }
 
