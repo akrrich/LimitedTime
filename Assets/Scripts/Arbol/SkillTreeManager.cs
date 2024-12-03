@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillTreeManager : MonoBehaviour
 {
-    private List<SkillNode> skills = new List<SkillNode>();
-
+    private SkillNode raiz;
     private PlayerController playerController; 
     private AudioSource buttonClick;
 
@@ -13,15 +11,11 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField] private RawImage[] borderButtons;
 
 
-    private string[] skillNames = 
-    { 
-        "Player", "Speed", "Damage", "JumpForce", "Life", 
-        "Axe", "ReloadTime", "BulletSpeed", "FireRate", "ExtraBullets" 
-    };
+    private string[] skillNames = { "Player", "Speed", "Damage", "JumpForce", "Life" };
 
-    private bool[] isUnlocked = { true, false, false, false, false, true, false, false, false, false };
+    private bool[] isUnlocked = { true, false, false, false, false };
 
-    private int[] price = { 0, 250, 250, 500, 500, 0, 250, 250, 500, 500 };
+    private int[] price = { 0, 250, 250, 500, 500, 10, 10 };
 
 
     void Start()
@@ -29,46 +23,74 @@ public class SkillTreeManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         buttonClick = GetComponent<AudioSource>();
 
-        AddSkillsNodes();
-        AddChildsToNodes();
+        raiz = new SkillNode(skillNames[0], isUnlocked[0], price[0], 0, buttons[0], borderButtons[0]);
+
+        AddSkillNodesRecursively(raiz, 0);
     }
 
 
     public void ClickButton(int index)
     {
-        if (PlayerController.Score >= skills[index].Price)
+        SkillNode node = FindNodeByIndex(raiz, index);
+
+        if (PlayerController.Score >= node.Price)
         {
             buttonClick.Play();
-            skills[index].CheckIfCanUnlockSkill();
+            node.CheckIfCanUnlockSkill();
 
             if (playerController.PlayerControllerSkills.SkillsMethods.ContainsKey(index))
             {
                 playerController.PlayerControllerSkills.SkillsMethods[index].Invoke();
             }
 
-            PlayerController.SubScore(skills[index].Price);
+            PlayerController.SubScore(node.Price);
         }
     }
 
 
-    private void AddSkillsNodes()
+    private SkillNode FindNodeByIndex(SkillNode currentNode, int index)
     {
-        for (int i = 0; i < skillNames.Length; i++)
+        if (currentNode == null)
+            return null;
+
+        // Si el índice coincide con el nodo actual, lo devolvemos
+        if (currentNode.Index == index)
+            return currentNode;
+
+        // Buscamos en los hijos
+        SkillNode leftSearch = FindNodeByIndex(currentNode.Left, index);
+        if (leftSearch != null)
+            return leftSearch;
+
+        return FindNodeByIndex(currentNode.Right, index);
+    }
+
+
+    private void AddSkillNodesRecursively(SkillNode parent, int parentIndex)
+    {
+        int leftIndex = parentIndex * 2 + 1;  // Índice para el hijo izquierdo
+        int rightIndex = parentIndex * 2 + 2; // Índice para el hijo derecho
+
+        // Verificar si el nodo tiene un hijo izquierdo y si aún hay más nodos en skillNames
+        if (leftIndex < skillNames.Length)
         {
-            skills.Add(new SkillNode(skillNames[i], isUnlocked[i], price[i], buttons[i], borderButtons[i]));
+            // Crear nodo izquierdo
+            SkillNode leftNode = new SkillNode(skillNames[leftIndex], isUnlocked[leftIndex], price[leftIndex], leftIndex, buttons[leftIndex], borderButtons[leftIndex]);
+            parent.AddChild(leftNode);
+
+            // Llamada recursiva para seguir agregando nodos debajo de este hijo
+            AddSkillNodesRecursively(leftNode, leftIndex);
         }
-    }
 
-    private void AddChildsToNodes()
-    {
-        skills[0].AddChild(skills[1]);
-        skills[0].AddChild(skills[2]);
-        skills[1].AddChild(skills[3]);
-        skills[2].AddChild(skills[4]);
+        // Verificar si el nodo tiene un hijo derecho SOLO si es un nodo intermedio (no hoja)
+        if (rightIndex < skillNames.Length)  // Se permite solo para nodos que no sean hoja
+        {
+            // Crear nodo derecho
+            SkillNode rightNode = new SkillNode(skillNames[rightIndex], isUnlocked[rightIndex], price[rightIndex], rightIndex, buttons[rightIndex], borderButtons[rightIndex]);
+            parent.AddChild(rightNode);
 
-        skills[5].AddChild(skills[6]);
-        skills[5].AddChild(skills[7]);
-        skills[6].AddChild(skills[8]);
-        skills[7].AddChild(skills[9]);
+            // Llamada recursiva para seguir agregando nodos debajo de este hijo
+            AddSkillNodesRecursively(rightNode, rightIndex);
+        }
     }
 }
