@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 
 public abstract class Enemies : MonoBehaviour
 {
@@ -95,8 +94,6 @@ public abstract class Enemies : MonoBehaviour
 
     protected virtual void Update()
     {
-
-        Debug.Log(path);
         if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
         {
             CheckPlayerDetection();
@@ -156,7 +153,7 @@ public abstract class Enemies : MonoBehaviour
         Vector3 direction = (playerController.transform.position - transform.position).normalized;
         transform.position += direction * 3 * Time.deltaTime;
 
-        anim.SetFloat("Movements", 0.5f); // Ajustar animación para seguir al jugador
+        anim.SetFloat("Movements", 0.5f); 
         anim.transform.LookAt(playerController.transform);
     }
 
@@ -217,6 +214,7 @@ public abstract class Enemies : MonoBehaviour
                 anim.transform.LookAt(playerController.transform);
                 RotateMiniMapSprite();
             }
+
             if (!playerDetected)
             {
                 anim.transform.LookAt(targetNode.transform.position);
@@ -227,6 +225,7 @@ public abstract class Enemies : MonoBehaviour
                 anim.SetFloat("Movements", 1f);
             }
         }
+
         else
         {
             StopAnimationWhenPlayerDeaths();
