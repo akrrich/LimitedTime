@@ -1,21 +1,22 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
 
-public class ObjectsList : MonoBehaviour
+public class Canvaaa : MonoBehaviour
 {
-    private GameObject imageList;
     
 
-    [SerializeField] private string[] objectsTag; 
+
+    [SerializeField] private string[] objectsTag;
 
     [SerializeField] private List<TMP_Text> objectsTextAmount;
     [SerializeField] private List<TMP_Text> objectsTextShow2;
 
     private GameObject[] objectsWithTag;
-    
+
     private static event Action onAllObjectsFound;
     public static Action OnAllObjectsFound { get => onAllObjectsFound; set => onAllObjectsFound = value; }
 
@@ -24,13 +25,13 @@ public class ObjectsList : MonoBehaviour
 
     private Scene currentScene;
 
-    private bool listMode = false;
+    
 
 
     void Start()
     {
 
-        imageList = transform.Find("imageList").gameObject;
+        
 
         Objects.OnObjectDestroy += ObjectsAmount;
 
@@ -41,15 +42,14 @@ public class ObjectsList : MonoBehaviour
             objectsTextAmount[i].text = objectsWithTag.Length.ToString();
         }
 
-        StartCoroutine(TimeManager.Instance.WaitFiveSeconds(imageList));
+        
     }
 
     void Update()
     {
-        currentScene = SceneManager.GetActiveScene();   
+        currentScene = SceneManager.GetActiveScene();
 
         ObjectsAmount();
-        EnabledAndDisabledList();
     }
 
     void OnDestroy()
@@ -99,29 +99,5 @@ public class ObjectsList : MonoBehaviour
         }
     }
 
-    private void EnabledAndDisabledList()
-    {
-        if (!PauseManager.Instance.IsGamePaused && !TimeManager.Instance.TimeExpired)
-        {
-            if (!listMode)
-            {
-                if (Input.GetKeyDown(KeyCode.Tab))
-                {
-                    GameManager.Instance.ShowMira = false;
-                    listMode = true;
-                    imageList.SetActive(true);
-                }
-            }
-
-            else if (listMode)
-            {
-                if (Input.GetKeyDown(KeyCode.Tab))
-                {
-                    GameManager.Instance.ShowMira = true;
-                    listMode = false;
-                    imageList.SetActive(false);
-                }
-            }
-        }
-    }
+  
 }
