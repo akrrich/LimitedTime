@@ -1,7 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 
-public class SkillNode : ABBTDA
+public class SkillNode
 {
     private SkillNode left;
     private SkillNode right;
