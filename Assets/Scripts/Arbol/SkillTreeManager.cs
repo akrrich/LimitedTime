@@ -3,19 +3,18 @@ using UnityEngine.UI;
 
 public class SkillTreeManager : MonoBehaviour
 {
-    private SkillNode raiz;
+    // Constructor de SkillNode("nombre", estaDesbloqueada, precio, indice, boton, bordeDelBoton) 
+
+    private SkillNode root;
     private PlayerController playerController; 
     private AudioSource buttonClick;
 
     [SerializeField] private Button[] buttons;
     [SerializeField] private RawImage[] borderButtons;
 
-
-    private string[] skillNames = { "Player", "Speed", "Damage", "JumpForce", "Life" };
-
-    private bool[] isUnlocked = { true, false, false, false, false };
-
-    private int[] price = { 0, 250, 250, 500, 500, 10, 10 };
+    private string[] skillNames = { "Player", "Speed", "AxeSpeed", "JumpForce", "Life", "ReloadingTime", "ExtraBullets" };
+    
+    private bool isUnlocked = true;
 
 
     void Start()
@@ -23,15 +22,16 @@ public class SkillTreeManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         buttonClick = GetComponent<AudioSource>();
 
-        raiz = new SkillNode(skillNames[0], isUnlocked[0], price[0], 0, buttons[0], borderButtons[0]);
+        root = new SkillNode(skillNames[0], isUnlocked, 0, 0, buttons[0], borderButtons[0]);
+        isUnlocked = false;
 
-        AddSkillNodesRecursively(raiz, 0);
+        AddSkillNodesRecursively(root, 0, 0);
     }
 
 
     public void ClickButton(int index)
     {
-        SkillNode node = FindNodeByIndex(raiz, index);
+        SkillNode node = FindNodeByIndex(root, index);
 
         if (PlayerController.Score >= node.Price)
         {
@@ -51,46 +51,56 @@ public class SkillTreeManager : MonoBehaviour
     private SkillNode FindNodeByIndex(SkillNode currentNode, int index)
     {
         if (currentNode == null)
+        {
             return null;
+        }
 
-        // Si el índice coincide con el nodo actual, lo devolvemos
         if (currentNode.Index == index)
+        {
             return currentNode;
+        }
 
-        // Buscamos en los hijos
         SkillNode leftSearch = FindNodeByIndex(currentNode.Left, index);
-        if (leftSearch != null)
-            return leftSearch;
+        SkillNode rightSearch = FindNodeByIndex(currentNode.Right, index);
 
-        return FindNodeByIndex(currentNode.Right, index);
+        if (leftSearch != null)
+        {
+            return leftSearch;
+        }
+
+        else
+        {
+            return rightSearch;
+        }
     }
 
-
-    private void AddSkillNodesRecursively(SkillNode parent, int parentIndex)
+    private void AddSkillNodesRecursively(SkillNode parent, int parentIndex, int depth)
     {
-        int leftIndex = parentIndex * 2 + 1;  // Índice para el hijo izquierdo
-        int rightIndex = parentIndex * 2 + 2; // Índice para el hijo derecho
+        int leftIndex = parentIndex * 2 + 1; 
+        int rightIndex = parentIndex * 2 + 2; 
 
-        // Verificar si el nodo tiene un hijo izquierdo y si aún hay más nodos en skillNames
+        int priceLeft = CalculatePrice(depth + 1);
+        int priceRight = CalculatePrice(depth + 1);
+
         if (leftIndex < skillNames.Length)
         {
-            // Crear nodo izquierdo
-            SkillNode leftNode = new SkillNode(skillNames[leftIndex], isUnlocked[leftIndex], price[leftIndex], leftIndex, buttons[leftIndex], borderButtons[leftIndex]);
+            SkillNode leftNode = new SkillNode(skillNames[leftIndex], isUnlocked, priceLeft, leftIndex, buttons[leftIndex], borderButtons[leftIndex]);
             parent.AddChild(leftNode);
 
-            // Llamada recursiva para seguir agregando nodos debajo de este hijo
-            AddSkillNodesRecursively(leftNode, leftIndex);
+            AddSkillNodesRecursively(leftNode, leftIndex, depth + 1);
         }
 
-        // Verificar si el nodo tiene un hijo derecho SOLO si es un nodo intermedio (no hoja)
-        if (rightIndex < skillNames.Length)  // Se permite solo para nodos que no sean hoja
+        if (rightIndex < skillNames.Length)  
         {
-            // Crear nodo derecho
-            SkillNode rightNode = new SkillNode(skillNames[rightIndex], isUnlocked[rightIndex], price[rightIndex], rightIndex, buttons[rightIndex], borderButtons[rightIndex]);
+            SkillNode rightNode = new SkillNode(skillNames[rightIndex], isUnlocked, priceRight, rightIndex, buttons[rightIndex], borderButtons[rightIndex]);
             parent.AddChild(rightNode);
 
-            // Llamada recursiva para seguir agregando nodos debajo de este hijo
-            AddSkillNodesRecursively(rightNode, rightIndex);
+            AddSkillNodesRecursively(rightNode, rightIndex, depth + 1);
         }
+    }
+
+    private int CalculatePrice(int depth)
+    {
+        return depth * 250;
     }
 }

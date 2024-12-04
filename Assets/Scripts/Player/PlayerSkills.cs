@@ -7,16 +7,15 @@ public class PlayerSkills
 
     private Dictionary<int, Action> skillsMethods = new Dictionary<int, Action>();
 
+    private static event Action onAxeSpeed;
+
     private float newSpeed = 3.5f;
     private float newJumpForce = 1.25f;
-    private int newDamage = 1;
     private int newLife = 2;
-
     private float TimeToFinishTheReload = 1.25f;
 
 
     public Dictionary<int, Action> SkillsMethods { get => skillsMethods; }
-    private static event Action onAxeSpeed;
     public static Action OnAxeSpeed { get => onAxeSpeed; set => onAxeSpeed = value; }
 
 
@@ -31,13 +30,11 @@ public class PlayerSkills
     private void InitializeSkillsMethodsInDictionary()
     {
         skillsMethods.Add(1, SpeedSkill);
-        skillsMethods.Add(2, damageSkill);
+        skillsMethods.Add(2, AxeSpeed);
         skillsMethods.Add(3, JumpForceSkill);
         skillsMethods.Add(4, LifeSkill);
-        skillsMethods.Add(6, ReloadingTime);
-        skillsMethods.Add(7, AxeSpeed);
-        skillsMethods.Add(8, FireRate);
-        skillsMethods.Add(9, ExtraBullets);
+        skillsMethods.Add(5, ReloadingTime);
+        skillsMethods.Add(6, ExtraBullets);
     }
 
     private void SpeedSkill()
@@ -45,9 +42,9 @@ public class PlayerSkills
         playerController.Speed += newSpeed;
     }
 
-    private void damageSkill()
+    private void AxeSpeed()
     {
-        playerController.Damage += newDamage;
+        onAxeSpeed?.Invoke();
     }
 
     private void JumpForceSkill()
@@ -63,16 +60,6 @@ public class PlayerSkills
     private void ReloadingTime()
     {
         playerController.TimeToFinishTheReload = TimeToFinishTheReload;
-    }
-
-    private void AxeSpeed()
-    {
-        onAxeSpeed?.Invoke();
-    }
-
-    private void FireRate()
-    {
-
     }
 
     private void ExtraBullets()
